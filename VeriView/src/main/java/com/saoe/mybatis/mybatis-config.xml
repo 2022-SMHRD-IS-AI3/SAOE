@@ -9,9 +9,14 @@
 	
 	<typeAliases>
 		<typeAlias type="com.saoe.model.MemberDTO" alias="MemberDTO"/>
+		<typeAlias type="com.saoe.model.MessageDTO" alias="MessageDTO"/>
 		<typeAlias type="com.saoe.model.ReviewDTO" alias="ReviewDTO"/>
 		<typeAlias type="com.saoe.model.ReviewPicDTO" alias="ReviewPicDTO"/>
 		<typeAlias type="com.saoe.model.ReplyDTO" alias="ReplyDTO"/>
+		<typeAlias type="com.saoe.model.MemberMemberDTO" alias="MemberMemberDTO"/>
+		<typeAlias type="com.saoe.model.ReviewMemberDTO" alias="ReviewMemberDTO"/>
+		<typeAlias type="com.saoe.model.RestMemberDTO" alias="RestMemberDTO"/>
+		
 	</typeAliases>
 	
 	<environments default="development">
@@ -28,6 +33,7 @@
 	
 	<mappers>
 		<mapper resource="com/saoe/mapper/MemberMapper.xml" />
+		<mapper resource="com/saoe/mapper/MessageMapper.xml" />
 		<mapper resource="com/saoe/mapper/ReviewMapper.xml" />
 		
 	</mappers>

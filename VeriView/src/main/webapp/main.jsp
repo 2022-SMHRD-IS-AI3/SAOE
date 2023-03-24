@@ -64,7 +64,7 @@ font-family: 'Open Sans', sans-serif; */
             <nav><a href="#">피드</a></nav>
             <nav><a href="#">음식점</a></nav>
             <nav><a href="#">랭킹</a></nav>
-            <nav><a href="#">쪽지</a></nav>
+            <nav><a href="messageMain.jsp">쪽지</a></nav>
             <nav><a href="mypage.jsp">마이페이지</a></nav>
             <nav><a href="LogoutCon">로그아웃</a></nav>
         </div>

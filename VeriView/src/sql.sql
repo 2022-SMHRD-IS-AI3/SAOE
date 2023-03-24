@@ -1,6 +1,21 @@
 alter table review add review_update_date date;
 
+select * from member;
+insert into review(review_no, id, foreign_review_url, code_no,
+		review_content, review_score, review_display, review_post_date)
+		values
+		(0, '1', null, 1,
+		'내용', 0, 1, sysdate)
+		
+select * from message;
+
+select * from user_constraints;
+
 select * from review_member;
+
+select * from message where send_id = '1' or receive_id = '1';
+
+select * from review_member where actor_id = '1';
 
 MERGE INTO review_member
 		USING DUAL

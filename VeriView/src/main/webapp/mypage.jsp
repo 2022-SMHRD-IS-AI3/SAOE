@@ -52,5 +52,8 @@
 			<td>${sessionScope.member.grade}</td>
 		</tr>
 	</table>
+	${sessionScope.member.reviewMemberList}<br>
+	${sessionScope.member.memberMemberList}<br>
+	${sessionScope.member.restMemberList}<br>
 </body>
 </html>

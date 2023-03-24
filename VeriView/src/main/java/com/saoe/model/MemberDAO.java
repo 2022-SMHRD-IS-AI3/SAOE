@@ -1,5 +1,7 @@
 package com.saoe.model;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -27,6 +29,13 @@ public class MemberDAO {
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 		
 		MemberDTO member = sqlSession.selectOne("login", dto);
+		
+		List<MemberMemberDTO> memberMemberList = sqlSession.selectList("loginMember", member);
+		member.setMemberMemberList(memberMemberList);
+		List<ReviewMemberDTO> reviewMemberList = sqlSession.selectList("loginReview", member);
+		member.setReviewMemberList(reviewMemberList);
+		List<RestMemberDTO> restMemberList = sqlSession.selectList("loginRest", member);
+		member.setRestMemberList(restMemberList);
 		
 		sqlSession.close();		
 		

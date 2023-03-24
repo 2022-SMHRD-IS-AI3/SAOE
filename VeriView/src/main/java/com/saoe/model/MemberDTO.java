@@ -31,8 +31,8 @@ public class MemberDTO {
 	private String grade;
 	
 	// 사용자의 활동 내역을 담음
-	private List<ReviewMemberDTO> reviewMemberList;
 	private List<MemberMemberDTO> memberMemberList;
+	private List<ReviewMemberDTO> reviewMemberList;
 	private List<RestMemberDTO> restMemberList;
 }
 
