@@ -437,5 +437,4 @@ font-family: 'Open Sans', sans-serif; */
     </main>
     <script src="./assets/js/start.js"></script>
 </body>
-
 </html>
