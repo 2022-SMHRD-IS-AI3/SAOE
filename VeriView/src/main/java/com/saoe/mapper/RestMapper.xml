@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.saoe.mapper.RestMapper">
+	<update id="blockRest" parameterType="RestMemberDTO">
+		MERGE INTO rest_member
+		USING DUAL
+		ON (rest_no = #{rest_no} AND actor_id = #{actor_id})
+		WHEN NOT
+		MATCHED THEN
+		INSERT (rest_no, actor_id, rest_block_yn,
+		rest_block_date)
+		values (#{rest_no}, #{actor_id}, #{rest_block_yn}, sysdate)
+		WHEN
+		MATCHED
+		THEN
+		UPDATE SET
+		rest_block_yn = #{rest_block_yn}, rest_block_date
+		= sysdate
+	</update>
+
+	<update id="followRest" parameterType="RestMemberDTO">
+		MERGE INTO rest_member
+		USING DUAL
+		ON (rest_no = #{rest_no} AND actor_id = #{actor_id})
+		WHEN NOT
+		MATCHED THEN
+		INSERT (rest_no, actor_id, rest_follow_yn,
+		rest_follow_date)
+		values (#{rest_no}, #{actor_id}, #{rest_follow_yn},
+		sysdate)
+		WHEN
+		MATCHED
+		THEN
+		UPDATE SET
+		rest_follow_yn = #{rest_follow_yn},
+		rest_follow_date
+		= sysdate
+	</update>
+
+	<update id="gbRest" parameterType="RestMemberDTO">
+		MERGE INTO rest_member
+		USING
+		DUAL
+		ON (rest_no = #{rest_no} AND actor_id = #{actor_id})
+		WHEN NOT
+		MATCHED THEN
+		INSERT (rest_no, actor_id, rest_gb,
+		rest_gb_date)
+		values
+		(#{rest_no}, #{actor_id}, #{rest_gb}, sysdate)
+		WHEN
+		MATCHED
+		THEN
+		UPDATE SET
+		rest_gb = #{rest_gb}, rest_gb_date
+		= sysdate
+	</update>
+
+
+</mapper>
+  
+  

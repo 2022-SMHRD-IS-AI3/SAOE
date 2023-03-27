@@ -1,4 +1,4 @@
-package com.saoe.controller;
+package com.saoe.controllers.messageController;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

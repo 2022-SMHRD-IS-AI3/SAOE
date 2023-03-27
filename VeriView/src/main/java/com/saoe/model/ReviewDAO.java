@@ -25,6 +25,17 @@ public class ReviewDAO {
 			
 			List<ReplyDTO> ReplyList = sqlSession.selectList("feedReviewReply", review);
 			review.setReplyList(ReplyList);
+			
+			MemberDTO reviewer = sqlSession.selectOne("selectReviewer", review);
+			
+			review.setNick(reviewer.getNick());
+			review.setProfile(reviewer.getProfile());
+			
+			RestaurantDTO restaurant = sqlSession.selectOne("selectRest", review);
+			review.setRestaurant(restaurant);
+			
+			CategoryDTO category = sqlSession.selectOne("selectCategory", restaurant);
+			review.getRestaurant().setCategory(category);
 	}
 
 		sqlSession.close();

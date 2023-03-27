@@ -1,4 +1,4 @@
-package com.saoe.controller;
+package com.saoe.controllers.memberController;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -29,7 +29,7 @@ public class JoinCon extends HttpServlet {
 		
 		System.out.println(id+pw+name+nick+tel+addr+birth+gender);
 		
-		MemberDTO dto = new MemberDTO(id, pw, name, nick, tel, addr, birth, gender, "./file/profile.png", "0", 0 , "0", null, null, null);
+		MemberDTO dto = new MemberDTO(id, pw, name, nick, tel, addr, birth, gender, "./file/member/profile.png", "기본 프로필 메시지", "0", 0 , "0", null, null, null, null);
 		
 		MemberDAO dao = new MemberDAO();
 		
@@ -41,7 +41,7 @@ public class JoinCon extends HttpServlet {
 			System.out.println("가입실패");
 		}
 		
-		response.sendRedirect("main.jsp");
+		response.sendRedirect("start.jsp");
 		
 		
 	

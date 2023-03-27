@@ -36,11 +36,6 @@
 					value="<%=review.getForeign_review_url()%>" readonly></td>
 			</tr>
 			<tr>
-				<td>리뷰 카테고리 :</td>
-				<td><input type="text" name="code_no"
-					value="<%=review.getCode_no()%>" readonly></td>
-			</tr>
-			<tr>
 				<td>리뷰 내용 :</td>
 				<td><textarea name="review_content"><%=review.getReview_content()%></textarea></td>
 			</tr>
@@ -66,8 +61,7 @@
 	</table>
 	<% if(review.getReviewPicList() != null){
 	for (ReviewPicDTO reviewPic : review.getReviewPicList()) {
-			String title = URLDecoder.decode(reviewPic.getReview_pic_title(),"UTF-8");
-			String src = reviewPic.getReview_pic_src() + title + reviewPic.getReview_pic_type();
+			String src = URLDecoder.decode(reviewPic.getReview_pic_src(),"UTF-8");
 	%>
 			<img alt="ㅇㄹㅇㄹ" src="<%= src%>" width="300px" height="200px">
 	<% }}%>

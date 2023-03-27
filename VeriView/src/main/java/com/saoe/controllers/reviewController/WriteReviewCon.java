@@ -1,4 +1,4 @@
-package com.saoe.controller;
+package com.saoe.controllers.reviewController;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -48,11 +48,8 @@ public class WriteReviewCon extends HttpServlet {
 			String img = multi.getFilesystemName("img");
 			String img_en = URLEncoder.encode(img, "UTF-8");
 
-			// 이미지 파일 이름 분리
-			int dot = img_en.indexOf(".");
-			String review_pic_title = img_en.substring(0, dot);
-			String review_pic_type = img_en.substring(dot, img_en.length());
-			String review_pic_src = "./file/";
+			// 이미지 파일 경로 + 이름 + 확장자
+			String review_pic_src = "./file/" + img_en;
 
 			// 리뷰 작성자 id를 세션에서 받아옴
 			HttpSession session = request.getSession();
@@ -66,7 +63,7 @@ public class WriteReviewCon extends HttpServlet {
 			ReviewDAO dao = new ReviewDAO();
 			
 			// 사진을 객체에 담음
-			ReviewPicDTO reviewPic = new ReviewPicDTO(review_pic_title, review_pic_type, review_pic_src, 0);
+			ReviewPicDTO reviewPic = new ReviewPicDTO(review_pic_src, 0);
 
 			int cnt = dao.uploadReview(review, reviewPic);
 

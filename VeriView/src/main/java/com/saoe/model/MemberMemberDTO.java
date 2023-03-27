@@ -13,7 +13,7 @@ import lombok.Setter;
 public class MemberMemberDTO {
 	
 	private String id;
-	private String acotr_id;
+	private String actor_id;
 	private int member_follow_yn;
 	private int member_block_yn;
 	private int member_rep_yn;

@@ -154,7 +154,7 @@ body {
 						<li class="list-group-item">
 							<button class="btn btn-outline-danger" type="button"
 								id="button-addon2" style="color: rgb(218, 0, 0);"
-								onclick="location.href='/VeriView/LogoutCon'">로그아웃</button>
+								onclick="location.href='./첫화면.html'">로그아웃</button>
 						</li>
 					</ul>
 				</div>
@@ -180,14 +180,14 @@ body {
 									role="tabpanel" aria-labelledby="posts-tab">
 									<div class="form-group">
 										<label class="sr-only" for="message">post</label>
-										<textarea name="review_content" class="form-control"
-											id="message" rows="3" placeholder="리뷰를 작성해주세요!"></textarea>
+										<textarea name="review_content" class="form-control" id="message" rows="3"
+											placeholder="리뷰를 작성해주세요!"></textarea>
 									</div>
 									<div class="form-group">
 										<div class="custom-file">
-											<input type="file" class="custom-file-input" id="customFile"
-												name="img"> <label class="custom-file-label"
-												for="customFile">Upload image</label>
+											<input type="file" class="custom-file-input" id="customFile" name="img">
+											<label class="custom-file-label" for="customFile">Upload
+												image</label>
 										</div>
 									</div>
 									<div class="btn-toolbar justify-content-between">
@@ -273,12 +273,16 @@ body {
 											src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
 											alt="First slide">
 									</div>
-									<c:forEach var="reviewPic" items="${review.getReviewPicList()}">
-										<div class="carousel-item">
-											<img class="d-block w-100"
-												src="${URLDecoder.decode(reviewPic.getReview_pic_src(), "UTF-8")}" alt="${reviewPic.getReview_pic_src()}">
-										</div>
-									</c:forEach>
+									<div class="carousel-item">
+										<img class="d-block w-100"
+											src="https://www.nongmin.com/-/raw/srv-nongmin/data2/content/image/2022/02/13/.cache/512/2022021301068644.jpg"
+											alt="Second slide">
+									</div>
+									<div class="carousel-item">
+										<img class="d-block w-100"
+											src="https://cdn.mindgil.com/news/photo/202007/69545_3802_1558.jpg"
+											alt="Third slide">
+									</div>
 								</div>
 								<a class="carousel-control-prev"
 									href="#carouselExampleIndicators" role="button"
@@ -295,6 +299,9 @@ body {
 							<div>
 								<span class="badge badge-danger">${review.getRestaurant().getCategory().getMain_cate()}</span>
 								<span class="badge badge-danger">${review.getRestaurant().getCategory().getSub_cate()}</span>
+								<span class="badge badge-danger">일식</span> <span
+									class="badge badge-danger">양식</span> <span
+									class="badge badge-danger">카페</span>
 							</div>
 						</div>
 						<div class="card-footer">

@@ -21,11 +21,14 @@ public class ReviewDTO {
 	private int review_no;
 	@NonNull private String id;
 	private String foreign_review_url = "";
-	@NonNull private int code_no;
+	@NonNull private int rest_no;
 	@NonNull private String review_content;
 	private int review_score;
 	private int review_display;
 	private String review_post_date;
+	private String review_update_date;
+	
+	private RestaurantDTO restaurant;
 	
 	// 게시글 공감 테이블에서 count로 가져옴
 	private int likeCnt;

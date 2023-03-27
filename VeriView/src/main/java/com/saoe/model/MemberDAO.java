@@ -48,15 +48,67 @@ public class MemberDAO {
 	}
 	
 	// (회원 정보 수정, s_f_501)
-	public int updateMember() {
+	public int updateMember(MemberDTO updateMember) {
 		
-		return 0;
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		int cnt = sqlSession.update("updateMember", updateMember);
+		
+		sqlSession.close();		
+		
+		return cnt;
 	}
 	
-	// (회원 신고, s_f_505)
-	public int reportMember() {
+	public int followMember(MemberMemberDTO memberMember) {
 		
-		return 0;
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		int cnt = sqlSession.update("followMember", memberMember);
+		
+		sqlSession.close();		
+		
+		return cnt;
+	}
+	
+	public int blockMember(MemberMemberDTO memberMember) {
+		
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		int cnt = sqlSession.update("blockMember", memberMember);
+		
+		sqlSession.close();		
+		
+		return cnt;
+	}
+
+	// (회원 신고, s_f_505)
+	public int reportMember(MemberMemberDTO memberMember) {
+		
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		int cnt = sqlSession.update("reportMember", memberMember);
+		
+		sqlSession.close();		
+		
+		return cnt;
+	}
+	
+	public MemberDTO selectMember(String id) {
+		
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		MemberDTO user = sqlSession.selectOne("selectMember", id);
+		
+		List<MemberMemberDTO> memberMemberList = sqlSession.selectList("loginMember", id);
+		user.setMemberMemberList(memberMemberList);
+		List<ReviewMemberDTO> reviewMemberList = sqlSession.selectList("loginReview", id);
+		user.setReviewMemberList(reviewMemberList);
+		List<RestMemberDTO> restMemberList = sqlSession.selectList("loginRest", id);
+		user.setRestMemberList(restMemberList);
+		
+		sqlSession.close();
+		
+		return user;
 	}
 	
 	

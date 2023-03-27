@@ -17,8 +17,6 @@ public class ReviewPicDTO {
 	
 	private int review_pic_no;
 	private int review_no;
-	@NonNull private String review_pic_title;
-	@NonNull private String review_pic_type;
 	@NonNull private String review_pic_src;
 	@NonNull private int review_pic_size;
 	

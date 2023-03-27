@@ -1,5 +1,25 @@
 alter table review add review_update_date date;
 
+select * from member_member;
+select * from review_member;
+
+select * from review;
+
+select * from RESTAURANT;
+
+select * from member where id = '1';
+
+alter table member add profile_message varchar2(200);
+
+select * from member;
+
+alter table member modify grade invisible;
+
+select * from REST_MEMBER;
+
+select * from review;
+select * from review_pic;
+
 select * from member;
 insert into review(review_no, id, foreign_review_url, code_no,
 		review_content, review_score, review_display, review_post_date)
@@ -7,7 +27,136 @@ insert into review(review_no, id, foreign_review_url, code_no,
 		(0, '1', null, 1,
 		'내용', 0, 1, sysdate)
 		
+update member set pw = '1', nick = '닉네임', tel = '전화번호', addr = '주소' where id = '1';
+
+select * from user_tables;
+
+drop table review_member;
+
+drop table review_pic;
+
+drop table reply;
+
+drop table message;
+
+drop table review;
+
+create table review(
+review_no number constraint pk_review_no primary key,
+id varchar2(100),
+foreign_review_url varchar2(1000),
+rest_no number,
+review_content varchar2(1000) constraint review_content_nn not null,
+review_score number(10,2) default 0,
+review_display number(1) default 1,
+review_post_date date,
+review_update_date date,
+foreign key (id) references member(id),
+foreign key (rest_no) references restaurant(rest_no)
+);
+
+create table message(
+send_id varchar2(100) constraint message_send_id_nn not null,
+receive_id varchar2(100) constraint message_receive_id_nn not null,
+message_date date,
+message_content varchar2(500) constraint message_content_nn not null,
+review_no number,
+foreign key (send_id) references member(id),
+foreign key (receive_id) references member(id),
+foreign key (review_no) references review(review_no)
+);
+
+create table reply(
+reply_no number constraint pk_reply_no primary key,
+review_no number constraint review_reply_no_nn not null,
+reply_date date,
+id varchar2(100) constraint reply_id_nn not null,
+reply_content varchar2(100) constraint reply_content_nn not null,
+parent_no number(10),
+foreign key (review_no) references review(review_no),
+foreign key (id) references member(id),
+foreign key (parent_no) references reply(reply_no)
+);
+
+create sequence review_pic_no
+increment by 1
+start with 1
+maxvalue 999999999999999
+nocache
+nocycle;
+
+
+create table review_pic(
+review_pic_no number constraint pk_review_pic_no primary key,
+review_no number constraint review_pic_no_nn not null,
+review_pic_title varchar2(100) constraint review_pic_title_nn not null,
+review_pic_type varchar2(100) constraint review_pic_type_nn not null,
+review_pic_src varchar2(500) constraint review_pic_src_nn not null,
+review_pic_size number(20) constraint review_pic_size_nn not null,
+foreign key (review_no) references review(review_no)
+);
+
+create table review_member(
+review_no number constraint review_member_review_no_nn not null,
+actor_id varchar2(100) constraint review_member_actor_id_nn not null,
+review_scrap_yn number(1),
+review_gb number(1),
+review_block_yn number(1),
+review_rep_yn number(1),
+review_rep_content varchar2(100),
+review_scrap_date date,
+review_gb_date date,
+review_block_date date,
+review_rep_date date,
+foreign key (review_no) references review(review_no),
+foreign key (actor_id) references member(id)
+);
+
+drop table review_pic;
+
+drop table rest_pic;
+
+create table rest_pic(
+rest_pic_no number constraint pk_rest_pic_no primary key,
+rest_no number constraint rest_pic_no_nn not null,
+rest_pic_src varchar2(500) constraint rest_pic_src_nn not null,
+rest_pic_size number(20) constraint rest_pic_size_nn not null,
+foreign key (rest_no) references restaurant(rest_no)
+);
+
+create table review_pic(
+review_pic_no number constraint pk_review_pic_no primary key,
+review_no number constraint review_pic_no_nn not null,
+review_pic_src varchar2(500) constraint review_pic_src_nn not null,
+review_pic_size number(20) constraint review_pic_size_nn not null,
+foreign key (review_no) references review(review_no)
+);
+
+alter table category rename column middle_cate to sub_cate;
+
+select * from user_tables;
+
+select * from restaurant;
+
+select * from rest_pic;
+
+insert into restaurant values (1, 1, '그냥백반', '/file/rest/profile.png', '000-000-0000', '광주 동구', null, null, null, '백반집입니다.', 0, sysdate);
+
+select * from category;
+
+delete from category;
+
+drop table category;
+
+insert into category values (1, '한식', '백반');
+
+select * from member;
+		
+select * from member_member;
+
 select * from message;
+
+select * from restaurant;
 
 select * from user_constraints;
 

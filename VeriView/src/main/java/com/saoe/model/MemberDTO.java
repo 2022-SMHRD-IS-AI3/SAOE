@@ -26,9 +26,13 @@ public class MemberDTO {
 	private String birth;
 	private String gender;
 	private String profile;
+	private String profile_message;
 	private String join_date;
 	private int member_score;
 	private String grade;
+	
+	// 사용자의 관심사를 가져옴
+	private List<CategoryDTO> categoryList;
 	
 	// 사용자의 활동 내역을 담음
 	private List<MemberMemberDTO> memberMemberList;

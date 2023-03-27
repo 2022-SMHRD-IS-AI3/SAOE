@@ -6,10 +6,10 @@
 
 <mapper namespace="com.saoe.mapper.ReviewMapper">
 	<insert id="uploadReview" parameterType="ReviewDTO">
-		insert into review(review_no, id, foreign_review_url, code_no,
+		insert into review(review_no, id, foreign_review_url, rest_no,
 		review_content, review_score, review_display, review_post_date)
 		values
-		(review_no.nextval, #{id}, #{foreign_review_url}, #{code_no},
+		(review_no.nextval, #{id}, #{foreign_review_url}, #{rest_no},
 		#{review_content}, 0, 1, sysdate)
 
 		<selectKey keyProperty="review_no" resultType="int"
@@ -20,11 +20,9 @@
 
 	<insert id="uploadPic" parameterType="ReviewPicDTO">
 		insert into
-		review_pic(review_pic_no, review_no, review_pic_title,
-		review_pic_type, review_pic_src, review_pic_size)
+		review_pic(review_pic_no, review_no, review_pic_src, review_pic_size)
 		values
-		(review_pic_no.nextval, #{review_no}, #{review_pic_title},
-		#{review_pic_type}, #{review_pic_src}, #{review_pic_size})
+		(review_pic_no.nextval, #{review_no}, #{review_pic_src}, #{review_pic_size})
 	</insert>
 
 	<select id="feedReview" resultType="ReviewDTO">
@@ -34,17 +32,29 @@
 
 	<select id="feedReviewPic" parameterType="ReviewDTO"
 		resultType="ReviewPicDTO">
-		select * from review_pic where review_no = ${review_no}
+		select * from review_pic where review_no = #{review_no}
 	</select>
 
 	<select id="feedReviewReply" parameterType="ReviewDTO"
 		resultType="ReplyDTO">
-		select * from reply where review_no = ${review_no}
+		select * from reply where review_no = #{review_no}
+	</select>
+	
+	<select id="selectReviewer" parameterType="ReviewDTO" resultType="MemberDTO">
+		select nick, profile from member where id = #{id}
+	</select>
+	
+	<select id="selectRest" parameterType="ReviewDTO" resultType="RestaurantDTO">
+		select * from restaurant where rest_no = #{rest_no}
+	</select>
+	
+	<select id="selectCategory" parameterType="RestaurantDTO" resultType="CategoryDTO">
+		select * from category where code_no = #{code_no}
 	</select>
 
 	<select id="selectReview" parameterType="ReviewDTO"
 		resultType="ReviewDTO">
-		select * from review where review_no = ${review_no}
+		select * from review where review_no = #{review_no}
 	</select>
 
 	<update id="deleteReview" parameterType="ReviewDTO">
