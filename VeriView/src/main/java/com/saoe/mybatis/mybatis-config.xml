@@ -18,7 +18,6 @@
 		<typeAlias type="com.saoe.model.RestMemberDTO" alias="RestMemberDTO"/>
 		<typeAlias type="com.saoe.model.CategoryDTO" alias="CategoryDTO"/>
 		<typeAlias type="com.saoe.model.RestaurantDTO" alias="RestaurantDTO"/>
-		
 	</typeAliases>
 	
 	<environments default="development">
@@ -38,6 +37,8 @@
 		<mapper resource="com/saoe/mapper/MessageMapper.xml" />
 		<mapper resource="com/saoe/mapper/ReviewMapper.xml" />
 		<mapper resource="com/saoe/mapper/RestMapper.xml" />
+		<mapper resource="com/saoe/mapper/FeedMapper.xml" />
+		<mapper resource="com/saoe/mapper/ReplyMapper.xml" />
 		
 	</mappers>
 	

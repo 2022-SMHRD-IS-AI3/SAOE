@@ -3,17 +3,20 @@ package com.saoe.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
 
 public class MemberMemberDTO {
 	
-	private String id;
-	private String actor_id;
+	@NonNull private String id;
+	@NonNull private String actor_id;
 	private int member_follow_yn;
 	private int member_block_yn;
 	private int member_rep_yn;

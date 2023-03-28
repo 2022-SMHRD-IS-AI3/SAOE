@@ -1,7 +1,36 @@
+select * from review_member;
+
+select * from review;
+
 alter table review add review_update_date date;
+
+select * from review order by review_post_date desc;
+
+select id, nick, profile from member where id = '1';
+
+select rest_no, code_no, rest_name from restaurant where rest_no = 1;
+
+select * from category where code_no = 1;
+
+select * from reply where review_no = 1;
+
+select * from review_pic where review_no = 1;
+
+select * from review_pic;
+
+insert into reply (reply_no, review_no, reply_date, id, reply_content, parent_no) values (reply_no.nextval, 2, sysdate, '1', '내용', null);
+
+select * from reply order by reply_date;
+
+
+select * from member_member where id = '1' or actor_id = '1';
+
+select * from reply where review_no = 2 order by reply_date desc
 
 select * from member_member;
 select * from review_member;
+
+select * from user_sequences;
 
 select * from review;
 

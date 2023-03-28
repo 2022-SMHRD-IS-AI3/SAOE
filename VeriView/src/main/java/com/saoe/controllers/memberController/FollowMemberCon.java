@@ -39,6 +39,8 @@ public class FollowMemberCon extends HttpServlet {
 			System.out.println("회원 팔로우 실패");			
 		}
 		
+		response.sendRedirect("feed.jsp");
+		
 		
 		
 	}

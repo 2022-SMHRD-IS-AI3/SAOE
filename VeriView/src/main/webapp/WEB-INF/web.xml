@@ -35,12 +35,6 @@
 		<servlet-class>com.saoe.controllers.reviewController.ReportReviewCon</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>GBReviewCon</servlet-name>
-		<display-name>GBReviewCon</display-name>
-		<description></description>
-		<servlet-class>com.saoe.controllers.reviewController.GBReviewCon</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>WriteMessageCon</servlet-name>
 		<display-name>WriteMessageCon</display-name>
 		<description></description>
@@ -109,10 +103,6 @@
 	<servlet-mapping>
 		<servlet-name>ReportReviewCon</servlet-name>
 		<url-pattern>/ReportReviewCon</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>GBReviewCon</servlet-name>
-		<url-pattern>/GBReviewCon</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>WriteMessageCon</servlet-name>

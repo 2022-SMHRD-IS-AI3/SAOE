@@ -1,3 +1,5 @@
+<%@page import="com.saoe.model.FeedDAO"%>
+<%@page import="com.saoe.model.FeedDTO"%>
 <%@page import="com.saoe.model.MemberDTO"%>
 <%@page import="java.net.URLDecoder"%>
 <%@page import="com.saoe.model.ReplyDTO"%>
@@ -202,11 +204,13 @@ body {
 					<!-- Post /////-->
 				</form>
 				<%
-				ReviewDAO dao = new ReviewDAO();
-				List<ReviewDTO> reviewList = dao.feedReview();
-				pageContext.setAttribute("reviewList", reviewList);
+				MemberDTO member = (MemberDTO)session.getAttribute("member");
+				FeedDAO feedDAO = new FeedDAO();
+				List<FeedDTO> feedList = feedDAO.selectFeed(member);
+				pageContext.setAttribute("feedList", feedList);													
+
 				%>
-				<c:forEach var="review" items="${pageScope.reviewList}">
+				<c:forEach var="feed" items="${pageScope.feedList}">
 
 					<!--- \\\\\\\Post1111111111111-->
 					<div class="card gedf-card">
@@ -219,8 +223,8 @@ body {
 									</div>
 									<div class="ml-2">
 										<div class="h5 m-0">
-											<a href="" style="color: rgb(0, 0, 0);">${review.getNick()}</a>
-											<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
+											<a href="./profile.jsp?id=${feed.review.id}" style="color: rgb(0, 0, 0);">${feed.member.nick}</a>
+											<a href="/VeriView/FollowMemberCon?id=${feed.review.id}&state=1" class="card-link" style="color: rgb(218, 0, 0);"><i
 												class="fa fa-regular fa-heart"></i></a>
 										</div>
 										<!-- <div class="h7 text-muted">Miracles Lee Cross</div> -->
@@ -237,11 +241,11 @@ body {
 										<div class="dropdown-menu dropdown-menu-right"
 											aria-labelledby="gedf-drop1">
 											<!-- <div class="h6 dropdown-header">Configuration</div> -->
-											<a class="dropdown-item" href="#"
+											<a class="dropdown-item" href="/VeriView/ScrapReviewCon?review_no=${feed.review.getReview_no()}&state=1"
 												style="color: rgb(218, 0, 0);">스크랩</a> <a
-												class="dropdown-item" href="#"
+												class="dropdown-item" href="/VeriView/ReportReviewCon?review_no=${feed.review.getReview_no()}&state=1"
 												style="color: rgb(218, 0, 0);">신고</a> <a
-												class="dropdown-item" href="#"
+												class="dropdown-item" href="/VeriView/BlockReviewCon?review_no=${feed.review.getReview_no()}&state=1"
 												style="color: rgb(218, 0, 0);">게시물 차단</a>
 										</div>
 									</div>
@@ -251,11 +255,10 @@ body {
 						</div>
 						<div class="card-body">
 							<div class="text-muted h7 mb-2">
-								<i class="fa fa-clock-o"></i>${review.getReview_post_date()},
-								${review.getReview_update_date()}
+								<i class="fa fa-clock-o"></i> ${feed.review.review_post_date} / ${feed.review.review_update_date }
 							</div>
 							<a class="card-link" href="#" style="color: rgb(218, 0, 0);">
-								<h5 class="card-title">${review.getRestaurant().getRest_name()}</h5>
+								<h5 class="card-title">${feed.restaurant.rest_name}</h5>
 							</a>
 
 							<p class="card-text">
@@ -273,10 +276,11 @@ body {
 											src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
 											alt="First slide">
 									</div>
-									<c:forEach var="reviewPic" items="${review.getReviewPicList()}">
+									<c:forEach var="reviewPic" items="${feed.review.reviewPicList}">
 										<div class="carousel-item">
 											<img class="d-block w-100"
-												src="${URLDecoder.decode(reviewPic.getReview_pic_src(), "UTF-8")}" alt="${reviewPic.getReview_pic_src()}">
+												src="${URLDecoder.decode(reviewPic.review_pic_src, "UTF-8")}" alt="${reviewPic.review_pic_src}"
+												width="680px" height="380px">
 										</div>
 									</c:forEach>
 								</div>
@@ -290,21 +294,41 @@ body {
 									aria-hidden="true"></span> <span class="sr-only">Next</span>
 								</a>
 							</div>
-							${review.getReview_content()}
+							${feed.review.review_content}
 							</p>
 							<div>
-								<span class="badge badge-danger">${review.getRestaurant().getCategory().getMain_cate()}</span>
-								<span class="badge badge-danger">${review.getRestaurant().getCategory().getSub_cate()}</span>
+								<span class="badge badge-danger">${feed.restaurant.category.main_cate}</span>
+								<span class="badge badge-danger">${feed.restaurant.category.sub_cate}</span>
 							</div>
 						</div>
 						<div class="card-footer">
-							<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
-								class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요</a>
-							<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
-								class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i>
-								싫어요</a> <a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
-								class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>
-								공유</a>
+							<c:choose>
+								<c:when test="${feed.reviewMember.review_gb eq 1}">
+									<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=0" class="card-link" style="color: rgb(218, 0, 0);"><i
+										class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요 취소</a>
+									<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=-1" class="card-link" style="color: rgb(218, 0, 0);"><i
+										class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i>싫어요</a>
+										<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
+										class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유</a>
+								</c:when>
+								<c:when test="${feed.reviewMember.review_gb eq -1}">
+									<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=1" class="card-link" style="color: rgb(218, 0, 0);"><i
+										class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요</a>
+									<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=0" class="card-link" style="color: rgb(218, 0, 0);"><i
+										class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i>싫어요 취소</a>
+										<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
+										class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유</a>
+								</c:when>
+								<c:otherwise>
+									<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=1" class="card-link" style="color: rgb(218, 0, 0);"><i
+										class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요</a>
+									<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=-1" class="card-link" style="color: rgb(218, 0, 0);"><i
+										class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i>싫어요</a>
+										<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
+										class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유</a>
+								</c:otherwise>
+								
+							</c:choose>
 						</div>
 
 						<div class="card mb-2">
@@ -312,266 +336,62 @@ body {
 								<i class="fa fa-comment fa" style="color: rgb(218, 0, 0);"></i>
 								댓글
 							</div>
-							<div class="card-body">
-								<form>
-									<div class="form-group">
-										<textarea class="form-control" rows="3"></textarea>
-									</div>
-									<div class="container">
-										<div class="row">
-											<div class="col text-center">
-												<button class="btn btn-outline-danger" type="submit">작성</button>
+							<c:if test="${not empty sessionScope.member}">
+								<div class="card-body">
+									<form action="WriteReplyCon" method="post">
+										<div class="form-group">
+											<input type="hidden" name="review_no" value="${feed.review.review_no}">
+											<input type="hidden" name="parent_no" value="0">
+											<textarea name="reply_content" class="form-control" rows="3"></textarea>
+										</div>
+										<div class="container">
+											<div class="row">
+												<div class="col text-center">
+													<button class="btn btn-outline-danger" type="submit">작성</button>
+												</div>
 											</div>
 										</div>
-									</div>
-								</form>
-							</div>
+									</form>
+								</div>
+							</c:if>
 						</div>
-
-						<!-- Single comment-->
-						<div class="card-body">
-							<div class="d-flex justify-content-between align-items-center">
-								<div class="d-flex justify-content-between align-items-center">
+						
+						<c:forEach var="reply" items="${feed.review.replyList}">
+							<!-- Comment with nested comments-->
+							<div class="card-body">
+								<div class="media mb-4">
 									<div class="mr-2">
 										<img class="rounded-circle" width="45"
 											src="https://picsum.photos/50/50" alt="">
 									</div>
-									<div class="ml-2">
-										<div class="h5 m-0">
-											<a href="" style="color: rgb(0, 0, 0);">닉네임</a>
-										</div>
-										<h5 class="mt-0">댓글</h5>
+									<div class="media-body">
+										<h5 class="mt-0">
+											<a href="" style="color: rgb(0, 0, 0);"> ${reply.id} </a>
+										</h5>
+										${reply.reply_content}
+										<c:forEach var="reply2" items="${feed.review.replyList}">
+											<c:if test="${reply2.parent_no eq reply.reply_no}">
+												<div class="media mt-4">
+													<div class="mr-2">
+														<img class="rounded-circle" width="45"
+															src="https://picsum.photos/50/50" alt="">
+													</div>
+													<div class="media-body">
+														<h5 class="mt-0">
+															<a href="" style="color: rgb(0, 0, 0);"> ${reply2.id} </a>
+														</h5>
+														${reply2.reply_content}
+													</div>
+												</div>
+											</c:if>
+										</c:forEach>
 									</div>
 								</div>
 							</div>
-						</div>
-
-						<!-- Comment with nested comments-->
-						<div class="card-body">
-							<div class="media mb-4">
-								<div class="mr-2">
-									<img class="rounded-circle" width="45"
-										src="https://picsum.photos/50/50" alt="">
-								</div>
-								<div class="media-body">
-									<h5 class="mt-0">
-										<a href="" style="color: rgb(0, 0, 0);"> 닉네임 </a>
-									</h5>
-									댓글
-									<div class="media mt-4">
-										<div class="mr-2">
-											<img class="rounded-circle" width="45"
-												src="https://picsum.photos/50/50" alt="">
-										</div>
-										<div class="media-body">
-											<h5 class="mt-0">
-												<a href="" style="color: rgb(0, 0, 0);"> 닉네임 </a>
-											</h5>
-											대댓글
-										</div>
-									</div>
-									<div class="media mt-4">
-										<div class="mr-2">
-											<img class="rounded-circle" width="45"
-												src="https://picsum.photos/50/50" alt="">
-										</div>
-										<div class="media-body">
-											<h5 class="mt-0">
-												<a href="" style="color: rgb(0, 0, 0);"> 닉네임 </a>
-											</h5>
-											대댓글
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						</c:forEach>
 					</div>
 					<!-- Post /////-->
 				</c:forEach>
-				<!--- \\\\\\\Post1111111111111-->
-				<div class="card gedf-card">
-					<div class="card-header">
-						<div class="d-flex justify-content-between align-items-center">
-							<div class="d-flex justify-content-between align-items-center">
-								<div class="mr-2">
-									<img class="rounded-circle" width="45"
-										src="https://picsum.photos/50/50" alt="">
-								</div>
-								<div class="ml-2">
-									<div class="h5 m-0">
-										<a href="" style="color: rgb(0, 0, 0);">닉네임</a> <a href="#"
-											class="card-link" style="color: rgb(218, 0, 0);"><i
-											class="fa fa-regular fa-heart"></i></a>
-									</div>
-									<!-- <div class="h7 text-muted">Miracles Lee Cross</div> -->
-
-								</div>
-							</div>
-							<div>
-								<div class="dropdown">
-									<button class="btn btn-link dropdown-toggle" type="button"
-										id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false" style="color: rgb(218, 0, 0);">
-										<i class="fa fa-ellipsis-h" style="color: rgb(218, 0, 0);"></i>
-									</button>
-									<div class="dropdown-menu dropdown-menu-right"
-										aria-labelledby="gedf-drop1">
-										<!-- <div class="h6 dropdown-header">Configuration</div> -->
-										<a class="dropdown-item" href="#"
-											style="color: rgb(218, 0, 0);">스크랩</a> <a
-											class="dropdown-item" href="#" style="color: rgb(218, 0, 0);">신고</a>
-										<a class="dropdown-item" href="#"
-											style="color: rgb(218, 0, 0);">게시물 차단</a>
-									</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-					<div class="card-body">
-						<div class="text-muted h7 mb-2">
-							<i class="fa fa-clock-o"></i>10 min ago
-						</div>
-						<a class="card-link" href="#" style="color: rgb(218, 0, 0);">
-							<h5 class="card-title">식당이름</h5>
-						</a>
-
-						<p class="card-text">
-						<div id="carouselExampleIndicators" class="carousel slide"
-							data-ride="carousel">
-							<ol class="carousel-indicators">
-								<li data-target="#carouselExampleIndicators" data-slide-to="0"
-									class="active"></li>
-								<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-								<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-							</ol>
-							<div class="carousel-inner">
-								<div class="carousel-item active">
-									<img class="d-block w-100"
-										src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-										alt="First slide">
-								</div>
-								<div class="carousel-item">
-									<img class="d-block w-100"
-										src="https://www.nongmin.com/-/raw/srv-nongmin/data2/content/image/2022/02/13/.cache/512/2022021301068644.jpg"
-										alt="Second slide">
-								</div>
-								<div class="carousel-item">
-									<img class="d-block w-100"
-										src="https://cdn.mindgil.com/news/photo/202007/69545_3802_1558.jpg"
-										alt="Third slide">
-								</div>
-							</div>
-							<a class="carousel-control-prev"
-								href="#carouselExampleIndicators" role="button"
-								data-slide="prev"> <span class="carousel-control-prev-icon"
-								aria-hidden="true"></span> <span class="sr-only">Previous</span>
-							</a> <a class="carousel-control-next"
-								href="#carouselExampleIndicators" role="button"
-								data-slide="next"> <span class="carousel-control-next-icon"
-								aria-hidden="true"></span> <span class="sr-only">Next</span>
-							</a>
-						</div>
-						리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용
-						블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라
-						</p>
-						<div>
-							<span class="badge badge-danger">한식</span> <span
-								class="badge badge-danger">중식</span> <span
-								class="badge badge-danger">일식</span> <span
-								class="badge badge-danger">양식</span> <span
-								class="badge badge-danger">카페</span>
-						</div>
-					</div>
-					<div class="card-footer">
-						<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
-							class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요</a> <a
-							href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
-							class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i> 싫어요</a>
-						<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
-							class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i> 공유</a>
-					</div>
-
-					<div class="card mb-2">
-						<div class="card-header bg-light" style="color: rgb(218, 0, 0);">
-							<i class="fa fa-comment fa" style="color: rgb(218, 0, 0);"></i>
-							댓글
-						</div>
-						<div class="card-body">
-							<form>
-								<div class="form-group">
-									<textarea class="form-control" rows="3"></textarea>
-								</div>
-								<div class="container">
-									<div class="row">
-										<div class="col text-center">
-											<button class="btn btn-outline-danger" type="submit">작성</button>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-
-					<!-- Single comment-->
-					<div class="card-body">
-						<div class="d-flex justify-content-between align-items-center">
-							<div class="d-flex justify-content-between align-items-center">
-								<div class="mr-2">
-									<img class="rounded-circle" width="45"
-										src="https://picsum.photos/50/50" alt="">
-								</div>
-								<div class="ml-2">
-									<div class="h5 m-0">
-										<a href="" style="color: rgb(0, 0, 0);">닉네임</a>
-									</div>
-									<h5 class="mt-0">댓글</h5>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Comment with nested comments-->
-					<div class="card-body">
-						<div class="media mb-4">
-							<div class="mr-2">
-								<img class="rounded-circle" width="45"
-									src="https://picsum.photos/50/50" alt="">
-							</div>
-							<div class="media-body">
-								<h5 class="mt-0">
-									<a href="" style="color: rgb(0, 0, 0);"> 닉네임 </a>
-								</h5>
-								댓글
-								<div class="media mt-4">
-									<div class="mr-2">
-										<img class="rounded-circle" width="45"
-											src="https://picsum.photos/50/50" alt="">
-									</div>
-									<div class="media-body">
-										<h5 class="mt-0">
-											<a href="" style="color: rgb(0, 0, 0);"> 닉네임 </a>
-										</h5>
-										대댓글
-									</div>
-								</div>
-								<div class="media mt-4">
-									<div class="mr-2">
-										<img class="rounded-circle" width="45"
-											src="https://picsum.photos/50/50" alt="">
-									</div>
-									<div class="media-body">
-										<h5 class="mt-0">
-											<a href="" style="color: rgb(0, 0, 0);"> 닉네임 </a>
-										</h5>
-										대댓글
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Post /////-->
 
 				<!--- \\\\\\\Post2222222222222222222222-->
 				<div class="card gedf-card">

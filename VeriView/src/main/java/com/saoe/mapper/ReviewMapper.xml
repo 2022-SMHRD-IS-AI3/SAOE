@@ -25,7 +25,7 @@
 		(review_pic_no.nextval, #{review_no}, #{review_pic_src}, #{review_pic_size})
 	</insert>
 
-	<select id="feedReview" resultType="ReviewDTO">
+	<select id="selectAllReview" resultType="ReviewDTO">
 		select * from review order by
 		review_post_date desc
 	</select>
@@ -68,54 +68,54 @@
 		review_no = #{review_no}
 	</update>
 
-	<update id="scrapReview" parameterType="ReviewDTO">
+	<update id="scrapReview" parameterType="ReviewMemberDTO">
 		MERGE INTO review_member
 		USING DUAL
-		ON (review_no = #{review_no} AND actor_id = #{id})
+		ON (review_no = #{review_no} AND actor_id = #{actor_id})
 		WHEN NOT
 		MATCHED THEN
 		INSERT (review_no, actor_id, review_scrap_yn,
 		review_scrap_date)
-		values (#{review_no}, #{id}, 1, sysdate)
+		values (#{review_no}, #{actor_id}, #{review_scrap_yn}, sysdate)
 		WHEN MATCHED
 		THEN
 		UPDATE SET
-		review_scrap_yn = 1, review_scrap_date = sysdate
+		review_scrap_yn = #{review_scrap_yn}, review_scrap_date = sysdate
 	</update>
 
-	<update id="blockReview" parameterType="ReviewDTO">
+	<update id="blockReview" parameterType="ReviewMemberDTO">
 		MERGE INTO review_member
 		USING DUAL
-		ON (review_no = #{review_no} AND actor_id = #{id})
+		ON (review_no = #{review_no} AND actor_id = #{actor_id})
 		WHEN NOT
 		MATCHED THEN
 		INSERT (review_no, actor_id, review_block_yn,
 		review_block_date)
-		values (#{review_no}, #{id}, 1, sysdate)
+		values (#{review_no}, #{actor_id}, #{review_block_yn}, sysdate)
 		WHEN MATCHED
 		THEN
 		UPDATE SET
-		review_block_yn = 1, review_block_date = sysdate
+		review_block_yn = #{review_block_yn}, review_block_date = sysdate
 	</update>
 
 	<update id="reportReview" parameterType="ReviewDTO">
 		MERGE INTO review_member
 		USING DUAL
-		ON (review_no = #{review_no} AND actor_id = #{id})
+		ON (review_no = #{review_no} AND actor_id = #{actor_id})
 		WHEN NOT
 		MATCHED THEN
 		INSERT (review_no, actor_id, review_rep_yn,
 		review_rep_content, review_rep_date)
-		values (#{review_no}, #{id}, 1,
+		values (#{review_no}, #{actor_id}, #{review_rep_yn},
 		'그냥',sysdate)
 		WHEN MATCHED
 		THEN
 		UPDATE SET
-		review_rep_yn = 1,
+		review_rep_yn = #{review_rep_yn},
 		review_rep_content = '그냥', review_rep_date = sysdate
 	</update>
 
-	<update id="gbReview" parameterType="ReviewDTO">
+	<update id="gbReview" parameterType="ReviewMemberDTO">
 		MERGE INTO review_member
 		USING DUAL
 		ON (review_no = #{review_no} AND actor_id = #{actor_id})

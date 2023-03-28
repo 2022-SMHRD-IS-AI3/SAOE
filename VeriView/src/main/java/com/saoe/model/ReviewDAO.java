@@ -13,11 +13,11 @@ public class ReviewDAO {
 
 	// (피드 설정, s_f_201)
 	// 메뉴, 지역, 팔로우 별 변수를 받아 테이블을 다르게 select
-	public List<ReviewDTO> feedReview() {
+	public List<ReviewDTO> selectAllReview() {
 
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 
-		List<ReviewDTO> reviewList = sqlSession.selectList("feedReview");
+		List<ReviewDTO> reviewList = sqlSession.selectList("selectAllReview");
 
 		for(ReviewDTO review : reviewList) {
 			List<ReviewPicDTO> reviewPicList = sqlSession.selectList("feedReviewPic", review);
@@ -25,17 +25,6 @@ public class ReviewDAO {
 			
 			List<ReplyDTO> ReplyList = sqlSession.selectList("feedReviewReply", review);
 			review.setReplyList(ReplyList);
-			
-			MemberDTO reviewer = sqlSession.selectOne("selectReviewer", review);
-			
-			review.setNick(reviewer.getNick());
-			review.setProfile(reviewer.getProfile());
-			
-			RestaurantDTO restaurant = sqlSession.selectOne("selectRest", review);
-			review.setRestaurant(restaurant);
-			
-			CategoryDTO category = sqlSession.selectOne("selectCategory", restaurant);
-			review.getRestaurant().setCategory(category);
 	}
 
 		sqlSession.close();
@@ -76,11 +65,11 @@ public class ReviewDAO {
 	}
 
 	// (리뷰 스크랩, s_f_303)
-	public int scrapReview(ReviewDTO review) {
+	public int scrapReview(ReviewMemberDTO reviewMember) {
 		
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 		
-		int cnt = sqlSession.update("scrapReview", review);
+		int cnt = sqlSession.update("scrapReview", reviewMember);
 		
 		sqlSession.close();
 
@@ -88,11 +77,11 @@ public class ReviewDAO {
 	}
 
 	// (리뷰 신고, s_f_304)
-	public int reportReview(ReviewDTO review) {
+	public int reportReview(ReviewMemberDTO reviewMember) {
 		
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 		
-		int cnt = sqlSession.update("reportReview", review);
+		int cnt = sqlSession.update("reportReview", reviewMember);
 		
 		sqlSession.close();
 
@@ -145,11 +134,11 @@ public class ReviewDAO {
 	}
 
 	// (리뷰 차단, s_f_506)
-	public int blockReview(ReviewDTO review) {
+	public int blockReview(ReviewMemberDTO reviewMember) {
 
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 		
-		int cnt = sqlSession.update("blockReview", review);
+		int cnt = sqlSession.update("blockReview", reviewMember);
 		
 		sqlSession.close();
 

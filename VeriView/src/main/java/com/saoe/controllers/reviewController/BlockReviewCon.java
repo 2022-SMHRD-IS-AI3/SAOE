@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import com.saoe.model.MemberDTO;
 import com.saoe.model.ReviewDAO;
 import com.saoe.model.ReviewDTO;
+import com.saoe.model.ReviewMemberDTO;
 
 public class BlockReviewCon extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -24,12 +25,12 @@ public class BlockReviewCon extends HttpServlet {
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		String id = member.getId();
 		int review_no = Integer.parseInt(request.getParameter("review_no"));
+		int state = Integer.parseInt(request.getParameter("state"));
+		
+		ReviewMemberDTO reviewMember = new ReviewMemberDTO(review_no, id);
+		reviewMember.setReview_block_yn(state);
 
-		ReviewDTO review = new ReviewDTO();
-		review.setId(id);
-		review.setReview_no(review_no);
-
-		int cnt = new ReviewDAO().blockReview(review);
+		int cnt = new ReviewDAO().blockReview(reviewMember);
 
 		System.out.println(id + review_no);
 

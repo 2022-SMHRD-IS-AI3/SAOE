@@ -1,3 +1,5 @@
+<%@page import="com.saoe.model.FeedDAO"%>
+<%@page import="com.saoe.model.FeedDTO"%>
 <%@page import="com.saoe.model.ReviewMemberDTO"%>
 <%@page import="com.saoe.model.MemberDTO"%>
 <%@page import="java.net.URLDecoder"%>
@@ -6,10 +8,10 @@
 <%@page import="com.saoe.model.ReviewDAO"%>
 <%@page import="com.saoe.model.ReviewDTO"%>
 <%@page import="java.util.List"%>
-<%@page import="java.util.stream.Collectors" %>
+<%@page import="java.util.stream.Collectors"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" isELIgnored="false" %>
+	pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,20 +23,15 @@
 
 
 	<%
-	MemberDTO member = (MemberDTO)session.getAttribute("member");
-	
-	ReviewDAO dao = new ReviewDAO();
-	List<ReviewDTO> reviewList = dao.feedReview();
-	// ReviewMemberDTO rm = new ReviewMemberDTO(reviewList.get(2).getReview_no(), member.getId());
+	MemberDTO member = (MemberDTO) session.getAttribute("member");
+	FeedDAO feedDAO = new FeedDAO();
+	List<FeedDTO> feedList = feedDAO.selectFeed(member);
+	pageContext.setAttribute("feedList", feedList);
 	
 
 	%>
-	<%= member.getReviewMemberList().get(0).getReview_no() %>
-	<%= reviewList.get(0).getReview_no() %>
-	<%= reviewList.get(1).getReview_no() %>
-	<%= reviewList.get(2).getReview_no() %>
-	<%=member.getReviewMemberList().indexOf(reviewList.get(0).getReview_no()) %>
-	<%=member.getReviewMemberList().indexOf(reviewList.get(1).getReview_no()) %>
-	<%=member.getReviewMemberList().indexOf(reviewList.get(2).getReview_no()) %>
+	<c:forEach var="feed" items="${pageScope.feedList}"> 		
+		${feed.review.replyList}		
+	</c:forEach>
 </body>
 </html>
