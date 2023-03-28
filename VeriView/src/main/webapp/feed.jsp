@@ -132,7 +132,7 @@ body {
 				<div class="card">
 					<div class="card-body">
 						<div class="h5" style="height: 30px;">
-							<a href="#" style="color: rgb(218, 0, 0);">@닉네임</a>
+							<a href="#" style="color: rgb(218, 0, 0);">@${sessionScope.member.getNick()}</a>
 						</div>
 						<div class="h7 text-muted" style="height: 40px;">간단한 자기소개</div>
 						<div class="h7" style="height: 100px;">
@@ -145,11 +145,11 @@ body {
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item">
 							<div class="h6 text-muted">Followers</div>
-							<div class="h5">0</div>
+							<div class="h5">${sessionScope.member.getFollowerCnt()}</div>
 						</li>
 						<li class="list-group-item">
 							<div class="h6 text-muted">Following</div>
-							<div class="h5">0</div>
+							<div class="h5">${sessionScope.member.getFollowingCnt()}</div>
 						</li>
 						<li class="list-group-item">
 							<button class="btn btn-outline-danger" type="button"

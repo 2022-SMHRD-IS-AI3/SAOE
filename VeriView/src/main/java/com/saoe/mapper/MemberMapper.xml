@@ -19,7 +19,7 @@
 
 	<select id="loginMember" parameterType="MemberDTO"
 		resultType="MemberMemberDTO">
-		select * from member_member where actor_id = #{id}
+		select * from member_member where actor_id = #{id} or id = #{id}
 	</select>
 
 	<select id="loginReview" parameterType="MemberDTO"

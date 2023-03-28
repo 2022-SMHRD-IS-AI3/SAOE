@@ -38,6 +38,9 @@ public class MemberDTO {
 	private List<MemberMemberDTO> memberMemberList;
 	private List<ReviewMemberDTO> reviewMemberList;
 	private List<RestMemberDTO> restMemberList;
+	
+	private int followerCnt;
+	private int followingCnt;
 }
 
 
