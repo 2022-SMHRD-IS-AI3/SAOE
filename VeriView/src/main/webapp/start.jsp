@@ -421,7 +421,7 @@ font-family: 'Open Sans', sans-serif; */
 
                         <div class="form-field">
                             <label for="password-in">비밀번호</label>
-                            <input type="text" name="pw" id="password-in" />
+                            <input type="password" name="pw" id="password-in" />
                         </div>
 
                         <button class="btn-sign btn-in">로그인</button>
