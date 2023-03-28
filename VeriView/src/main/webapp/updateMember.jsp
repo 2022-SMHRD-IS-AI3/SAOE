@@ -18,6 +18,8 @@
         opacity: 0.9;
         border-radius: 10px;
         box-shadow: 1px 1px 1px 1px gray;
+               min-width: 400px; /* 최소 너비 */
+ 	max-width: 550px; /* 최대 너비 */
 
     }
 
