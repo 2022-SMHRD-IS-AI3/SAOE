@@ -89,16 +89,18 @@ public class ReviewDAO {
 	}
 
 	// (리뷰 작성, s_f_401)
-	public int uploadReview(ReviewDTO review, ReviewPicDTO reviewPic) {
+	public int uploadReview(ReviewDTO review, List<ReviewPicDTO> reviewPicList) {
 
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 
 		int cnt = sqlSession.insert("uploadReview", review);
 
-		reviewPic.setReview_no(review.getReview_no());
+		for(ReviewPicDTO reviewPic : reviewPicList) {
+			reviewPic.setReview_no(review.getReview_no());			
+		}
 
 		if (cnt > 0) {
-			cnt = sqlSession.insert("uploadPic", reviewPic);
+			cnt = sqlSession.insert("uploadPic", reviewPicList);
 		}
 
 		sqlSession.close();

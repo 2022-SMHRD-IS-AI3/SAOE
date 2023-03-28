@@ -28,7 +28,13 @@ public class MessageDAO {
 		
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 		
-		int cnt = sqlSession.insert("sendMessage", msg);
+		int cnt = 0;
+		
+		if(msg.getReview_no() == 0) {
+			cnt = sqlSession.insert("sendMessage", msg);			
+		}else {
+			cnt = sqlSession.insert("sendReivewMessage", msg);			
+		}
 		
 		return cnt;
 	}

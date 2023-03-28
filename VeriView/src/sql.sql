@@ -1,3 +1,5 @@
+select * from member;
+
 select * from review_member;
 
 select * from review;

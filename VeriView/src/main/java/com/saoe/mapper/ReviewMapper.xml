@@ -18,11 +18,13 @@
 		</selectKey>
 	</insert>
 
-	<insert id="uploadPic" parameterType="ReviewPicDTO">
-		insert into
-		review_pic(review_pic_no, review_no, review_pic_src, review_pic_size)
+	<insert id="uploadPic" parameterType="ReviewPicDTO">		
+		<foreach collection="list" item="item" open="insert all" close="select * from dual">
+		into review_pic
+		(review_pic_no, review_no, review_pic_src, review_pic_size)
 		values
-		(review_pic_no.nextval, #{review_no}, #{review_pic_src}, #{review_pic_size})
+		(review_pic_no.nextval, #{item.review_no}, #{item.review_pic_src}, #{item.review_pic_size})
+		</foreach>
 	</insert>
 
 	<select id="selectAllReview" resultType="ReviewDTO">

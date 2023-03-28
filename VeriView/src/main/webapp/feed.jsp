@@ -103,7 +103,7 @@ body {
 					style="color: white; font-size: 20px; float: left; margin-right: 50px;">음식점</a>
 				<a href="#"
 					style="color: white; font-size: 20px; float: left; margin-right: 50px;">랭킹</a>
-				<a href="#"
+				<a href="messageMain.jsp"
 					style="color: white; font-size: 20px; float: left; margin-right: 50px;">쪽지</a>
 			</div>
 
@@ -131,35 +131,59 @@ body {
 	<div class="container-fluid gedf-wrapper">
 		<div class="row">
 			<div class="col-md-3">
-				<div class="card">
-					<div class="card-body">
-						<div class="h5" style="height: 30px;">
-							<a href="#" style="color: rgb(218, 0, 0);">@${sessionScope.member.getNick()}</a>
+				<c:if test="${not empty sessionScope.member}">
+					<div class="card">
+						<div class="card-body">
+							<div class="h5" style="height: 30px;">
+								<a href="#" style="color: rgb(218, 0, 0);">@${sessionScope.member.getNick()}</a>
+							</div>
+							<div class="h7 text-muted" style="height: 40px;">간단한 자기소개</div>
+							<div class="h7" style="height: 100px;">
+								<a href="updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br> <a
+									href="#" style="color: rgb(218, 0, 0);">My 목록</a> <br> <a
+									href="#" style="color: rgb(218, 0, 0);">신고 목록</a> <br> <a
+									href="#" style="color: rgb(218, 0, 0);">회원탈퇴</a>
+							</div>
 						</div>
-						<div class="h7 text-muted" style="height: 40px;">간단한 자기소개</div>
-						<div class="h7" style="height: 100px;">
-							<a href="#" style="color: rgb(218, 0, 0);">프로필 수정</a> <br> <a
-								href="#" style="color: rgb(218, 0, 0);">My 목록</a> <br> <a
-								href="#" style="color: rgb(218, 0, 0);">신고 목록</a> <br> <a
-								href="#" style="color: rgb(218, 0, 0);">회원탈퇴</a>
-						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								<div class="h6 text-muted">Followers</div>
+								<div class="h5">${sessionScope.member.getFollowerCnt()}</div>
+							</li>
+							<li class="list-group-item">
+								<div class="h6 text-muted">Following</div>
+								<div class="h5">${sessionScope.member.getFollowingCnt()}</div>
+							</li>
+							<li class="list-group-item">
+								<button class="btn btn-outline-danger" type="button"
+									id="button-addon2" style="color: rgb(218, 0, 0);"
+									onclick="location.href='/VeriView/LogoutCon'">로그아웃</button>
+							</li>
+						</ul>
 					</div>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item">
-							<div class="h6 text-muted">Followers</div>
-							<div class="h5">${sessionScope.member.getFollowerCnt()}</div>
-						</li>
-						<li class="list-group-item">
-							<div class="h6 text-muted">Following</div>
-							<div class="h5">${sessionScope.member.getFollowingCnt()}</div>
-						</li>
-						<li class="list-group-item">
-							<button class="btn btn-outline-danger" type="button"
-								id="button-addon2" style="color: rgb(218, 0, 0);"
-								onclick="location.href='/VeriView/LogoutCon'">로그아웃</button>
-						</li>
-					</ul>
-				</div>
+				</c:if>
+				<c:if test="${empty sessionScope.member}">
+					<div class="card">
+	                    <div class="card-body">
+	                        <div class="h5" style="height: 30px; color: rgb(218, 0, 0);">게스트</div>
+	                        <div class="h7 text-muted" style="height: 40px;">로그인 후 이용해 주세요!</div>
+	                    </div>
+	                    <ul class="list-group list-group-flush">
+	                        <li class="list-group-item">
+	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
+	                                style="color: rgb(218, 0, 0);" onclick="location.href='./start.jsp'">
+	                                로그인
+	                            </button>
+	                        </li>
+	                        <li class="list-group-item">
+	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
+	                                style="color: rgb(218, 0, 0);" onclick="location.href='./start.jsp'">
+	                                회원가입
+	                            </button>
+	                        </li>
+	                    </ul>
+	                </div>
+				</c:if>
 			</div>
 
 			<div class="col-md-6 gedf-main">
@@ -187,7 +211,7 @@ body {
 									</div>
 									<div class="form-group">
 										<div class="custom-file">
-											<input type="file" class="custom-file-input" id="customFile"
+											<input type="file" multiple class="custom-file-input" id="customFile"
 												name="img"> <label class="custom-file-label"
 												for="customFile">Upload image</label>
 										</div>

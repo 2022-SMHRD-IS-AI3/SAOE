@@ -11,6 +11,10 @@
 	</select>
 	
 	<insert id="sendMessage" parameterType="MessageDTO">
+		insert into message (send_id, receive_id, message_date, message_content, review_no) values (#{send_id}, #{receive_id}, sysdate, #{message_content}, null)
+	</insert>
+	
+	<insert id="sendReviewMessage" parameterType="MessageDTO">
 		insert into message (send_id, receive_id, message_date, message_content, review_no) values (#{send_id}, #{receive_id}, sysdate, #{message_content}, #{review_no})
 	</insert>
 </mapper>

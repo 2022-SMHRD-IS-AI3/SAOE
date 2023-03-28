@@ -26,6 +26,11 @@ public class WriteMessageCon extends HttpServlet {
 		String message_content = request.getParameter("message_content");
 		
 		MessageDTO msg = new MessageDTO(send_id, receive_id, message_content);
+
+		if(request.getParameter("review_no") != null) {
+			int review_no = Integer.parseInt(request.getParameter("review_no"));
+			msg.setReview_no(review_no);
+		}		
 		
 		MessageDAO dao = new MessageDAO();
 		
