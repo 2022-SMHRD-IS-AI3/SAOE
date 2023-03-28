@@ -368,7 +368,7 @@ font-family: 'Open Sans', sans-serif; */
 
                         <div class="form-field">
                             <label for="password">비밀번호</label>
-                            <input type="text" id="password" name="pw" />
+                            <input type="password" id="password" name="pw" />
                         </div>
 
                         <div class="form-field">
