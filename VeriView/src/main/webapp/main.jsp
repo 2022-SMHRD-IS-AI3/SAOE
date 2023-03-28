@@ -71,6 +71,7 @@ font-family: 'Open Sans', sans-serif; */
     </section>
 	<a href="writeReview.jsp"><button>리뷰작성</button></a>
 	<a href="feed.jsp"><button>리뷰피드</button></a>	
+	<a href="feedtest.jsp"><button>리뷰피드 테스트</button></a>	
 	
 	
 </body>

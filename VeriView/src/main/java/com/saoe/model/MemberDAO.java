@@ -32,6 +32,20 @@ public class MemberDAO {
 		
 		List<MemberMemberDTO> memberMemberList = sqlSession.selectList("loginMember", member);
 		member.setMemberMemberList(memberMemberList);
+		
+		int followerCnt = 0;
+		int followingCnt = 0;
+		for(MemberMemberDTO memberMember : memberMemberList) {
+			if(memberMember.getId().equals(dto.getId()) && memberMember.getMember_follow_yn() == 1) {
+				followerCnt++;
+			}
+			if(memberMember.getActor_id().equals(dto.getId()) && memberMember.getMember_follow_yn() == 1){
+				followingCnt++;
+			}
+		}
+		member.setFollowerCnt(followerCnt);
+		member.setFollowingCnt(followingCnt);
+		
 		List<ReviewMemberDTO> reviewMemberList = sqlSession.selectList("loginReview", member);
 		member.setReviewMemberList(reviewMemberList);
 		List<RestMemberDTO> restMemberList = sqlSession.selectList("loginRest", member);
