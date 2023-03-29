@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
- @import url("https://fonts.googleapis.com/css?family=Abril+Fatface|Open+Sans:400,700&display=swap");
+   @import url("https://fonts.googleapis.com/css?family=Abril+Fatface|Open+Sans:400,700&display=swap");
 
         .fix-nav {
             position: sticky;
@@ -61,9 +61,9 @@
             border-bottom: 1px solid rgba(0, 0, 0, .125);
         }
 
-        .user_edit_from_btn{
+        .user_edit_from_btn {
             justify-content: space-between;
-			width: 100%;
+            width: 100%;
         }
     </style>
 </head>
@@ -154,9 +154,11 @@
                 <hr width="100%">
                 <form action="" method="post">
                     <fieldset>
-                <legend>회원정보수정</legend></fieldset>
-                <br>
-                <!-- 회원정보 수정 start -->
+                        <legend>회원정보수정</legend>
+                    </fieldset>
+                    <hr width="100%">
+                    <br>
+                    <!-- 회원정보 수정 start -->
                     <!-- 비밀번호 변경-->
                     <div class="form-floating">
                         <label for="floatingPassword">비밀번호</label>
@@ -170,35 +172,44 @@
                     <br>
                     <!-- 닉네임 입력-->
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="${sessionScope.member.nick}" aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">닉네임만 변경</button>
+                        <input type="text" class="form-control" placeholder="${sessionScope.member.nick}"
+                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" style="width: 170px" type="button"
+                            id="button-addon2">닉네임만 변경</button>
                     </div>
                     <br>
                     <!-- 전화번호 입력-->
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="${sessionScope.member.tel}" aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">전화번호만 변경</button>
+                        <input type="text" class="form-control" placeholder="${sessionScope.member.tel}"
+                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" style="width: 170px" type="button"
+                            id="button-addon2">전화번호만 변경</button>
                     </div>
                     <br>
                     <!-- 주소 입력-->
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="${sessionScope.member.addr}" aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">주소만 변경</button>
+                        <input type="text" class="form-control" placeholder="${sessionScope.member.addr}"
+                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" style="width: 170px" type="button"
+                            id="button-addon2">주소만 변경</button>
                     </div>
                     <br>
                     <!-- 상태메시지 -->
-                        <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">상태메시지만 변경</button>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Recipient's username"
+                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" style="width: 170px" type="button"
+                            id="button-addon2">상태메시지만 변경</button>
                     </div>
 
 
-                    
+
                     <br>
                     <div class="user_edit_from_btn">
-                    <a href=""><button type="reset" class="btn btn-outline-danger"> 취소 </button></a>
-                     <a href=""><button type="submit" class="btn btn-outline-danger" style="float: right;">회원정보 전체 수정</button></a>
-                </div>
+                        <button type="reset" class="btn btn-outline-warning">취소</button>
+                        <a href=""><button type="submit" class="btn btn-outline-danger"
+                                style="float: right; width: 170;">회원정보 전체 수정</button></a>
+                    </div>
                 </form>
                 <!-- 회원정보 수정 end -->
             </div>
