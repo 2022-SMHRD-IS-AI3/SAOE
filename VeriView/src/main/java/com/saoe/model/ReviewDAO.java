@@ -49,6 +49,18 @@ public class ReviewDAO {
 		
 		return review;
 	}
+	
+	public List<ReviewDTO> selectUserReview(String id){
+		
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		List<ReviewDTO> reviewList = sqlSession.selectList("selectUserReview", id);
+		
+		sqlSession.close();
+		
+		return reviewList;
+	}
+	
 
 	// (리뷰 좋아요/싫어요, s_f_301/s_f_302)
 	// 정수형 state변수로 -1이면 싫어요, +1이면 좋아요

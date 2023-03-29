@@ -115,6 +115,20 @@ public class MemberDAO {
 		
 		List<MemberMemberDTO> memberMemberList = sqlSession.selectList("loginMember", id);
 		user.setMemberMemberList(memberMemberList);
+		
+		int followerCnt = 0;
+		int followingCnt = 0;
+		for(MemberMemberDTO memberMember : memberMemberList) {
+			if(memberMember.getId().equals(user.getId()) && memberMember.getMember_follow_yn() == 1) {
+				followerCnt++;
+			}
+			if(memberMember.getActor_id().equals(user.getId()) && memberMember.getMember_follow_yn() == 1){
+				followingCnt++;
+			}
+		}
+		user.setFollowerCnt(followerCnt);
+		user.setFollowingCnt(followingCnt);
+		
 		List<ReviewMemberDTO> reviewMemberList = sqlSession.selectList("loginReview", id);
 		user.setReviewMemberList(reviewMemberList);
 		List<RestMemberDTO> restMemberList = sqlSession.selectList("loginRest", id);
@@ -124,6 +138,47 @@ public class MemberDAO {
 		
 		return user;
 	}
+	
+	public List<MemberDTO> selectFollowingList(String id){
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		List<MemberDTO> followingList = sqlSession.selectList("selectFollowingList", id);
+		
+		sqlSession.close();
+		
+		return followingList;
+	}
+	
+	public List<MemberDTO> selectFollowerList(String id){
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		List<MemberDTO> followerList = sqlSession.selectList("selectFollowerList", id);
+		
+		sqlSession.close();
+		
+		return followerList;
+	}
+	
+	public List<MemberDTO> selectBlockList(String id){
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		List<MemberDTO> blockList = sqlSession.selectList("selectFollowerList", id);
+		
+		sqlSession.close();
+		
+		return blockList;
+	}
+	
+	public List<MemberDTO> selectReportList(String id){
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		List<MemberDTO> reportList = sqlSession.selectList("selectReportList", id);
+		
+		sqlSession.close();
+		
+		return reportList;
+	}
+	
 	
 	
 	

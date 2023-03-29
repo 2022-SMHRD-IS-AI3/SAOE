@@ -1,14 +1,38 @@
+select id, nick, profile from member where id in (select id from member_member where actor_id = '1' and member_follow_yn = 1);
+
+select id, nick, profile from member where id in (select id from member_member where id = '1' and member_follow_yn = 1);
+
+insert into MEMBER_MEMBER (id, actor_id, member_follow_yn) values ('1', '2', 1);
+insert into MEMBER_MEMBER (id, actor_id, member_follow_yn) values ('2', '1', 1);
+
+select * from member_member;
+
 select * from member;
+
+select distinct(main_cate) as main_cate from category
 
 select * from review_member;
 
-select * from review;
+select * from review_pic;
+
+select * from member;
 
 alter table review add review_update_date date;
 
 select * from review order by review_post_date desc;
 
 select id, nick, profile from member where id = '1';
+
+ALTER TABLE restaurant MODIFY (rest_content NULL);
+
+select id from member where id in (select id from member_member where actor_id = '1');
+
+create sequence code_no
+increment by 1
+start with 1
+maxvalue 999999999999999
+nocache
+nocycle;
 
 select rest_no, code_no, rest_name from restaurant where rest_no = 1;
 

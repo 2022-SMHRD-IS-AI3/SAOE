@@ -1,363 +1,456 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="com.saoe.model.MemberDAO"%>
+<%@page import="com.saoe.model.FeedDAO"%>
+<%@page import="com.saoe.model.FeedDTO"%>
+<%@page import="com.saoe.model.MemberDTO"%>
+<%@page import="java.net.URLDecoder"%>
+<%@page import="com.saoe.model.ReplyDTO"%>
+<%@page import="com.saoe.model.ReviewPicDTO"%>
+<%@page import="com.saoe.model.ReviewDAO"%>
+<%@page import="com.saoe.model.ReviewDTO"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="./style.css">
-<style>
-@import
-	url("https://fonts.googleapis.com/css?family=Abril+Fatface|Open+Sans:400,700&display=swap")
-	;
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"">
 
-* {
-	box-sizing: border-box;
-}
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Abril+Fatface|Open+Sans:400,700&display=swap");
 
-body {
-	padding: 100px;
-	font-family: "Open Sans", sans-serif;
-	background: white;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-.h7 {
-	font-size: 15px;
-	color: rgb(218, 0, 0);
-}
+        body {
+            font-family: "Open Sans", sans-serif;
+            background: white;
+        }
 
-.gedf-wrapper {
-	margin-top: 10px;
-}
+        .fix-nav {
+            position: sticky;
+            top: 0;
+            /* width: 100% */
+            left: 0;
+            right: 0;
+            z-index: 2;
 
-@media ( min-width : 992px) {
-	.gedf-main {
-		padding-left: 4rem;
-		padding-right: 4rem;
-	}
-	.gedf-card {
-		margin-bottom: 2.77rem;
-	}
-}
+            /* 생략 */
+        }
 
-/**Reset Bootstrap*/
-.dropdown-toggle::after {
-	content: none;
-	display: none;
-}
-</style>
+        .h7 {
+            font-size: 15px;
+            color: rgb(218, 0, 0);
+        }
+
+        .gedf-wrapper {
+            margin-top: 10px;
+        }
+
+        @media (min-width: 992px) {
+            .gedf-main {
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+
+            .gedf-card {
+                margin-bottom: 2.77rem;
+            }
+        }
+
+        a {
+            color: rgb(218, 0, 0);
+        }
+
+        .aaa {
+            height: 150px;
+            width: 200px;
+        }
+
+        /**Reset Bootstrap*/
+        .dropdown-toggle::after {
+            content: none;
+            display: none;
+        }
+
+        /* 프로필 css */
+        .social-box .box {
+            background: #FFF;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 20px 0;
+            padding: 40px 10px;
+            transition: all 0.5s ease-out;
+        }
+
+        .social-box .box:hover {
+            box-shadow: 0 0 6px #4183D7;
+        }
+
+        .social-box .box-text {
+            font-size: 15px;
+            line-height: 30px;
+            margin: 20px 0;
+        }
+
+        .social-box .box-btn a {
+            color: #4183D7;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .social-box .fa {
+            color: #4183D7;
+        }
+        
+    </style>
 </head>
 
 <body>
-<!-- html 시작 -->
-	<div style="background-color: rgb(218, 0, 0); height: 70px;">
-		<nav class="tab" style="padding: 10px;">
-			<div class="header"
-				style="float: left; margin-right: 50px; margin-left: 20px;">
-				<a href="./feed.jsp" class="navbar-brand"
-					style="color: white; font-size: 25px;">VeriView🍒</a>
-			</div>
+	<!-- html 시작 -->
+	
+	<!-- header -->
+	<c:import url="./layout/header.jsp"></c:import>
+	
+	<%
+		String id = request.getParameter("id");
+		pageContext.setAttribute("id", id);
+		MemberDAO m_dao = new MemberDAO();
+		MemberDTO user = m_dao.selectMember(id);
+		pageContext.setAttribute("user", user);
+		
+		ReviewDAO r_dao = new ReviewDAO();
+		List<ReviewDTO> reviewList = r_dao.selectUserReview(id);
+		pageContext.setAttribute("reviewList", reviewList);
+		
+		List<MemberDTO> followingList = m_dao.selectFollowingList(id);
+		List<MemberDTO> followerList = m_dao.selectFollowerList(id);
+		pageContext.setAttribute("followingList", followingList);
+		pageContext.setAttribute("followerList", followerList);
+		
+	%>
 
-			<!-- navigator -->
-			<div class="nav"
-				style="height: 50px; float: left; display: flex; justify-content: center; align-items: center;">
-				<a href="#"
-					style="color: white; font-size: 20px; float: left; margin-right: 50px;">음식점</a>
-				<a href="#"
-					style="color: white; font-size: 20px; float: left; margin-right: 50px;">랭킹</a>
-				<a href="messageMain.jsp"
-					style="color: white; font-size: 20px; float: left; margin-right: 50px;">쪽지</a>
-			</div>
+ <!-- 프로필 시작 -->
+    <div class="container-fluid gedf-wrapper">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media" style="text-align: center;">
+                            <a class="thumbnail pull-left" href="#">
+                                <img class="rounded-circle" width="80px" src="https://picsum.photos/50/50" alt="">
+                            </a>
+                        </div>
+                        <div class="h4" style="height: 40px;">
+                            <a href="#"
+                                style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">@${pageScope.user.nick}</a>
+                        </div>
+                        <div class="h7 text-muted" style="height: 40px;">
+       						<c:if test="${empty pageScope.user.profile_message}">@회원 코멘트가 없습니다.</c:if>
+							<c:if test="${not empty pageScope.user.profile_message}">@${pageScope.user.profile_message}</c:if>
+                        </div>
+                        	<c:if test="${sessionScope.member.id eq pageScope.id}">
+		                        <div class="h7" style="height: 80px;">
+		                            <a href="#" style="color: rgb(218, 0, 0);">프로필 수정</a>
+		                            <br>
+		                            <a href="#" style="color: rgb(218, 0, 0);">회원 목록</a>
+		                            <br>
+		                            <a href="#" style="color: rgb(218, 0, 0);">리뷰 목록</a>
+		                            <br>
+		                            <a href="#" style="color: rgb(218, 0, 0);">음식점 목록</a>
+		                        </div>
+	                        </c:if>
+                        
+                        
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="h6 text-muted">Riview</div>
+                            <div class="h5">1</div>
+                        </li>
+                        <c:choose>
+	                        <c:when test="${sessionScope.member.id eq pageScope.id}">
+								<li class="list-group-item">
+		                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
+		                                style="color: rgb(218, 0, 0);" onclick="location.href='LogoutCon'">
+		                                로그아웃
+		                            </button>
+		                        </li>
+	                        <li class="list-group-item">
+	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
+	                                style="color: rgb(218, 0, 0);" onclick="location.href='#'">
+	                                회원탈퇴
+	                            </button>
+	                        </li>
+	                        </c:when>
+	                        <c:otherwise>
+	                        <li class="list-group-item">
+	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
+	                                style="color: rgb(218, 0, 0);" onclick="location.href='BlockMemberCon?id=${pageScope.user.id}&state=1'">
+	                                차단하기
+	                            </button>
+	                        </li>
+	                        <li class="list-group-item">
+	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
+	                                style="color: rgb(218, 0, 0);" onclick="location.href='ReportMemberCon?id=${pageScope.user.id}'">
+	                                신고하기
+	                            </button>
+	                        </li>
+	                        </c:otherwise>
+                        </c:choose>
+                    </ul>
+                </div>
+            </div>
+            
+                        <div class="col-md-6 gedf-main">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#a">팔로잉</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#b">팔로워</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#c">차단</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#d">신고</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="a">
 
-			<form class="form-inline" style="float: right; height: 50px;">
-				<div class="input-group">
-					<input type="text" class="form-control">
-					<div class="input-group-append">
-						<button class="btn btn-outline-danger" type="button"
-							id="button-addon2" style="color: rgb(218, 0, 0);">
-							<i class="fa fa-search" style="color: white;"></i>
-						</button>
-					</div>
-				</div>
-			</form>
-		</nav>
-	</div>
+                        <div class="container" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="list-group">
+										<%
+											MemberDTO member = (MemberDTO)session.getAttribute("member");
+											List<MemberDTO> myFollowingList = m_dao.selectFollowingList(member.getId());
+											List<MemberDTO> myFollowerList = m_dao.selectFollowingList(member.getId());
+											List<MemberDTO> myBlockList = m_dao.selectBlockList(member.getId());
+											List<MemberDTO> myReportList = m_dao.selectReportList(member.getId());
+											pageContext.setAttribute("myFollowingList", myFollowingList);
+											pageContext.setAttribute("myFollowerList", myFollowerList);
+											pageContext.setAttribute("myBlockList", myBlockList);
+											pageContext.setAttribute("myReportList", myReportList);
+										%>                    	
+										<c:forEach var="myFollowing" items="${pageScope.myFollowingList}">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            닉네임 1
+                                            <button class="btn btn-danger" id="w1" onmouseover="w1_mouseover()"
+                                                onmouseout="w1_mouseout()">팔로우</button>
+                                        </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
 
+                    <div class="tab-pane fade" id="b">
 
-	<div class="inner_body">
-		<section class="create_projectnw">
-			<div class="container">
-				<div class="row justify-content-center">
+                        <div class="container" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            닉네임 1
+                                            <button class="btn btn-outline-danger">팔로우</button>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            닉네임 2
+                                            <button class="btn btn-danger" id="w2" onmouseover="w2_mouseover()"
+                                                onmouseout="w2_mouseout()">팔로우</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
-					<div class="col-lg-12 col-sm-12">
-						<div class="left_menubx">
-							<div class="frame">
-								<div id="sidepanel" class="sidepanel">
-									<div id="profile">
-										<div class="wrap">
-											<img id="profile-img"
-												src="http://emilcarlsson.se/assets/mikeross.png"
-												class="online" alt="" />
-											<p>Waris</p>
-											<i class="fa fa-chevron-down expand-button"
-												aria-hidden="true"></i>
-											<div id="status-options">
-												<ul>
-													<li id="status-online" class="active"><span
-														class="status-circle"></span>
-														<p>Online</p></li>
-													<li id="status-away"><span class="status-circle"></span>
-														<p>Away</p></li>
-													<li id="status-busy"><span class="status-circle"></span>
-														<p>Busy</p></li>
-													<li id="status-offline"><span class="status-circle"></span>
-														<p>Offline</p></li>
-												</ul>
-											</div>
-											<div id="expanded">
-												<label for="twitter"><i class="fa fa-facebook fa-fw"
-													aria-hidden="true"></i></label> <input name="twitter" type="text"
-													value="mikeross" /> <label for="twitter"><i
-													class="fa fa-twitter fa-fw" aria-hidden="true"></i></label> <input
-													name="twitter" type="text" value="ross81" /> <label
-													for="twitter"><i class="fa fa-instagram fa-fw"
-													aria-hidden="true"></i></label> <input name="twitter" type="text"
-													value="mike.ross" />
-											</div>
-										</div>
-									</div>
-									<div id="search">
-										<label for=""><i class="fa fa-search"
-											aria-hidden="true"></i></label> <input type="text"
-											placeholder="Search contacts...">
-									</div>
-									<div id="contacts" class="chat_list contacts">
-										<ul>
-											<li class="contact">
-												<div class="wrap">
-													<span class="contact-status online"></span> <img
-														src="http://emilcarlsson.se/assets/louislitt.png" alt="">
-													<div class="meta">
-														<p class="name">
-															Imtiyaz <span class="date">Apr 20</span>
-														</p>
-														<p class="preview">You just got LITT up, Mike.</p>
-													</div>
-												</div>
-											</li>
-											<li class="contact active">
-												<div class="wrap">
-													<span class="contact-status busy"></span> <img
-														src="http://emilcarlsson.se/assets/harveyspecter.png"
-														alt="">
-													<div class="meta">
-														<p class="name">
-															Rishal Raza<span class="date">Apr 20</span>
-														</p>
-														<p class="preview">Wrong. You take the gun, or you
-															pull out a bigger one. Or, you call their bluff. Or, you
-															do any one of a hundred and forty six other things.</p>
-													</div>
-												</div>
-											</li>
-											<li class="contact">
-												<div class="wrap">
-													<span class="contact-status away"></span> <img
-														src="http://emilcarlsson.se/assets/rachelzane.png" alt="">
-													<div class="meta">
-														<p class="name">
-															Shoaib <span class="date">Apr 20</span>
-														</p>
-														<p class="preview">I was thinking that we could have
-															chicken tonight, sounds good?</p>
-													</div>
-												</div>
-											</li>
-											<li class="contact">
-												<div class="wrap">
-													<span class="contact-status online"></span> <img
-														src="http://emilcarlsson.se/assets/donnapaulsen.png"
-														alt="">
-													<div class="meta">
-														<p class="name">
-															Dilshad <span class="date">Apr 20</span>
-														</p>
-														<p class="preview">Mike, I know everything! I'm
-															Donna..</p>
-													</div>
-												</div>
-											</li>
-											<li class="contact">
-												<div class="wrap">
-													<span class="contact-status busy"></span> <img
-														src="http://emilcarlsson.se/assets/jessicapearson.png"
-														alt="">
-													<div class="meta">
-														<p class="name">
-															Dilnawaz <span class="date">Apr 20</span>
-														</p>
-														<p class="preview">Have you finished the draft on the
-															Hinsenburg deal?</p>
-													</div>
-												</div>
-											</li>
-											<li class="contact">
-												<div class="wrap">
-													<span class="contact-status"></span> <img
-														src="http://emilcarlsson.se/assets/haroldgunderson.png"
-														alt="">
-													<div class="meta">
-														<p class="name">
-															Asif Ali <span class="date">Apr 20</span>
-														</p>
-														<p class="preview">Thanks Mike! :)</p>
-													</div>
-												</div>
-											</li>
-											<li class="contact">
-												<div class="wrap">
-													<span class="contact-status"></span> <img
-														src="http://emilcarlsson.se/assets/danielhardman.png"
-														alt="">
-													<div class="meta">
-														<p class="name">
-															Shahbabu <span class="date">Apr 20</span>
-														</p>
-														<p class="preview">We'll meet again, Mike. Tell
-															Jessica I said 'Hi'.</p>
-													</div>
-												</div>
-											</li>
-											<li class="contact">
-												<div class="wrap">
-													<span class="contact-status busy"></span> <img
-														src="http://emilcarlsson.se/assets/katrinabennett.png"
-														alt="">
-													<div class="meta">
-														<p class="name">
-															Bushra Naaz <span class="date">Apr 20</span>
-														</p>
-														<p class="preview">I've sent you the files for the
-															Garrett trial.</p>
-													</div>
-												</div>
-											</li>
-											<li class="contact">
-												<div class="wrap">
-													<span class="contact-status"></span> <img
-														src="http://emilcarlsson.se/assets/charlesforstman.png"
-														alt="">
-													<div class="meta">
-														<p class="name">
-															Charles Forstman <span class="date">Apr 20</span>
-														</p>
-														<p class="preview">Mike, this isn't over.</p>
-													</div>
-												</div>
-											</li>
-											<li class="contact">
-												<div class="wrap">
-													<span class="contact-status"></span> <img
-														src="http://emilcarlsson.se/assets/jonathansidwell.png"
-														alt="">
-													<div class="meta">
-														<p class="name">
-															Jonathan Sidwell <span class="date">Apr 20</span>
-														</p>
-														<p class="preview">
-															<span>You:</span> That's bullshit. This deal is solid.
-														</p>
-													</div>
-												</div>
-											</li>
-										</ul>
-									</div>
-									<!--                                    <div id="bottom-bar">
-                                                                            <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
-                                                                            <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
-                                                                        </div>-->
-								</div>
-								<div class="content">
-									<div class="contact-profile">
-										<img src="http://emilcarlsson.se/assets/harveyspecter.png"
-											alt="">
-										<p>Harvey Specter</p>
-										<div class="social-media camera">
-											<a href="#" class="video_call"> <i
-												class="fa fa-video-camera m-0" aria-hidden="true"></i>
-											</a> <a href="#" class="common-btn"> View Profile </a>
-										</div>
-									</div>
-									<div class="messages">
-										<ul>
-											<li class="sent"><img
-												src="http://emilcarlsson.se/assets/mikeross.png" alt="">
-												<p>How the hell am I supposed to get a jury to believe
-													you when I am not even sure that I do?!</p> <span
-												class="msg_time">8:40 AM, Today</span></li>
-											<li class="replies"><img
-												src="http://emilcarlsson.se/assets/harveyspecter.png" alt="">
-												<p>When you're backed against the wall, break the god
-													damn thing down.</p> <span class="msg_time">8:40 AM,
-													Today</span></li>
-											<li class="replies"><img
-												src="http://emilcarlsson.se/assets/harveyspecter.png" alt="">
-												<p>Excuses don't win championships.</p> <span
-												class="msg_time">8:40 AM, Today</span></li>
-											<li class="sent"><img
-												src="http://emilcarlsson.se/assets/mikeross.png" alt="">
-												<p>Oh yeah, did Michael Jordan tell you that?</p> <span
-												class="msg_time">8:40 AM, Today</span></li>
-											<li class="replies"><img
-												src="http://emilcarlsson.se/assets/harveyspecter.png" alt="">
-												<p>No, I told him that.</p> <span class="msg_time">8:40
-													AM, Today</span></li>
-											<li class="replies"><img
-												src="http://emilcarlsson.se/assets/harveyspecter.png" alt="">
-												<p>What are your choices when someone puts a gun to your
-													head?</p> <span class="msg_time">8:40 AM, Today</span></li>
-											<li class="sent"><img
-												src="http://emilcarlsson.se/assets/mikeross.png" alt="">
-												<p>What are you talking about? You do what they say or
-													they shoot you.</p> <span class="msg_time">8:40 AM,
-													Today</span></li>
-											<li class="replies"><img
-												src="http://emilcarlsson.se/assets/harveyspecter.png" alt="">
-												<p>Wrong. You take the gun, or you pull out a bigger
-													one. Or, you call their bluff. Or, you do any one of a
-													hundred and forty six other things.</p> <span class="msg_time">8:40
-													AM, Today</span></li>
-										</ul>
-									</div>
-									<div class="message-input">
-										<div class="wrap">
-											<input type="text" placeholder="Write your message...">
-											<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
-											<button class="submit">
-												<i class="fa fa-paper-plane" aria-hidden="true"></i>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	</div>
+                    </div>
+                    <div class="tab-pane fade" id="c">
 
+                        <div class="container" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            닉네임 1
+                                            <button class="btn btn-danger" id="w3" onmouseover="w3_mouseover()"
+                                            onmouseout="w3_mouseout()">차단</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="tab-pane fade" id="d">
+                        <div class="container" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            닉네임 1
+                                            <div>
+                                                <span>신고사유</span>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            닉네임 2
+                                            <div>
+                                                <span>신고사유</span>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            닉네임 3
+                                            <div>
+                                                <span>신고사유</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
+                </div>
+            </div>
+
+           
+            <!-- 광고 배너 -->
+            <div class="col-md-3">
+                <div class="card gedf-card">
+                    <div class="card-body">
+                        <div>
+                            <h4 class="card-title"><span
+                                    style="color: rgb(218, 0, 0); margin-right: 15px;">Followers</span>${pageScope.user.followingCnt}</h4>
+                        </div>
+                        <div>
+                            <table class="modal_table" style="top: 80px;">
+                            <c:if test="${empty pageScope.followerList}">팔로우한 회원이 없습니다.</c:if>
+                            <c:forEach var="follower" items="${pageScope.followerList}">
+                                <tr>
+                                    <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                            src="https://picsum.photos/50/50"></td>
+                                    <td id="modal_userID">닉네임</td>
+                                    <td id="modal_userFollow">
+                                        <buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card gedf-card">
+                    <div class="card-body">
+                        <div>
+                            <h4 class="card-title"><span
+                                    style="color: rgb(218, 0, 0); margin-right: 15px;">Following</span>${pageScope.user.followerCnt}</h4>
+                        </div>
+                        <div>
+                            <table class="modal_table" style="top: 80px;">
+                            <c:if test="${empty pageScope.followingList}">팔로잉한 회원이 없습니다.</c:if>
+                            <c:forEach var="follwing" items="${pageScope.followingList}">
+                                <tr>
+                                    <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                            src="https://picsum.photos/50/50"></td>
+                                    <td id="modal_userID">닉네임</td>
+                                    <td id="modal_userFollow">
+                                        <buttton class="btn btn-danger" style="margin-left: 20px;">언팔로우</button>
+                                    </td>
+                                </tr>
+							</c:forEach>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+    </ul>
+    <p class="text-center text-body-secondary">© 2023 Company, Inc</p>
+  </footer>
+</div>
+ <!-- 마우스 오버 스크립트 -->
+    <script>
+        function w1_mouseover() {
+            w1.innerText = '팔로우 취소';
+            w1.style.color = "rgb(218, 0, 0)";
+            w1.style.background = "white";
+        }
+
+        function w1_mouseout() {
+            w1.innerText = '팔로우';
+            w1.style.color = "white";
+            w1.style.background = "rgb(218, 0, 0)";
+        }
+    </script>
+
+    <script>
+        function w2_mouseover() {
+            w2.innerText = '팔로우 취소';
+            w2.style.color = "rgb(218, 0, 0)";
+            w2.style.background = "white";
+        }
+
+        function w2_mouseout() {
+            w2.innerText = '팔로우';
+            w2.style.color = "white";
+            w2.style.background = "rgb(218, 0, 0)";
+        }
+    </script>
+
+    <script>
+        function w3_mouseover() {
+            w3.innerText = '차단 취소';
+            w3.style.color = "rgb(218, 0, 0)";
+            w3.style.background = "white";
+        }
+
+        function w3_mouseout() {
+            w3.innerText = '차단';
+            w3.style.color = "white";
+            w3.style.background = "rgb(218, 0, 0)";
+        }
+    </script>
+    
+	<script	src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </body>
 
 </html>

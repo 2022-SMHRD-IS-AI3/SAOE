@@ -1,3 +1,4 @@
+<%@page import="com.saoe.model.CategoryDTO"%>
 <%@page import="com.saoe.model.FeedDAO"%>
 <%@page import="com.saoe.model.FeedDTO"%>
 <%@page import="com.saoe.model.MemberDTO"%>
@@ -17,6 +18,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"">
 <style>
 @import
 	url("https://fonts.googleapis.com/css?family=Abril+Fatface|Open+Sans:400,700&display=swap")
@@ -26,11 +29,6 @@
 	box-sizing: border-box;
 }
 
-body {
-	padding: 100px;
-	font-family: "Open Sans", sans-serif;
-	background: white;
-}
 
 .h7 {
 	font-size: 15px;
@@ -50,83 +48,32 @@ body {
 		margin-bottom: 2.77rem;
 	}
 }
+.fix-nav {
+    position: sticky;
+    top: 0;
+    /* width: 100% */
+    left: 0;
+    right: 0;
+    z-index: 2;
+
+    /* 생략 */
+}
 
 /**Reset Bootstrap*/
 .dropdown-toggle::after {
 	content: none;
 	display: none;
 }
+
 </style>
 </head>
 
 <body>
-	<link
-		href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-		rel="stylesheet" id="bootstrap-css">
-	<script
-		src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-	<script
-		src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<!------ Include the above in your HEAD tag ---------->
-
-	<link
-		href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-		rel="stylesheet"
-		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-		crossorigin="anonymous">
-
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-		crossorigin="anonymous"></script>
-
 	<!-- html 시작 -->
-	<div style="background-color: rgb(218, 0, 0); height: 70px;">
-		<nav class="tab" style="padding: 10px;">
-			<div class="header"
-				style="float: left; margin-right: 50px; margin-left: 20px;">
-				<a href="#" class="navbar-brand"
-					style="color: white; font-size: 25px;">VeriView🍒</a>
-			</div>
+	
+	<!-- header -->
+	<c:import url="./layout/header.jsp"></c:import>
 
-			<!-- navigator -->
-			<div class="nav"
-				style="height: 50px; float: left; display: flex; justify-content: center; align-items: center;">
-				<a href="#"
-					style="color: white; font-size: 20px; float: left; margin-right: 50px;">음식점</a>
-				<a href="#"
-					style="color: white; font-size: 20px; float: left; margin-right: 50px;">랭킹</a>
-				<a href="messageMain.jsp"
-					style="color: white; font-size: 20px; float: left; margin-right: 50px;">쪽지</a>
-			</div>
-
-			<form class="form-inline" style="float: right; height: 50px;">
-				<div class="input-group">
-					<input type="text" class="form-control">
-					<div class="input-group-append">
-						<button class="btn btn-outline-danger" type="button"
-							id="button-addon2" style="color: rgb(218, 0, 0);">
-							<i class="fa fa-search" style="color: white;"></i>
-						</button>
-					</div>
-				</div>
-			</form>
-		</nav>
-	</div>
-
-	<div
-		style="height: 60px; display: flex; justify-content: center; align-items: center;">
-		<a href="#"
-			style="margin-right: 30px; color: rgb(218, 0, 0); font-size: 20px;">새글</a>
-		<a href="#" style="color: rgb(218, 0, 0); font-size: 20px;">팔로잉</a>
-	</div>
 
 	<div class="container-fluid gedf-wrapper">
 		<div class="row">
@@ -134,15 +81,25 @@ body {
 				<c:if test="${not empty sessionScope.member}">
 					<div class="card">
 						<div class="card-body">
-							<div class="h5" style="height: 30px;">
-								<a href="#" style="color: rgb(218, 0, 0);">@${sessionScope.member.getNick()}</a>
-							</div>
-							<div class="h7 text-muted" style="height: 40px;">간단한 자기소개</div>
-							<div class="h7" style="height: 100px;">
-								<a href="updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br> <a
-									href="#" style="color: rgb(218, 0, 0);">My 목록</a> <br> <a
-									href="#" style="color: rgb(218, 0, 0);">신고 목록</a> <br> <a
-									href="#" style="color: rgb(218, 0, 0);">회원탈퇴</a>
+							<div class="row" height="80px">
+	                        	<div class="media" style="text-align: center;">
+		                            <a class="thumbnail pull-left" href="profile.jsp?id=${sessionScope.member.id}">
+		                                <img class="rounded-circle" width="80px" src="https://picsum.photos/50/50" alt="">
+		                            </a>
+	                            </div>
+	                        </div>
+	                        <div class="row-fluid">
+		                        <div class="h4" style="height: 40px;">
+		                            <a href="profile.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">@${sessionScope.member.getNick()}</a>
+		                        </div>
+								<div class="h7 text-muted" style="height: 40px;">
+								<c:if test="${empty sessionScope.member.profile_message}">@회원 코멘트가 없습니다.</c:if>
+								<c:if test="${not empty sessionScope.member.profile_message}">@${sessionScope.member.profile_message}</c:if>
+								</div>
+								<div class="h7" >
+									<a href="updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br> 
+									<a href="profile.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0);">My 목록</a> <br> 
+								</div>
 							</div>
 						</div>
 						<ul class="list-group list-group-flush">
@@ -187,46 +144,81 @@ body {
 			</div>
 
 			<div class="col-md-6 gedf-main">
-				<form action="WriteReviewCon" method="post"
-					enctype="multipart/form-data">
-					<!--- \\\\\\\Post-->
-					<div class="card gedf-card">
-						<div class="card-header">
-							<ul class="nav nav-tabs card-header-tabs" id="myTab"
-								role="tablist">
-								<li class="nav-item"><a class="nav-link active"
-									id="posts-tab" data-toggle="tab" href="#posts" role="tab"
-									aria-controls="posts" aria-selected="true">리뷰</a></li>
-
-							</ul>
-						</div>
-						<div class="card-body">
-							<div class="tab-content" id="myTabContent">
-								<div class="tab-pane fade show active" id="posts"
-									role="tabpanel" aria-labelledby="posts-tab">
-									<div class="form-group">
-										<label class="sr-only" for="message">post</label>
-										<textarea name="review_content" class="form-control"
-											id="message" rows="3" placeholder="리뷰를 작성해주세요!"></textarea>
-									</div>
-									<div class="form-group">
-										<div class="custom-file">
-											<input type="file" multiple class="custom-file-input" id="customFile"
-												name="img"> <label class="custom-file-label"
-												for="customFile">Upload image</label>
+				<div class="row" style="height: 60px; display: flex; justify-content: center; align-items: center;">
+					<a href="#"	style="margin-right: 30px; color: rgb(218, 0, 0); font-size: 20px;">새글</a>
+					<a href="#" style="color: rgb(218, 0, 0); font-size: 20px;">팔로잉</a>
+				</div>
+				
+								
+				<div class="row-fluid">
+					<form action="WriteReviewCon" method="post"
+						enctype="multipart/form-data">
+						<!--- \\\\\\\Post-->
+						<div class="card gedf-card">
+							<div class="card-header">
+								<ul class="nav nav-tabs card-header-tabs" id="myTab"
+									role="tablist">
+									<li class="nav-item"><a class="nav-link active"
+										id="posts-tab" data-toggle="tab" href="#posts" role="tab"
+										aria-controls="posts" aria-selected="true">리뷰</a></li>
+	
+								</ul>
+							</div>
+							<div class="card-body">
+								<div class="tab-content" id="myTabContent">
+									<div class="tab-pane fade show active" id="posts"
+										role="tabpanel" aria-labelledby="posts-tab">
+										<div class="form-group">
+											<label class="sr-only" for="message">post</label>
+											<textarea name="review_content" class="form-control"
+												id="message" rows="3" placeholder="리뷰를 작성해주세요!"></textarea>
 										</div>
-									</div>
-									<div class="btn-toolbar justify-content-between">
-										<div class="btn-group">
-											<button type="submit" class="btn btn-outline-danger">업로드</button>
+										<div class="form-group">
+											<div class="custom-file">
+												<input type="file" multiple class="custom-file-input" id="customFile"
+													name="img"> <label class="custom-file-label"
+													for="customFile">Upload image</label>
+											</div>
+										</div>
+										<div class="btn-toolbar justify-content-between">
+											<div class="btn-group">
+												<button type="submit" class="btn btn-outline-danger">업로드</button>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+						<!-- Post /////-->
+						</form>
 					</div>
-					<!-- Post /////-->
-				</form>
+				<%
+					List<CategoryDTO> cateList = new FeedDAO().selectCate();
+					pageContext.setAttribute("cateList", cateList);
+				%>
+				
+				<div class="row my-3">
+					<c:forEach var="cate" items="${pageScope.cateList}">
+						<button type="button" class="btn btn-outline-light mx-1" style="background-color: #da0000 !important; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
+							${cate.main_cate}
+						</button>
+					</c:forEach>
+				</div>
+				
+					<c:forEach var="cate" items="${pageScope.cateList}">
+					<div class="row my-3">
+						<button type="button" class="btn btn-outline-light mx-1" style="background-color: #da0000 !important; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
+							${cate.main_cate}
+						</button>
+						<c:forEach var="sub" items="${cate.sub_cateList}">
+						<button type="button" class="btn btn-outline-light mx-1" style="background-color: #da0000 !important; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top">
+							${sub.sub_cate}
+						</button>
+						</c:forEach>
+					</div>
+					</c:forEach>
+
+
 				<%
 				MemberDTO member = (MemberDTO)session.getAttribute("member");
 				FeedDAO feedDAO = new FeedDAO();
@@ -234,8 +226,8 @@ body {
 				pageContext.setAttribute("feedList", feedList);													
 
 				%>
+				<div class="row">
 				<c:forEach var="feed" items="${pageScope.feedList}">
-
 					<!--- \\\\\\\Post1111111111111-->
 					<div class="card gedf-card">
 						<div class="card-header">
@@ -516,6 +508,7 @@ body {
 					</div>
 				</div>
 			</div>
+			</div>
 			<!-- 광고 배너 -->
 			<div class="col-md-3">
 				<div class="card gedf-card">
@@ -540,6 +533,11 @@ body {
 			</div>
 		</div>
 	</div>
+	<script	src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </body>
 
 </html>

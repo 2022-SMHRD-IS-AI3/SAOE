@@ -1,60 +1,328 @@
-<%@page import="com.saoe.model.MemberMemberDTO"%>
-<%@page import="com.saoe.model.MemberDTO"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.saoe.model.MemberDAO"%>
+<%@page import="com.saoe.model.FeedDAO"%>
+<%@page import="com.saoe.model.FeedDTO"%>
+<%@page import="com.saoe.model.MemberDTO"%>
+<%@page import="java.net.URLDecoder"%>
+<%@page import="com.saoe.model.ReplyDTO"%>
+<%@page import="com.saoe.model.ReviewPicDTO"%>
+<%@page import="com.saoe.model.ReviewDAO"%>
+<%@page import="com.saoe.model.ReviewDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"">
+
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Abril+Fatface|Open+Sans:400,700&display=swap");
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Open Sans", sans-serif;
+            background: white;
+        }
+
+        .fix-nav {
+            position: sticky;
+            top: 0;
+            /* width: 100% */
+            left: 0;
+            right: 0;
+            z-index: 2;
+
+            /* 생략 */
+        }
+
+        .h7 {
+            font-size: 15px;
+            color: rgb(218, 0, 0);
+        }
+
+        .gedf-wrapper {
+            margin-top: 10px;
+        }
+
+        @media (min-width: 992px) {
+            .gedf-main {
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+
+            .gedf-card {
+                margin-bottom: 2.77rem;
+            }
+        }
+
+        a {
+            color: rgb(218, 0, 0);
+        }
+
+        .aaa {
+            height: 150px;
+            width: 200px;
+        }
+
+        /**Reset Bootstrap*/
+        .dropdown-toggle::after {
+            content: none;
+            display: none;
+        }
+
+        /* 프로필 css */
+        .social-box .box {
+            background: #FFF;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 20px 0;
+            padding: 40px 10px;
+            transition: all 0.5s ease-out;
+        }
+
+        .social-box .box:hover {
+            box-shadow: 0 0 6px #4183D7;
+        }
+
+        .social-box .box-text {
+            font-size: 15px;
+            line-height: 30px;
+            margin: 20px 0;
+        }
+
+        .social-box .box-btn a {
+            color: #4183D7;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .social-box .fa {
+            color: #4183D7;
+        }
+        
+    </style>
 </head>
+
 <body>
-	<%
-	String id = request.getParameter("id");
-	MemberDAO dao = new MemberDAO();
-	MemberDTO user = dao.selectMember(id);
-	%>
-	<table border="1px solid black">
-		<tr>
-			<td>회원 ID :</td>
-			<td><%=user.getId()%></td>
-		</tr>
-		<tr>
-			<td>회원 닉네임 :</td>
-			<td><%=user.getNick()%></td>
-		</tr>
-		<tr>
-			<td>회원 거주지 :</td>
-			<td><%=user.getAddr()%></td>
-		</tr>
-		<tr>
-			<td>회원 성별 :</td>
-			<td><%=user.getGender()%></td>
-		</tr>
-		<tr>
-			<td>회원 프사 :</td>
-			<td><%=user.getProfile()%></td>
-		</tr>
-		<tr>
-			<td>회원 프메 :</td>
-			<td><%=user.getProfile_message()%></td>
-		</tr>
-		<tr>
-			<td>회원 가입날짜 :</td>
-			<td><%=user.getJoin_date()%></td>
-		</tr>
-	</table>
-	<% 	for(MemberMemberDTO memberMember : user.getMemberMemberList()){	
-			if(memberMember.getMember_follow_yn() == 1){%>
-		 팔로잉 : <%=memberMember.getId() %>, 팔로잉 날짜 : <%=memberMember.getMember_follow_date() %>
-	<%
-			}
-		}
+	<!-- html 시작 -->
 	
+	<!-- header -->
+	<c:import url="./layout/header.jsp"></c:import>
+	
+	<%
+		String id = request.getParameter("id");
+		pageContext.setAttribute("id", id);
+		MemberDAO m_dao = new MemberDAO();
+		MemberDTO user = m_dao.selectMember(id);
+		pageContext.setAttribute("user", user);
+		
+		ReviewDAO r_dao = new ReviewDAO();
+		List<ReviewDTO> reviewList = r_dao.selectUserReview(id);
+		pageContext.setAttribute("reviewList", reviewList);
+		
+		List<MemberDTO> followingList = m_dao.selectFollowingList(id);
+		List<MemberDTO> followerList = m_dao.selectFollowerList(id);
+		pageContext.setAttribute("followingList", followingList);
+		pageContext.setAttribute("followerList", followerList);
+		
 	%>
 
+ <!-- 프로필 시작 -->
+    <div class="container-fluid gedf-wrapper">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media" style="text-align: center;">
+                            <a class="thumbnail pull-left" href="#">
+                                <img class="rounded-circle" width="80px" src="https://picsum.photos/50/50" alt="">
+                            </a>
+                        </div>
+                        <div class="h4" style="height: 40px;">
+                            <a href="#"
+                                style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">@${pageScope.user.nick}</a>
+                        </div>
+                        <div class="h7 text-muted" style="height: 40px;">
+       						<c:if test="${empty pageScope.user.profile_message}">@회원 코멘트가 없습니다.</c:if>
+							<c:if test="${not empty pageScope.user.profile_message}">@${pageScope.user.profile_message}</c:if>
+                        </div>
+                        	<c:if test="${sessionScope.member.id eq pageScope.id}">
+		                        <div class="h7" style="height: 80px;">
+		                            <a href="#" style="color: rgb(218, 0, 0);">프로필 수정</a>
+		                            <br>
+		                            <a href="#" style="color: rgb(218, 0, 0);">회원 목록</a>
+		                            <br>
+		                            <a href="#" style="color: rgb(218, 0, 0);">리뷰 목록</a>
+		                            <br>
+		                            <a href="#" style="color: rgb(218, 0, 0);">음식점 목록</a>
+		                        </div>
+	                        </c:if>
+                        
+                        
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="h6 text-muted">Riview</div>
+                            <div class="h5">1</div>
+                        </li>
+                        <c:choose>
+	                        <c:when test="${sessionScope.member.id eq pageScope.id}">
+								<li class="list-group-item">
+		                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
+		                                style="color: rgb(218, 0, 0);" onclick="location.href='LogoutCon'">
+		                                로그아웃
+		                            </button>
+		                        </li>
+	                        <li class="list-group-item">
+	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
+	                                style="color: rgb(218, 0, 0);" onclick="location.href='#'">
+	                                회원탈퇴
+	                            </button>
+	                        </li>
+	                        </c:when>
+	                        <c:otherwise>
+	                        <li class="list-group-item">
+	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
+	                                style="color: rgb(218, 0, 0);" onclick="location.href='BlockMemberCon?id=${pageScope.user.id}&state=1'">
+	                                차단하기
+	                            </button>
+	                        </li>
+	                        <li class="list-group-item">
+	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
+	                                style="color: rgb(218, 0, 0);" onclick="location.href='ReportMemberCon?id=${pageScope.user.id}'">
+	                                신고하기
+	                            </button>
+	                        </li>
+	                        </c:otherwise>
+                        </c:choose>
+                    </ul>
+                </div>
+            </div>
 
+            <div class="col-md-6 gedf-main">
+                <div class="container">
+                    <div class="row">	
+                        <c:forEach var="review" items="${pageScope.reviewList}">
+	                        <div class="card gedf-card" style="margin-right: 30px;">
+	                            <div class="box">
+	                                <div>
+	                                    <img src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
+	                                        class="aaa">
+	                                </div>
+	                                <div class="card-body">
+	                                    <div class="box-title">
+	                                        <h4>식당이름</h4>
+	                                    </div>
+	                                    <div class="box-text">
+	                                        <span>간단한 리뷰 내용</span>
+	                                    </div>
+	                                    <div class="box-btn">
+	                                        <a href="#">더보기</a>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+                        </c:forEach>
+                         <div class="card gedf-card" style="margin-right: 30px;">
+	                            <div class="box">
+	                                <div>
+	                                    <img src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
+	                                        class="aaa">
+	                                </div>
+	                                <div class="card-body">
+	                                    <div class="box-title">
+	                                        <h4>식당이름</h4>
+	                                    </div>
+	                                    <div class="box-text">
+	                                        <span>간단한 리뷰 내용</span>
+	                                    </div>
+	                                    <div class="box-btn">
+	                                        <a href="#">더보기</a>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 광고 배너 -->
+            <div class="col-md-3">
+                <div class="card gedf-card">
+                    <div class="card-body">
+                        <div>
+                            <h4 class="card-title"><span
+                                    style="color: rgb(218, 0, 0); margin-right: 15px;">Followers</span>${pageScope.user.followingCnt}</h4>
+                        </div>
+                        <div>
+                            <table class="modal_table" style="top: 80px;">
+                            <c:if test="${empty pageScope.followerList}">팔로우한 회원이 없습니다.</c:if>
+                            <c:forEach var="follower" items="${pageScope.followerList}">
+                                <tr>
+                                    <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                            src="https://picsum.photos/50/50"></td>
+                                    <td id="modal_userID">닉네임</td>
+                                    <td id="modal_userFollow">
+                                        <buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card gedf-card">
+                    <div class="card-body">
+                        <div>
+                            <h4 class="card-title"><span
+                                    style="color: rgb(218, 0, 0); margin-right: 15px;">Following</span>${pageScope.user.followerCnt}</h4>
+                        </div>
+                        <div>
+                            <table class="modal_table" style="top: 80px;">
+                            <c:if test="${empty pageScope.followingList}">팔로잉한 회원이 없습니다.</c:if>
+                            <c:forEach var="follwing" items="${pageScope.followingList}">
+                                <tr>
+                                    <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                            src="https://picsum.photos/50/50"></td>
+                                    <td id="modal_userID">닉네임</td>
+                                    <td id="modal_userFollow">
+                                        <buttton class="btn btn-danger" style="margin-left: 20px;">언팔로우</button>
+                                    </td>
+                                </tr>
+							</c:forEach>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+    </ul>
+    <p class="text-center text-body-secondary">© 2023 Company, Inc</p>
+  </footer>
+</div>
+    
+	<script	src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </body>
+
 </html>

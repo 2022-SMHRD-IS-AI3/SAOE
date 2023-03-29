@@ -54,7 +54,7 @@ public class WriteReviewCon extends HttpServlet {
 				String file_name = multi.getFilesystemName("file");
 				String ori_file_name = multi.getOriginalFileName(file);
 				
-				
+				ori_file_name = "./file/" + ori_file_name;
 				reviewPicList.add(new ReviewPicDTO(ori_file_name, 0));
 				
 			}

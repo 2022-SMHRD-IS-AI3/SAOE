@@ -18,18 +18,32 @@
 		</selectKey>
 	</insert>
 
-	<insert id="uploadPic" parameterType="ReviewPicDTO">		
-		<foreach collection="list" item="item" open="insert all" close="select * from dual">
-		into review_pic
-		(review_pic_no, review_no, review_pic_src, review_pic_size)
-		values
-		(review_pic_no.nextval, #{item.review_no}, #{item.review_pic_src}, #{item.review_pic_size})
-		</foreach>
+	<insert id="uploadPic" parameterType="ReviewPicDTO">
+		insert into review_pic (
+			review_pic_no,
+			review_no,
+			review_pic_src,
+			review_pic_size
+			)
+			select review_pic_no.nextval as review_pic_no, T.*
+			from (
+				<foreach collection="list" item="item" index="index" separator="union all">
+					select #{item.review_no} as review_no,
+							#{item.review_pic_src} as review_pic_src,
+							#{item.review_pic_size} as review_pic_size
+					from sys.dual
+				</foreach>		
+			) T
 	</insert>
 
 	<select id="selectAllReview" resultType="ReviewDTO">
-		select * from review order by
+		select * from review
+		order by
 		review_post_date desc
+	</select>
+	
+	<select id="selectUserReview" parameterType="ReviewDTO" resultType="ReviewDTO">
+		select * from review where id = #{id}
 	</select>
 
 	<select id="feedReviewPic" parameterType="ReviewDTO"
@@ -41,16 +55,19 @@
 		resultType="ReplyDTO">
 		select * from reply where review_no = #{review_no}
 	</select>
-	
-	<select id="selectReviewer" parameterType="ReviewDTO" resultType="MemberDTO">
+
+	<select id="selectReviewer" parameterType="ReviewDTO"
+		resultType="MemberDTO">
 		select nick, profile from member where id = #{id}
 	</select>
-	
-	<select id="selectRest" parameterType="ReviewDTO" resultType="RestaurantDTO">
+
+	<select id="selectRest" parameterType="ReviewDTO"
+		resultType="RestaurantDTO">
 		select * from restaurant where rest_no = #{rest_no}
 	</select>
-	
-	<select id="selectCategory" parameterType="RestaurantDTO" resultType="CategoryDTO">
+
+	<select id="selectCategory" parameterType="RestaurantDTO"
+		resultType="CategoryDTO">
 		select * from category where code_no = #{code_no}
 	</select>
 
@@ -78,11 +95,13 @@
 		MATCHED THEN
 		INSERT (review_no, actor_id, review_scrap_yn,
 		review_scrap_date)
-		values (#{review_no}, #{actor_id}, #{review_scrap_yn}, sysdate)
+		values (#{review_no}, #{actor_id},
+		#{review_scrap_yn}, sysdate)
 		WHEN MATCHED
 		THEN
 		UPDATE SET
-		review_scrap_yn = #{review_scrap_yn}, review_scrap_date = sysdate
+		review_scrap_yn
+		= #{review_scrap_yn}, review_scrap_date = sysdate
 	</update>
 
 	<update id="blockReview" parameterType="ReviewMemberDTO">
@@ -93,11 +112,13 @@
 		MATCHED THEN
 		INSERT (review_no, actor_id, review_block_yn,
 		review_block_date)
-		values (#{review_no}, #{actor_id}, #{review_block_yn}, sysdate)
+		values (#{review_no}, #{actor_id},
+		#{review_block_yn}, sysdate)
 		WHEN MATCHED
 		THEN
 		UPDATE SET
-		review_block_yn = #{review_block_yn}, review_block_date = sysdate
+		review_block_yn
+		= #{review_block_yn}, review_block_date = sysdate
 	</update>
 
 	<update id="reportReview" parameterType="ReviewDTO">
@@ -108,13 +129,16 @@
 		MATCHED THEN
 		INSERT (review_no, actor_id, review_rep_yn,
 		review_rep_content, review_rep_date)
-		values (#{review_no}, #{actor_id}, #{review_rep_yn},
+		values (#{review_no}, #{actor_id},
+		#{review_rep_yn},
 		'그냥',sysdate)
 		WHEN MATCHED
 		THEN
 		UPDATE SET
-		review_rep_yn = #{review_rep_yn},
-		review_rep_content = '그냥', review_rep_date = sysdate
+		review_rep_yn
+		= #{review_rep_yn},
+		review_rep_content = '그냥', review_rep_date =
+		sysdate
 	</update>
 
 	<update id="gbReview" parameterType="ReviewMemberDTO">

@@ -57,5 +57,24 @@ public class FeedDAO {
 
 		return feedList;
 	}
+	
+	public List<CategoryDTO> selectCate(){
+		
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		List<CategoryDTO> cateList = sqlSession.selectList("selectCate");
+		
+		if(cateList != null) {
+			for(CategoryDTO cate : cateList) {
+				List<CategoryDTO> sub_cateList = sqlSession.selectList("selectSubCate", cate);
+				cate.setSub_cateList(sub_cateList);
+				
+			}
+		}
+		
+		sqlSession.close();
+		
+		return cateList;
+	}
 
 }

@@ -96,6 +96,24 @@
 	<select id="selectMember" parameterType="MemberDTO" resultType="MemberDTO">
 		select id, nick, addr, gender, profile, join_date from member where id = #{id}
 	</select>
+	
+	<select id="selectFollowingList" parameterType="MemberDTO" resultType="MemberDTO">
+		select id, nick, profile from member where id in (select id from member_member where actor_id = #{id} and member_follow_yn = 1)
+	</select>
+	
+	<select id="selectFollowerList" parameterType="MemberDTO" resultType="MemberDTO">
+		select id, nick, profile from member where id in (select id from member_member where id = #{id} and member_follow_yn = 1)
+	</select>
+	
+	<select id="selectBlockList" parameterType="MemberDTO" resultType="MemberDTO">
+		select id, nick, profile from member where id in (select id from member_member where actor_id = #{id} and member_block_yn = 1)
+	</select>
+	
+	<select id="selectReportList" parameterType="MemberDTO" resultType="MemberDTO">
+		select id, nick, profile from member where id in (select id from member_member where actor_id = #{id} and member_rep_yn = 1)
+	</select>
+	
+	
 
 
 </mapper>

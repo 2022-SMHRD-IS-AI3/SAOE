@@ -39,6 +39,7 @@
 		<mapper resource="com/saoe/mapper/RestMapper.xml" />
 		<mapper resource="com/saoe/mapper/FeedMapper.xml" />
 		<mapper resource="com/saoe/mapper/ReplyMapper.xml" />
+		<mapper resource="com/saoe/mapper/CateMapper.xml" />
 		
 	</mappers>
 	
