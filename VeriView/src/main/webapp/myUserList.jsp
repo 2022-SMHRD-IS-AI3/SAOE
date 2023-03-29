@@ -1,3 +1,5 @@
+<%@page import="com.saoe.model.profile.ProfileReportDTO"%>
+<%@page import="com.saoe.model.profile.ProfileBlockDTO"%>
 <%@page import="com.saoe.model.profile.ProfileFollowDTO"%>
 <%@page import="com.saoe.model.profile.ProfileFeedDTO"%>
 <%@page import="com.saoe.model.profile.ProfileDTO"%>
@@ -132,11 +134,15 @@
 		List<ProfileFeedDTO> profileFeedList = profileDAO.selectProfileFeed(id);
 		List<ProfileFollowDTO> profileFollowerList = profileDAO.selectProfileFollower(id);
 		List<ProfileFollowDTO> profileFollowingList = profileDAO.selectProfileFollowing(id);
+		List<ProfileBlockDTO> profileBlockList = profileDAO.selectProfileBlock(id);
+		List<ProfileReportDTO> profileReportList = profileDAO.selectProfileReport(id);
 		
 		pageContext.setAttribute("profile", profile);
 		pageContext.setAttribute("profileFeedList", profileFeedList);
 		pageContext.setAttribute("profileFollowerList", profileFollowerList);
 		pageContext.setAttribute("profileFollowingList", profileFollowingList);
+		pageContext.setAttribute("profileBlockList", profileBlockList);
+		pageContext.setAttribute("profileReportList", profileReportList);
 		
 	%>
 
@@ -163,7 +169,7 @@
 		                        <div class="h7" style="height: 80px;">
 		                            <a href="#" style="color: rgb(218, 0, 0);">프로필 수정</a>
 		                            <br>
-		                            <a href="./myUserList.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0);">회원 목록</a>
+		                            <a href="#" style="color: rgb(218, 0, 0);">회원 목록</a>
 		                            <br>
 		                            <a href="#" style="color: rgb(218, 0, 0);">리뷰 목록</a>
 		                            <br>
@@ -212,53 +218,156 @@
                 </div>
             </div>
 
-            <div class="col-md-6 gedf-main">
-                <div class="container">
-                    <div class="row">	
-                        <c:forEach var="review" items="${pageScope.profileFeedList}">
-	                        <div class="card gedf-card" style="margin-right: 30px;">
-	                            <div class="box">
-	                                <div>
-	                                    <img src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-	                                        class="aaa">
-	                                </div>
-	                                <div class="card-body">
-	                                    <div class="box-title">
-	                                        <h4>식당이름</h4>
-	                                    </div>
-	                                    <div class="box-text">
-	                                        <span>간단한 리뷰 내용</span>
-	                                    </div>
-	                                    <div class="box-btn">
-	                                        <a href="#">더보기</a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </div>
-                        </c:forEach>
-                         <div class="card gedf-card" style="margin-right: 30px;">
-	                            <div class="box">
-	                                <div>
-	                                    <img src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-	                                        class="aaa">
-	                                </div>
-	                                <div class="card-body">
-	                                    <div class="box-title">
-	                                        <h4>식당이름</h4>
-	                                    </div>
-	                                    <div class="box-text">
-	                                        <span>간단한 리뷰 내용</span>
-	                                    </div>
-	                                    <div class="box-btn">
-	                                        <a href="#">더보기</a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </div>
+			<div class="col-md-6 gedf-main">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#a">팔로잉</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#b">팔로워</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#c">차단</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#d">신고</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="a">
+
+                        <div class="container" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="list-group">
+                                    	<c:forEach var="followings" items="${pageScope.profileFollowingList}">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            ${followings.nick}
+                                            <button class="btn btn-danger" id="w1" onmouseover="w1_mouseover()"
+                                                onmouseout="w1_mouseout()">팔로우</button>
+                                        </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+
+                    <div class="tab-pane fade" id="b">
+
+                        <div class="container" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="list-group">
+                                    	<c:forEach var="followers" items="${pageScope.profileFollowerList}">
+	                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+	                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+	                                                    src="https://picsum.photos/50/50"></td>
+	                                            ${followers.nick }
+	                                            <button class="btn btn-outline-danger">팔로우</button>
+	                                        </li>
+                                        </c:forEach>
+                                        	                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+	                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+	                                                    src="https://picsum.photos/50/50"></td>
+	                                            닉네임 1
+	                                            <button class="btn btn-outline-danger">팔로우</button>
+	                                        </li>
+	                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+	                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+	                                                    src="https://picsum.photos/50/50"></td>
+	                                            닉네임 2
+	                                            <button class="btn btn-danger" id="w2" onmouseover="w2_mouseover()"
+	                                                onmouseout="w2_mouseout()">팔로우</button>
+	                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="c">
+
+                        <div class="container" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="list-group">
+                                    	<c:forEach var="blocks" items="${pageScope.profileBlockList}">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            ${blocks.nick}
+                                            <button class="btn btn-danger" id="w3" onmouseover="w3_mouseover()"
+                                            onmouseout="w3_mouseout()">차단</button>
+                                        </li>
+                                        </c:forEach>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            닉네임 1
+                                            <button class="btn btn-danger" id="w3" onmouseover="w3_mouseover()"
+                                            onmouseout="w3_mouseout()">차단</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="d">
+                        <div class="container" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="list-group">
+                                    <c:forEach var="Reports" items="${pageScope.profileReportList}">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            ${reports.nick}
+                                            <div>
+                                                <span>${reports.member_rep_content }</span>
+                                            </div>
+                                        </li>
+                                        </c:forEach>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            닉네임 1
+                                            <div>
+                                                <span>신고사유</span>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            닉네임 2
+                                            <div>
+                                                <span>신고사유</span>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
+                                                    src="https://picsum.photos/50/50"></td>
+                                            닉네임 3
+                                            <div>
+                                                <span>신고사유</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    
                 </div>
             </div>
-            <!-- 광고 배너 -->
+            
+                        <!-- 광고 배너 -->
             <div class="col-md-3">
                 <div class="card gedf-card">
                     <div class="card-body">
@@ -307,8 +416,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
     <div class="container">
   <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
@@ -321,6 +428,48 @@
     <p class="text-center text-body-secondary">© 2023 Company, Inc</p>
   </footer>
 </div>
+<!-- 마우스 오버 스크립트 -->
+    <script>
+        function w1_mouseover() {
+            w1.innerText = '팔로우 취소';
+            w1.style.color = "rgb(218, 0, 0)";
+            w1.style.background = "white";
+        }
+
+        function w1_mouseout() {
+            w1.innerText = '팔로우';
+            w1.style.color = "white";
+            w1.style.background = "rgb(218, 0, 0)";
+        }
+    </script>
+
+    <script>
+        function w2_mouseover() {
+            w2.innerText = '팔로우 취소';
+            w2.style.color = "rgb(218, 0, 0)";
+            w2.style.background = "white";
+        }
+
+        function w2_mouseout() {
+            w2.innerText = '팔로우';
+            w2.style.color = "white";
+            w2.style.background = "rgb(218, 0, 0)";
+        }
+    </script>
+
+    <script>
+        function w3_mouseover() {
+            w3.innerText = '차단 취소';
+            w3.style.color = "rgb(218, 0, 0)";
+            w3.style.background = "white";
+        }
+
+        function w3_mouseout() {
+            w3.innerText = '차단';
+            w3.style.color = "white";
+            w3.style.background = "rgb(218, 0, 0)";
+        }
+    </script>
     
 	<script	src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

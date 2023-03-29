@@ -2,6 +2,8 @@ package com.saoe.model;
 
 import java.util.List;
 
+import com.saoe.model.member.MemberDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,27 +13,33 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Getter
 @Setter
 
 public class FeedDTO {
 
 	// 게시자 테이블에서 게시자의 닉네임과 프로필사진을 가져옴
-	@NonNull private MemberDTO member;
+	private String id;
+	private String nick;
+	private String profile;
 	
 	// 리뷰 데이터를 담음
-	@NonNull private ReviewDTO review;
+	private int review_no;
+	private String review_content;
+	private String review_post_date;
+	private String review_update_date;
 	
 	// 리뷰한 식당을 담음
-	@NonNull private RestaurantDTO restaurant;
+	private int rest_no;
+	private String rest_name;
+	private String rest_addr;
+
+	// 리뷰한 식당의 카테고리를 담음
+	private int code_no;
+	private String main_cate;
+	private String sub_cate;
 	
-	
-	// 리뷰 상태를 가져옴
-	private MemberMemberDTO memberMember;
-	
-	private ReviewMemberDTO reviewMember;
-	
-	private RestMemberDTO restMember;
+	private List<ReplyDTO> replyList;
+	private List<ReviewPicDTO> reviewPicList;
 
 }

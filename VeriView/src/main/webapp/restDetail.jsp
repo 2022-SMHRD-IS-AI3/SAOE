@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
 
@@ -17,7 +19,7 @@
 			right: 0;
 			z-index: 2;
 
-			/* 생략 */
+			/* ìëµ */
 
 		}
 
@@ -58,7 +60,7 @@
 		}
 
 		#map {
-			/*카카오맵을 담은 박스 API 정보 APP키 없음 아직 */
+			/*ì¹´ì¹´ì¤ë§µì ë´ì ë°ì¤ API ì ë³´ APPí¤ ìì ìì§ */
 			width: 330px;
 			height: 220px;
 			outline: solid 1px rgb(249, 63, 76);
@@ -66,13 +68,13 @@
 
 		}
 
-		/* 식당 정보 폼*/
+		/* ìë¹ ì ë³´ í¼*/
 		.rest_list {
 			opacity: 0.9;
 			min-width: 100px;
-			/* 최소 너비 */
+			/* ìµì ëë¹ */
 			max-width: 550px;
-			/* 최대 너비 */
+			/* ìµë ëë¹ */
 			border-spacing: 5px;
 
 		}
@@ -84,7 +86,7 @@
 			border-bottom: 1px solid rgba(0, 0, 0, .125);
 		}
 
-		/* 식당 정보  */
+		/* ìë¹ ì ë³´  */
 		.rest_info {
 			grid-row: auto;
 			text-align: center;
@@ -92,20 +94,20 @@
 			height: 33px;
 		}
 
-		/* 식당 내용 디테일  */
+		/* ìë¹ ë´ì© ëíì¼  */
 		.rest_detail {
 			position: relative;
 			left: 20px;
 
 		}
 
-		/* 반응박스? 식당 팔로우 좋아요 스타일. */
+		/* ë°ìë°ì¤? ìë¹ íë¡ì° ì¢ìì ì¤íì¼. */
 		.rest_react {
 			justify-content: space-between;
 			width: 100%;
 		}
 
-		/* 버튼 박스  */
+		/* ë²í¼ ë°ì¤  */
 		.btn_st {
 
 			font-size: 15px;
@@ -151,19 +153,19 @@
 		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 		crossorigin="anonymous"></script>
 
-	<!-- html 시작 -->
+	<!-- html ìì -->
 	<div class="fix-nav" style="background-color: rgb(218, 0, 0); height: 70px;">
 		<nav class="tab" style="padding: 10px;">
 			<div class="header" style="float: left; margin-right: 50px; margin-left: 20px;">
-				<a href="#" class="navbar-brand" style="color: white; font-size: 25px;">VeriView🍒</a>
+				<a href="#" class="navbar-brand" style="color: white; font-size: 25px;">VeriViewð</a>
 			</div>
 
 			<!-- navigator -->
 			<div class="nav"
 				style="height: 50px; float: left; display: flex; justify-content: center; align-items: center;">
-				<a href="#" style="color: white; font-size: 20px; float: left; margin-right: 50px;">음식점</a>
-				<a href="#" style="color: white; font-size: 20px; float: left; margin-right: 50px;">랭킹</a>
-				<a href="#" style="color: white; font-size: 20px; float: left; margin-right: 50px;">쪽지</a>
+				<a href="#" style="color: white; font-size: 20px; float: left; margin-right: 50px;">ììì </a>
+				<a href="#" style="color: white; font-size: 20px; float: left; margin-right: 50px;">ë­í¹</a>
+				<a href="#" style="color: white; font-size: 20px; float: left; margin-right: 50px;">ìª½ì§</a>
 			</div>
 
 			<form class="form-inline" style="float: right; height: 50px;">
@@ -181,8 +183,8 @@
 	</div>
 
 	<div style="height: 60px; display: flex; justify-content: center; align-items: center;">
-		<a href="#" style="margin-right: 30px; color: rgb(218, 0, 0); font-size: 20px;">새글</a>
-		<a href="#" style="color: rgb(218, 0, 0); font-size: 20px;">팔로잉</a>
+		<a href="#" style="margin-right: 30px; color: rgb(218, 0, 0); font-size: 20px;">ìê¸</a>
+		<a href="#" style="color: rgb(218, 0, 0); font-size: 20px;">íë¡ì</a>
 	</div>
 
 	<div class="container-fluid gedf-wrapper">
@@ -193,13 +195,13 @@
 						<div class="h5" style="height: 30px;">
 							<a href="#" style="color: rgb(218, 0, 0);">@${sessionScope.member.getNick()}</a>
 						</div>
-						<div class="h7 text-muted" style="height: 40px;">간단한 자기소개
+						<div class="h7 text-muted" style="height: 40px;">ê°ë¨í ìê¸°ìê°
 						</div>
 						<div class="h7" style="height: 100px;">
-							<a href="#" style="color: rgb(218, 0, 0);">프로필 수정</a>
+							<a href="#" style="color: rgb(218, 0, 0);">íë¡í ìì </a>
 							<br> <a href="#" style="color: rgb(218, 0, 0);">My
-								목록</a> <br> <a href="#" style="color: rgb(218, 0, 0);">신고 목록</a> <br> <a href="#"
-								style="color: rgb(218, 0, 0);">회원탈퇴</a>
+								ëª©ë¡</a> <br> <a href="#" style="color: rgb(218, 0, 0);">ì ê³  ëª©ë¡</a> <br> <a href="#"
+								style="color: rgb(218, 0, 0);">íìíí´</a>
 						</div>
 					</div>
 					<ul class="list-group list-group-flush">
@@ -216,7 +218,7 @@
 						<li class="list-group-item">
 							<button class="btn btn-outline-danger" type="button" id="button-addon2"
 								style="color: rgb(218, 0, 0);"
-								onclick="location.href='/VeriView/LogoutCon'">로그아웃</button>
+								onclick="location.href='/VeriView/LogoutCon'">ë¡ê·¸ìì</button>
 						</li>
 					</ul>
 				</div>
@@ -229,7 +231,7 @@
 						<div class="card-header">
 							<ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
 								<li class="nav-item"><a class="nav-link active" id="posts-tab" data-toggle="tab"
-										href="#posts" role="tab" aria-controls="posts" aria-selected="true">리뷰</a></li>
+										href="#posts" role="tab" aria-controls="posts" aria-selected="true">ë¦¬ë·°</a></li>
 
 							</ul>
 						</div>
@@ -240,7 +242,7 @@
 									<div class="form-group">
 										<label class="sr-only" for="message">post</label>
 										<textarea name="review_content" class="form-control" id="message" rows="3"
-											placeholder="리뷰를 작성해주세요!"></textarea>
+											placeholder="ë¦¬ë·°ë¥¼ ìì±í´ì£¼ì¸ì!"></textarea>
 									</div>
 									<div class="form-group">
 										<div class="custom-file">
@@ -251,7 +253,7 @@
 									</div>
 									<div class="btn-toolbar justify-content-between">
 										<div class="btn-group">
-											<button type="submit" class="btn btn-outline-danger">업로드</button>
+											<button type="submit" class="btn btn-outline-danger">ìë¡ë</button>
 										</div>
 									</div>
 								</div>
@@ -260,7 +262,7 @@
 					</div>
 				</form>
 
-									<!-- 피드에 뜨는 음식점 프로필 -->
+									<!-- í¼ëì ë¨ë ììì  íë¡í -->
 					<form action="">
 					<div class="card gedf-card">
 						<div class="card-header">
@@ -272,7 +274,7 @@
 									<div class="ml-2">
 										<div class="h5 m-0">
 											<a href="" style="color: rgb(0, 0, 0);">
-												<%=rest.getRest_name(i)%> 음식점이름
+												<%=rest.getRest_name(i)%> ììì ì´ë¦
 											</a>
 										</div>
 										<!-- <div class="h7 text-muted">Miracles Lee Cross</div> -->
@@ -288,10 +290,10 @@
 										</button>
 										<div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
 											<!-- <div class="h6 dropdown-header">Configuration</div> -->
-											<a class="dropdown-item" href="#" style="color: rgb(218, 0, 0);">스크랩</a>
-											<a class="dropdown-item" href="#" style="color: rgb(218, 0, 0);">신고</a>
-											<a class="dropdown-item" href="#" style="color: rgb(218, 0, 0);">게시물
-												차단</a>
+											<a class="dropdown-item" href="#" style="color: rgb(218, 0, 0);">ì¤í¬ë©</a>
+											<a class="dropdown-item" href="#" style="color: rgb(218, 0, 0);">ì ê³ </a>
+											<a class="dropdown-item" href="#" style="color: rgb(218, 0, 0);">ê²ìë¬¼
+												ì°¨ë¨</a>
 										</div>
 									</div>
 								</div>
@@ -302,10 +304,10 @@
 						<div class="card-body">
 
 							<div class="rest_cate">
-								<span class="badge badge-danger">한식</span>
-								<span class="badge badge-danger">중식</span>
-								<span class="badge badge-danger">일식</span>
-								<span class="badge badge-danger">카페</span>
+								<span class="badge badge-danger">íì</span>
+								<span class="badge badge-danger">ì¤ì</span>
+								<span class="badge badge-danger">ì¼ì</span>
+								<span class="badge badge-danger">ì¹´í</span>
 							</div>
 							<div class="text-muted h7 mb-2">
 								<i class="fa fa-clock-o"></i>10 min ago
@@ -314,7 +316,7 @@
 								<form object-fit: cover>
 									<hr width="100%">
 									<div>
-										음식점 대표 사진 <!-- 부트스트랩 슬라이드 -->
+										ììì  ëí ì¬ì§ <!-- ë¶í¸ì¤í¸ë© ì¬ë¼ì´ë -->
 										<div id="carouselExample" class="carousel slide">
 											<div class="carousel-inner">
 												<div class="carousel-item active">
@@ -341,50 +343,50 @@
 												<span class="visually-hidden">Next</span>
 											</button>
 										</div>
-										<!-- 여기까지 -->
+										<!-- ì¬ê¸°ê¹ì§ -->
 									</div>
 									<hr width="100%">
-									<td class="rest_score">음식점 점수</td>
+									<td class="rest_score">ììì  ì ì</td>
 									<td>
 										<%=rest.getRest_score()%>
 									</td>
 									<br>
-									<!--  식당 좋아요 싫어요 번튼 -->
+									<!--  ìë¹ ì¢ìì ì«ì´ì ë²í¼ -->
 									<div class="rest_act_btn">
 										<!-- 
 										  <script> function rest_follow() {
 											FollowRestCon?rest_no=<%=rest.getRest_no()%>&state= 1 } 
 										</script> -->
-										<button type="button" onclick="rest_follow();" class="btn btn-outline-danger">식당
-											팔로우</button>
+										<button type="button" onclick="rest_follow();" class="btn btn-outline-danger">ìë¹
+											íë¡ì°</button>
 
 											<!-- <script> function rest_like(){
 												GBRestCon?rest_no=<%=rest.getRest_no()%>&state= 1 }
 												-->
-										<button type="button" onclick="rest_like();" class="btn btn-outline-danger">식당
-											좋아요</button>
+										<button type="button" onclick="rest_like();" class="btn btn-outline-danger">ìë¹
+											ì¢ìì</button>
 
 											<!-- <script> function rest_dislike(){
 												GBRestCon?rest_no=<%=rest.getRest_no()%>&state= -1 }
 												-->
 										<button type="button" onclick="rest_dislike();"
-											class="btn btn-outline-danger">식당 싫어요</button>
+											class="btn btn-outline-danger">ìë¹ ì«ì´ì</button>
 									
 										<!-- <script> function rest_block(){
 												BlockRestCon?rest_no=<%=rest.getRest_no()%>&state=1 } -->
-										<button type="button" onclick="rest_block()" class="btn btn-outline-danger">식당
-											차단</button>
+										<button type="button" onclick="rest_block()" class="btn btn-outline-danger">ìë¹
+											ì°¨ë¨</button>
 											
-									<!--  하이퍼링크 버전  -->		
-									<!-- <div class="card-footer">  card_footer 박스에 식당 반응형 버튼 (팔로우, 좋아요, 싫어요, 차단)
+									<!--  íì´í¼ë§í¬ ë²ì   -->		
+									<!-- <div class="card-footer">  card_footer ë°ì¤ì ìë¹ ë°ìí ë²í¼ (íë¡ì°, ì¢ìì, ì«ì´ì, ì°¨ë¨)
 									<a href="FollowRestCon?rest_no=<%=rest.getRest_no()%>&state=1"><button class="btn btn-outline-danger">
-									식당 팔로우</button></a>
+									ìë¹ íë¡ì°</button></a>
 									<a href="GBRestCon?rest_no=<%=rest.getRest_no()%>&state=1"><button class="btn btn-outline-danger">
-									식당좋아요</button></a>
+									ìë¹ì¢ìì</button></a>
 									<a href="GBRestCon?rest_no=<%=rest.getRest_no()%>&state=-1"><button class="btn btn-outline-danger">
-									식당 싫어요</button></a>
+									ìë¹ ì«ì´ì</button></a>
 									<a href="BlockRestCon?rest_no=<%=rest.getRest_no()%>&state=1"><button class="btn btn-outline-danger">
-									식당 차단</button></a>
+									ìë¹ ì°¨ë¨</button></a>
 									</div> -->
 											
 											
@@ -398,32 +400,32 @@
 
 									<table class="rest_list" object-fit: cover>
 										<tr>
-											<td class="rest_info">업태 </td> <!-- 카테고리 순번-->
+											<td class="rest_info">ìí </td> <!-- ì¹´íê³ ë¦¬ ìë²-->
 											<td class="rest_detail">
 												<%=rest.getRest_no()%>
 											</td>
 										</tr>
 										<tr>
-											<td class="rest_info">주소</td>
+											<td class="rest_info">ì£¼ì</td>
 											<td class="rest_detail">
 												<%=rest.getRest_addr()%>
 											</td>
 										</tr>
 										</td>
 										<tr>
-											<td class="rest_info">네이버 점수</td>
+											<td class="rest_info">ë¤ì´ë² ì ì</td>
 											<td class="rest_detail">
 												<%=rest.getRest_naver_score()%>
 											</td>
 										</tr>
 										<tr>
-											<td class="rest_info">카카오 점수</td>
+											<td class="rest_info">ì¹´ì¹´ì¤ ì ì</td>
 											<td class="rest_detail">
 												<%=rest.getRest_kakao_score()%>
 											</td>
 										</tr>
 										<tr>
-											<td class="rest_info">음식점 내용</td>
+											<td class="rest_info">ììì  ë´ì©</td>
 											<td class="rest_detail">
 												<%=rest.getRest_content()%>
 											</td>
@@ -432,8 +434,8 @@
 									<br>
 
 									<hr width="100%">
-									<div id="map" style=" width: 100%; height:220px;">카카오api 맵 <%=rest.getRest_addr()%>
-											주소검색방식 </div>
+									<div id="map" style=" width: 100%; height:220px;">ì¹´ì¹´ì¤api ë§µ <%=rest.getRest_addr()%>
+											ì£¼ìê²ìë°©ì </div>
 									<script type="text/javascript"
 										src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6d380a4c2450d34abdf2a93857f8be93"></script>
 									<script>
@@ -447,21 +449,21 @@
 								</form>
 								</p>
 
-								<!-- <div class="card-footer">  card_footer 박스에 식당 반응형 버튼 (팔로우, 좋아요, 싫어요, 차단)
+								<!-- <div class="card-footer">  card_footer ë°ì¤ì ìë¹ ë°ìí ë²í¼ (íë¡ì°, ì¢ìì, ì«ì´ì, ì°¨ë¨)
 									<a href="FollowRestCon?rest_no=<%=rest.getRest_no()%>&state=1"><button
-											class="btn_st">식당 팔로우</button></a>
-									<a href="GBRestCon?rest_no=<%=rest.getRest_no()%>&state=1"><button class="btn_st">식당
-											좋아요</button></a>
+											class="btn_st">ìë¹ íë¡ì°</button></a>
+									<a href="GBRestCon?rest_no=<%=rest.getRest_no()%>&state=1"><button class="btn_st">ìë¹
+											ì¢ìì</button></a>
 									<a href="GBRestCon?rest_no=<%=rest.getRest_no()%>&state=-1"><button
-											class="btn_st">식당 싫어요</button></a>
+											class="btn_st">ìë¹ ì«ì´ì</button></a>
 									<a href="BlockRestCon?rest_no=<%=rest.getRest_no()%>&state=1"><button
-											class="btn_st">식당 차단</button></a>
+											class="btn_st">ìë¹ ì°¨ë¨</button></a>
 								</div> -->
 
 								<div class="card mb-2">
 									<div class="card-header bg-light" style="color: rgb(218, 0, 0);">
 										<i class="fa fa-comment fa" style="color: rgb(218, 0, 0);"></i>
-										댓글
+										ëê¸
 									</div>
 									<div class="card-body">
 										<form>
@@ -471,7 +473,7 @@
 											<div class="container">
 												<div class="row">
 													<div class="col text-center">
-														<button class="btn btn-outline-danger" type="submit">작성</button>
+														<button class="btn btn-outline-danger" type="submit">ìì±</button>
 													</div>
 												</div>
 											</div>
@@ -489,9 +491,9 @@
 											</div>
 											<div class="ml-2">
 												<div class="h5 m-0">
-													<a href="" style="color: rgb(0, 0, 0);">닉네임</a>
+													<a href="" style="color: rgb(0, 0, 0);">ëë¤ì</a>
 												</div>
-												<h5 class="mt-0">댓글</h5>
+												<h5 class="mt-0">ëê¸</h5>
 											</div>
 										</div>
 									</div>
@@ -500,7 +502,7 @@
 
 
 
-								<!-- 댓글 / 대댓글 
+								<!-- ëê¸ / ëëê¸ 
 						<div class="card-body">
 							<div class="media mb-4">
 								<div class="mr-2">
@@ -508,10 +510,10 @@
 								</div>
 								<div class="media-body">
 									<h5 class="mt-0">
-										<a href="" style="color: rgb(0, 0, 0);"> 닉네임
+										<a href="" style="color: rgb(0, 0, 0);"> ëë¤ì
 										</a>
 									</h5>
-									댓글
+									ëê¸
 									<div class="media mt-4">
 										<div class="mr-2">
 											<img class="rounded-circle" width="45" src="https://picsum.photos/50/50"
@@ -520,9 +522,9 @@
 										<div class="media-body">
 											<h5 class="mt-0">
 												<a href="" style="color: rgb(0, 0, 0);">
-													닉네임 </a>
+													ëë¤ì </a>
 											</h5>
-											대댓글 
+											ëëê¸ 
 										</div>
 									</div>
 									<div class="media mt-4">
@@ -533,9 +535,9 @@
 										<div class="media-body">
 											<h5 class="mt-0">
 												<a href="" style="color: rgb(0, 0, 0);">
-													닉네임 </a>
+													ëë¤ì </a>
 											</h5>
-											대댓글
+											ëëê¸
 										</div> 
 									</div>
 								</div>

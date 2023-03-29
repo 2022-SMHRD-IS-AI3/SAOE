@@ -1,4 +1,5 @@
-<%@page import="com.saoe.model.MemberDTO"%>
+<%@page import="com.saoe.model.member.SessionUserDTO"%>
+<%@page import="com.saoe.model.member.MemberDTO"%>
 <%@page import="com.saoe.model.ReviewDTO"%>
 <%@page import="com.saoe.model.ReviewDAO"%>
 <%@page import="java.util.List"%>
@@ -57,7 +58,7 @@ font-family: 'Open Sans', sans-serif; */
 </head>
 <body>
 <%
-	MemberDTO member = (MemberDTO)session.getAttribute("member");
+	SessionUserDTO member = (SessionUserDTO)session.getAttribute("member");
 %>
     <section>
         <div>

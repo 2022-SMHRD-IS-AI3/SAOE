@@ -8,8 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.saoe.model.MemberDAO;
-import com.saoe.model.MemberDTO;
+import com.saoe.model.member.LoginDTO;
+import com.saoe.model.member.MemberDAO;
+import com.saoe.model.member.SessionUserDTO;
 
 @WebServlet("/LoginCon")
 public class LoginCon extends HttpServlet {
@@ -26,9 +27,9 @@ public class LoginCon extends HttpServlet {
 		
 		MemberDAO dao = new MemberDAO();
 		
-		MemberDTO dto = new MemberDTO(id,pw);
+		LoginDTO dto = new LoginDTO(id,pw);
 		
-		MemberDTO member = dao.login(dto);
+		SessionUserDTO member = dao.login(dto);
 		
 		if(member != null) {
 			System.out.println("로그인 성공");
@@ -38,7 +39,7 @@ public class LoginCon extends HttpServlet {
 			System.out.println("로그인 실패");
 		}
 		
-		response.sendRedirect("feed.jsp");
+		response.sendRedirect("main.jsp");
 		
 	}
 

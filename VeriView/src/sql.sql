@@ -1,3 +1,30 @@
+select m.id id, m.nick nick, m.profile profile, 
+r.review_no review_no, r.review_content review_content, r.review_post_date review_post_date, r.review_update_date review_update_date,
+rest.rest_no rest_no, rest.rest_name rest_name, rest.rest_addr rest_addr,
+c.code_no code_no, c.main_cate main_cate, c.sub_cate sub_cate
+from review r, member m, restaurant rest, category c 
+where r.id = m.id 
+and r.rest_no = rest.rest_no 
+and rest.code_no = c.code_no
+and r.id = '1';
+
+select r.review_no review_no, r.review_content review_content, r.review_post_date review_post_date,
+rp.review_pic_src review_pic_src, rest.rest_no rest_no, rest.rest_name rest_name
+from review r, review_pic rp, restaurant rest
+where r.review_no = rp.review_no
+and r.rest_no = rest.rest_no
+and r.id = '1';
+
+select m.id id, m.nick nick, m.profile profile from member m, member_member mm where m.id = mm.id and mm.member_follow_yn = 1 and m.id='1';
+select m.id id, m.nick nick, m.profile profile from member m, member_member mm where m.id = mm.actor_id and mm.member_follow_yn = 1 and m.id= '1';
+
+
+select * from member_member;
+
+select  from review r, review_pic rp where r.review_no = rp.review_no group by rp.review_no;
+
+select * from review_pic
+
 select id, nick, profile from member where id in (select id from member_member where actor_id = '1' and member_follow_yn = 1);
 
 select id, nick, profile from member where id in (select id from member_member where id = '1' and member_follow_yn = 1);

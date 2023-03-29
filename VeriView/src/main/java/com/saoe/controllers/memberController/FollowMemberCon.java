@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.saoe.model.MemberDAO;
-import com.saoe.model.MemberDTO;
 import com.saoe.model.MemberMemberDTO;
+import com.saoe.model.member.MemberDAO;
+import com.saoe.model.member.MemberDTO;
 
 public class FollowMemberCon extends HttpServlet {
 	private static final long serialVersionUID = 1L;

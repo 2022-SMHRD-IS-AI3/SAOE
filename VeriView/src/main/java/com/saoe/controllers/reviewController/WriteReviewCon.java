@@ -15,10 +15,10 @@ import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.saoe.model.MemberDTO;
 import com.saoe.model.ReviewDAO;
 import com.saoe.model.ReviewDTO;
 import com.saoe.model.ReviewPicDTO;
+import com.saoe.model.member.MemberDTO;
 
 @WebServlet("/WriteReviewCon")
 public class WriteReviewCon extends HttpServlet {

@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.saoe.model.MemberDAO;
-import com.saoe.model.MemberDTO;
+import com.saoe.model.member.MemberDAO;
+import com.saoe.model.member.MemberDTO;
 
 @WebServlet("/JoinCon")
 public class JoinCon extends HttpServlet {

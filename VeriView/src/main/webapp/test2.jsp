@@ -1,8 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@page import="com.saoe.model.MemberDAO"%>
+<%@page import="com.saoe.model.member.MemberDAO"%>
 <%@page import="com.saoe.model.FeedDAO"%>
 <%@page import="com.saoe.model.FeedDTO"%>
-<%@page import="com.saoe.model.MemberDTO"%>
+<%@page import="com.saoe.model.member.MemberDTO"%>
 <%@page import="java.net.URLDecoder"%>
 <%@page import="com.saoe.model.ReplyDTO"%>
 <%@page import="com.saoe.model.ReviewPicDTO"%>

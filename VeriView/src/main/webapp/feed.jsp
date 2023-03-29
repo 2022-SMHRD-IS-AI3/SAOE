@@ -1,7 +1,9 @@
+<%@page import="com.saoe.model.member.SessionUserDTO"%>
+<%@page import="com.saoe.model.member.MemberMemberDAO"%>
 <%@page import="com.saoe.model.CategoryDTO"%>
 <%@page import="com.saoe.model.FeedDAO"%>
 <%@page import="com.saoe.model.FeedDTO"%>
-<%@page import="com.saoe.model.MemberDTO"%>
+<%@page import="com.saoe.model.member.MemberDTO"%>
 <%@page import="java.net.URLDecoder"%>
 <%@page import="com.saoe.model.ReplyDTO"%>
 <%@page import="com.saoe.model.ReviewPicDTO"%>
@@ -73,7 +75,27 @@
 	
 	<!-- header -->
 	<c:import url="./layout/header.jsp"></c:import>
+	<%
+	MemberMemberDAO memberMemberDAO = new MemberMemberDAO();
+	FeedDAO feedDAO = new FeedDAO();
+	
+	if(session.getAttribute("member") != null){
+	SessionUserDTO member = (SessionUserDTO)session.getAttribute("member"); 
+	
+	int followerCnt = memberMemberDAO.selectFollowerCnt(member.getId());
+	int followingCnt = memberMemberDAO.selectFollowingCnt(member.getId());
+	pageContext.setAttribute("followerCnt", followerCnt);
+	pageContext.setAttribute("followingCnt", followingCnt);
+	
+	
+		List<FeedDTO> feedList = feedDAO.selectUserFeed(member.getId());
+		pageContext.setAttribute("feedList", feedList);
+	} else {
+		List<FeedDTO> feedList = feedDAO.selectFeed();
+		pageContext.setAttribute("feedList", feedList);
+	}
 
+	%>
 
 	<div class="container-fluid gedf-wrapper">
 		<div class="row">
@@ -102,14 +124,15 @@
 								</div>
 							</div>
 						</div>
+
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item">
 								<div class="h6 text-muted">Followers</div>
-								<div class="h5">${sessionScope.member.getFollowerCnt()}</div>
+								<div class="h5">${pageScope.followerCnt }</div>
 							</li>
 							<li class="list-group-item">
 								<div class="h6 text-muted">Following</div>
-								<div class="h5">${sessionScope.member.getFollowingCnt()}</div>
+								<div class="h5">${pageScope.followingCnt } </div>
 							</li>
 							<li class="list-group-item">
 								<button class="btn btn-outline-danger" type="button"
@@ -219,13 +242,7 @@
 					</c:forEach>
 
 
-				<%
-				MemberDTO member = (MemberDTO)session.getAttribute("member");
-				FeedDAO feedDAO = new FeedDAO();
-				List<FeedDTO> feedList = feedDAO.selectFeed(member);
-				pageContext.setAttribute("feedList", feedList);													
 
-				%>
 				<div class="row">
 				<c:forEach var="feed" items="${pageScope.feedList}">
 					<!--- \\\\\\\Post1111111111111-->
@@ -239,8 +256,8 @@
 									</div>
 									<div class="ml-2">
 										<div class="h5 m-0">
-											<a href="./profile.jsp?id=${feed.review.id}" style="color: rgb(0, 0, 0);">${feed.member.nick}</a>
-											<a href="/VeriView/FollowMemberCon?id=${feed.review.id}&state=1" class="card-link" style="color: rgb(218, 0, 0);"><i
+											<a href="./profile.jsp?id=${feed.id}" style="color: rgb(0, 0, 0);">${feed.nick}</a>
+											<a href="/VeriView/FollowMemberCon?id=${feed.id}&state=1" class="card-link" style="color: rgb(218, 0, 0);"><i
 												class="fa fa-regular fa-heart"></i></a>
 										</div>
 										<!-- <div class="h7 text-muted">Miracles Lee Cross</div> -->
@@ -257,11 +274,11 @@
 										<div class="dropdown-menu dropdown-menu-right"
 											aria-labelledby="gedf-drop1">
 											<!-- <div class="h6 dropdown-header">Configuration</div> -->
-											<a class="dropdown-item" href="/VeriView/ScrapReviewCon?review_no=${feed.review.getReview_no()}&state=1"
+											<a class="dropdown-item" href="/VeriView/ScrapReviewCon?review_no=${feed.review_no}&state=1"
 												style="color: rgb(218, 0, 0);">스크랩</a> <a
-												class="dropdown-item" href="/VeriView/ReportReviewCon?review_no=${feed.review.getReview_no()}&state=1"
+												class="dropdown-item" href="/VeriView/ReportReviewCon?review_no=${feed.review_no}&state=1"
 												style="color: rgb(218, 0, 0);">신고</a> <a
-												class="dropdown-item" href="/VeriView/BlockReviewCon?review_no=${feed.review.getReview_no()}&state=1"
+												class="dropdown-item" href="/VeriView/BlockReviewCon?review_no=${feed.review_no}&state=1"
 												style="color: rgb(218, 0, 0);">게시물 차단</a>
 										</div>
 									</div>
@@ -271,10 +288,10 @@
 						</div>
 						<div class="card-body">
 							<div class="text-muted h7 mb-2">
-								<i class="fa fa-clock-o"></i> ${feed.review.review_post_date} / ${feed.review.review_update_date }
+								<i class="fa fa-clock-o"></i> ${feed.review_post_date} / ${feed.review_update_date }
 							</div>
 							<a class="card-link" href="#" style="color: rgb(218, 0, 0);">
-								<h5 class="card-title">${feed.restaurant.rest_name}</h5>
+								<h5 class="card-title">${feed.rest_name}</h5>
 							</a>
 
 							<p class="card-text">
@@ -292,7 +309,7 @@
 											src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
 											alt="First slide">
 									</div>
-									<c:forEach var="reviewPic" items="${feed.review.reviewPicList}">
+									<c:forEach var="reviewPic" items="${feed.reviewPicList}">
 										<div class="carousel-item">
 											<img class="d-block w-100"
 												src="${URLDecoder.decode(reviewPic.review_pic_src, "UTF-8")}" alt="${reviewPic.review_pic_src}"
@@ -310,41 +327,20 @@
 									aria-hidden="true"></span> <span class="sr-only">Next</span>
 								</a>
 							</div>
-							${feed.review.review_content}
+							${feed.review_content}
 							</p>
 							<div>
-								<span class="badge badge-danger">${feed.restaurant.category.main_cate}</span>
-								<span class="badge badge-danger">${feed.restaurant.category.sub_cate}</span>
+								<span class="badge badge-danger">${feed.main_cate}</span>
+								<span class="badge badge-danger">${feed.sub_cate}</span>
 							</div>
 						</div>
 						<div class="card-footer">
-							<c:choose>
-								<c:when test="${feed.reviewMember.review_gb eq 1}">
-									<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=0" class="card-link" style="color: rgb(218, 0, 0);"><i
-										class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요 취소</a>
-									<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=-1" class="card-link" style="color: rgb(218, 0, 0);"><i
-										class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i>싫어요</a>
-										<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
-										class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유</a>
-								</c:when>
-								<c:when test="${feed.reviewMember.review_gb eq -1}">
-									<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=1" class="card-link" style="color: rgb(218, 0, 0);"><i
+							<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=1" class="card-link" style="color: rgb(218, 0, 0);"><i
 										class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요</a>
-									<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=0" class="card-link" style="color: rgb(218, 0, 0);"><i
-										class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i>싫어요 취소</a>
-										<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
-										class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유</a>
-								</c:when>
-								<c:otherwise>
-									<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=1" class="card-link" style="color: rgb(218, 0, 0);"><i
-										class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요</a>
-									<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=-1" class="card-link" style="color: rgb(218, 0, 0);"><i
+							<a href="/VeriView/GBReviewCon?review_no=${feed.review.review_no}&state=-1" class="card-link" style="color: rgb(218, 0, 0);"><i
 										class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i>싫어요</a>
-										<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
+							<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
 										class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유</a>
-								</c:otherwise>
-								
-							</c:choose>
 						</div>
 
 						<div class="card mb-2">
@@ -356,7 +352,7 @@
 								<div class="card-body">
 									<form action="WriteReplyCon" method="post">
 										<div class="form-group">
-											<input type="hidden" name="review_no" value="${feed.review.review_no}">
+											<input type="hidden" name="review_no" value="${feed.review_no}">
 											<input type="hidden" name="parent_no" value="0">
 											<textarea name="reply_content" class="form-control" rows="3"></textarea>
 										</div>
@@ -372,7 +368,7 @@
 							</c:if>
 						</div>
 						
-						<c:forEach var="reply" items="${feed.review.replyList}">
+						<c:forEach var="reply" items="${feed.replyList}">
 							<!-- Comment with nested comments-->
 							<div class="card-body">
 								<div class="media mb-4">
@@ -385,7 +381,7 @@
 											<a href="" style="color: rgb(0, 0, 0);"> ${reply.id} </a>
 										</h5>
 										${reply.reply_content}
-										<c:forEach var="reply2" items="${feed.review.replyList}">
+										<c:forEach var="reply2" items="${feed.replyList}">
 											<c:if test="${reply2.parent_no eq reply.reply_no}">
 												<div class="media mt-4">
 													<div class="mr-2">

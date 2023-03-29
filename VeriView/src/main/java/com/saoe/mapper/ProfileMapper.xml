@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.saoe.mapper.ProfileMapper">
+
+	<select id="selectProfile" resultType="ProfileDTO">
+		select id, nick, profile,
+		profile_message from member where id = #{id}
+	</select>
+
+	<select id="selectProfileFeed" resultType="ProfileFeedDTO">
+		select r.review_no
+		review_no, r.review_content review_content,
+		r.review_post_date
+		review_post_date,
+		rp.review_pic_src review_pic_src, rest.rest_no
+		rest_no, rest.rest_name rest_name
+		from review r, review_pic rp,
+		restaurant rest
+		where r.review_no = rp.review_no
+		and r.rest_no =
+		rest.rest_no
+		and r.id = #{id}
+	</select>
+
+	<select id="selectProfileFollower" resultType="ProfileFollowDTO">
+		select m.id id,
+		m.nick nick, m.profile profile from member m, member_member mm where
+		m.id = mm.id and mm.member_follow_yn = 1 and m.id= #{id}
+	</select>
+
+	<select id="selectProfileFollowing"
+		resultType="ProfileFollowDTO">
+		select m.id id, m.nick nick, m.profile profile from member
+		m, member_member mm where m.id = mm.actor_id and mm.member_follow_yn =
+		1 and m.id= #{id}
+	</select>
+
+	<select id="selectProfileBlock"
+		resultType="ProfileFollowDTO">
+		select m.id id, m.nick nick, m.profile profile from member
+		m, member_member mm where m.id = mm.actor_id and mm.member_block_yn =
+		1 and m.id= #{id}
+	</select>
+
+	<select id="selectProfileReport"
+		resultType="ProfileFollowDTO">
+		select m.id id, m.nick nick, m.profile profile,
+		mm.member_rep_content member_rep_content from member m, member_member
+		mm where m.id = mm.actor_id and mm.member_rep_yn = 1 and m.id= #{id}
+	</select>
+
+
+
+
+</mapper>

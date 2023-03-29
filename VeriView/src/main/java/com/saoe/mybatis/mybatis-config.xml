@@ -8,7 +8,9 @@
 	<properties resource="com/saoe/mybatis/db.properties"></properties>
 	
 	<typeAliases>
-		<typeAlias type="com.saoe.model.MemberDTO" alias="MemberDTO"/>
+		<typeAlias type="com.saoe.model.member.MemberDTO" alias="MemberDTO"/>
+		<typeAlias type="com.saoe.model.member.LoginDTO" alias="LoginDTO"/>
+		<typeAlias type="com.saoe.model.member.SessionUserDTO" alias="SessionUserDTO"/>
 		<typeAlias type="com.saoe.model.MessageDTO" alias="MessageDTO"/>
 		<typeAlias type="com.saoe.model.ReviewDTO" alias="ReviewDTO"/>
 		<typeAlias type="com.saoe.model.ReviewPicDTO" alias="ReviewPicDTO"/>
@@ -18,6 +20,12 @@
 		<typeAlias type="com.saoe.model.RestMemberDTO" alias="RestMemberDTO"/>
 		<typeAlias type="com.saoe.model.CategoryDTO" alias="CategoryDTO"/>
 		<typeAlias type="com.saoe.model.RestaurantDTO" alias="RestaurantDTO"/>
+		<typeAlias type="com.saoe.model.FeedDTO" alias="FeedDTO"/>
+		<typeAlias type="com.saoe.model.profile.ProfileDTO" alias="ProfileDTO"/>
+		<typeAlias type="com.saoe.model.profile.ProfileFeedDTO" alias="ProfileFeedDTO"/>
+		<typeAlias type="com.saoe.model.profile.ProfileFollowDTO" alias="ProfileFollowDTO"/>
+		<typeAlias type="com.saoe.model.profile.ProfileBlockDTO" alias="ProfileBlockDTO"/>
+		<typeAlias type="com.saoe.model.profile.ProfileReportDTO" alias="ProfileReportDTO"/>
 	</typeAliases>
 	
 	<environments default="development">
@@ -40,6 +48,7 @@
 		<mapper resource="com/saoe/mapper/FeedMapper.xml" />
 		<mapper resource="com/saoe/mapper/ReplyMapper.xml" />
 		<mapper resource="com/saoe/mapper/CateMapper.xml" />
+		<mapper resource="com/saoe/mapper/ProfileMapper.xml" />
 		
 	</mappers>
 	

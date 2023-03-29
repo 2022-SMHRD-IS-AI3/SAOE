@@ -1,4 +1,4 @@
-<%@page import="com.saoe.model.MemberDTO"%>
+<%@page import="com.saoe.model.member.MemberDTO"%>
 <%@page import="com.saoe.model.MessageDAO"%>
 <%@page import="com.saoe.model.MessageDTO"%>
 <%@page import="java.util.List"%>
