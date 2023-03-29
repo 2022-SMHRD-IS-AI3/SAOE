@@ -196,8 +196,8 @@
                     
                     <br>
                     <div class="user_edit_from_btn">
-                    <a href=""><button type="submit" class="btn btn-outline-danger">회원정보 전체 수정</button></a>
                     <a href=""><button type="reset" class="btn btn-outline-danger"> 취소 </button></a>
+                     <a href=""><button type="submit" class="btn btn-outline-danger" style="float: right;">회원정보 전체 수정</button></a>
                 </div>
                 </form>
                 <!-- 회원정보 수정 end -->
