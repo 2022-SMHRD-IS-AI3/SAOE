@@ -22,7 +22,8 @@
 		}
 
 		* {
-			box-sizing: border-box;
+			box-sm
+			izing: border-box;
 		}
 
 		body {
@@ -373,6 +374,22 @@
 												BlockRestCon?rest_no=<%=rest.getRest_no()%>&state=1 } -->
 										<button type="button" onclick="rest_block()" class="btn btn-outline-danger">식당
 											차단</button>
+											
+									<!--  하이퍼링크 버전  -->		
+									<!-- <div class="card-footer">  card_footer 박스에 식당 반응형 버튼 (팔로우, 좋아요, 싫어요, 차단)
+									<a href="FollowRestCon?rest_no=<%=rest.getRest_no()%>&state=1"><button class="btn btn-outline-danger">
+									식당 팔로우</button></a>
+									<a href="GBRestCon?rest_no=<%=rest.getRest_no()%>&state=1"><button class="btn btn-outline-danger">
+									식당좋아요</button></a>
+									<a href="GBRestCon?rest_no=<%=rest.getRest_no()%>&state=-1"><button class="btn btn-outline-danger">
+									식당 싫어요</button></a>
+									<a href="BlockRestCon?rest_no=<%=rest.getRest_no()%>&state=1"><button class="btn btn-outline-danger">
+									식당 차단</button></a>
+									</div> -->
+											
+											
+											
+											
 
 										<!--<%=rest.getRest_name()%> -->
 									</div>
