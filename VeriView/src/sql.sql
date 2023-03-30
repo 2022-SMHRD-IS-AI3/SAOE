@@ -22,6 +22,8 @@ select * from review
 		
 		select * from restaurant where rest_no = 882;
 		
+select * from category;
+		
 
 
 select * from member_member;

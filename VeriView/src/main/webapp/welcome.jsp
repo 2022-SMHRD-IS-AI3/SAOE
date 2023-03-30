@@ -372,46 +372,20 @@ input[type="checkbox"]:checked::before {
 				Welcome to the <span>VeriView🍒</span> <span>"Please select
 					your interests!"<span>
 			</h1>
-			<div class="col-sm-10">
+			<div class="col-md-12 container-fluid">
 				<div class="container">
-					<form action="#">
+					<form action="#" style="width: 100%;">
 						<div class="form-group row" style="text-align: center;">
 							<div class="col-sm-10">
 								<div>
 									<c:forEach var="main_cate" items="${pageScope.cateList}">
+										
 										<div class="cc">
-											<input class="form-check-input" type="checkbox" value="${main_cate.main_cate}"
-												id="movie"> <label class="form-check-label"
-												for="movie"></label>
+											<input class="form-check-input" type="checkbox"
+												value="${main_cate.main_cate}" id="movie"> <label
+												class="form-check-label" for="movie">${main_cate.main_cate}</label>
 										</div>
-										<c:forEach var="sub_cate" items="${main_cate.sub_cateList}">
-											<div class="cc">
-												<input class="form-check-input" type="checkbox" value="${sub_cate}"
-													id="movie"> <label class="form-check-label"
-													for="movie"></label>
-											</div>
-										</c:forEach>
 									</c:forEach>
-
-									<div class="cc">
-										<input class="form-check-input" type="checkbox" value="일식"
-											id="music"> <label class="form-check-label"
-											for="music">일식</label>
-									</div>
-									<div class="cc">
-										<input class="form-check-input" type="checkbox" value="중식"
-											id="book"> <label class="form-check-label" for="book">중식</label>
-									</div>
-									<div class="cc">
-										<input class="form-check-input" type="checkbox" value="양식"
-											id="exercise"> <label class="form-check-label"
-											for="exercise">양식</label>
-									</div>
-									<div class="cc">
-										<input class="form-check-input" type="checkbox" value="카페"
-											id="cooking"> <label class="form-check-label"
-											for="cooking">카페</label>
-									</div>
 									<div style="margin-top: 50px;">
 										<button id="sign-up" class="btn" type="submit">GO!</button>
 									</div>

@@ -201,8 +201,15 @@
 								<div class="tab-content" id="myTabContent">
 									<div class="tab-pane fade show active" id="posts"
 										role="tabpanel" aria-labelledby="posts-tab">
+										
+							<label for="exampleDataList" class="form-label ">Datalist example</label>
+							<input class="form-control" list="datalistOptions" id="input1"
+								placeholder="Type to search...">
+							<datalist id="datalistOptions" name="rest_no">
+						
+							</datalist>
 
-										<div class="form-group">
+										<div class="form-group my-3">
 											<label class="sr-only" for="message">post</label>
 											<textarea name="review_content" class="form-control"
 												id="message" rows="3" placeholder="리뷰를 작성해주세요!"></textarea>
@@ -262,7 +269,7 @@
 				<div class="row">
 					<c:forEach var="feed" items="${pageScope.feedList}">
 						<!--- \\\\\\\Post1111111111111-->
-						<div class="card gedf-card">
+						<div class="card gedf-card container-fluid">
 							<div class="card-header">
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="d-flex justify-content-between align-items-center">
@@ -335,14 +342,14 @@
 													<div class="carousel-item active">
 														<img class="d-block w-100"
 													src="${reviewPic.review_pic_src }"
-													alt="First slide" style="max-width: 100%; height: auto;">
+													alt="First slide" width="400px" height="600px">
 													</div>
 													</c:when>
 													<c:otherwise>
 													<div class="carousel-item">
 														<img class="d-block w-100"
 													src="${reviewPic.review_pic_src }"
-													alt="First slide"style="max-width: 100%; height: auto;">
+													alt="First slide" width="400px" height="600px">
 													</div>
 													</c:otherwise>
 											</c:choose>
@@ -570,6 +577,36 @@
 			</div>
 		</div>
 	</div>
+	
+<!-- 		<script>
+
+		$(function() {
+			$("#input1").keyup(function() {
+				$.ajax({
+					url : "AjaxTestCon",
+					type : 'post',
+					data : {
+						searchWord : $('#input1').val()
+					},
+					timeout : 3000,
+					success : function(data) {
+						let obj = JSON.parse(data);
+						for (var i = 0; i < obj.length; i++) {
+							$("#datalistOptions").append("<option value=\"" + obj[i].rest_no + "\">" + obj[i].rest_name + "</option>");
+							console.log(obj[i].rest_no, obj[i].rest_name);
+						}
+					},
+					error : function() {
+						console.log("error");
+					}
+				})
+
+			})
+		})
+		
+		$("#datalistOptions").onclick()
+		
+	</script> -->
 
 
 	<script
