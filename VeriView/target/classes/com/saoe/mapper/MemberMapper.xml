@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.saoe.mapper.MemberMapper">
+
+	<insert id="join" parameterType="MemberDTO">
+		insert into member (id, pw,
+		name, nick, tel, addr, birth, gender, profile, profile_message, join_date, member_score, grade)
+		values (#{id}, #{pw}, #{name}, #{nick}, #{tel}, #{addr}, #{birth},
+		#{gender}, #{profile}, #{profile_message}, sysdate, #{member_score}, #{grade})
+	</insert>
+
+	<select id="login" parameterType="LoginDTO" resultType="SessionUserDTO">
+		select id, name, nick, profile, profile_message from member where id = #{id} and pw = #{pw}
+	</select>
+	
+	<select id="selectFollowerCnt" resultType="int">
+		select count(*) from member_member where id = #{id} and member_follow_yn = 1
+	</select>
+	
+	<select id="selectFollowingCnt" resultType="int">
+		select count(*) from member_member where actor_id = #{id} and member_follow_yn = 1
+	</select>
+	
+
+	
+
+
+</mapper>
