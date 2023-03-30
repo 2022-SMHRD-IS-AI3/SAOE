@@ -1,3 +1,4 @@
+<%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.profile.ProfileReportDTO"%>
 <%@page import="com.saoe.model.profile.ProfileBlockDTO"%>
 <%@page import="com.saoe.model.profile.ProfileFollowDTO"%>
@@ -126,7 +127,8 @@
 	<c:import url="./layout/header.jsp"></c:import>
 	
 	<%
-		String id = request.getParameter("id");
+		SessionUserDTO member = (SessionUserDTO)session.getAttribute("member");
+		String id = member.getId();
 		pageContext.setAttribute("id", id);
 
 		ProfileDAO profileDAO = new ProfileDAO();
@@ -153,68 +155,43 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="media" style="text-align: center;">
-                            <a class="thumbnail pull-left" href="#">
+                            <a class="thumbnail pull-left" href="./profile.jsp?id=${pageScope.profile.id}">
                                 <img class="rounded-circle" width="80px" src="https://picsum.photos/50/50" alt="">
                             </a>
                         </div>
                         <div class="h4" style="height: 40px;">
-                            <a href="#"
+                            <a href="./profile.jsp?id=${pageScope.profile.id}"
                                 style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">@${pageScope.profile.nick}</a>
                         </div>
                         <div class="h7 text-muted" style="height: 40px;">
        						<c:if test="${empty pageScope.profile.profile_message}">@회원 코멘트가 없습니다.</c:if>
 							<c:if test="${not empty pageScope.profile.profile_message}">@${pageScope.profile.profile_message}</c:if>
                         </div>
-                        	<c:if test="${sessionScope.member.id eq pageScope.id}">
-		                        <div class="h7" style="height: 80px;">
-		                            <a href="#" style="color: rgb(218, 0, 0);">프로필 수정</a>
-		                            <br>
-		                            <a href="#" style="color: rgb(218, 0, 0);">회원 목록</a>
-		                            <br>
-		                            <a href="#" style="color: rgb(218, 0, 0);">리뷰 목록</a>
-		                            <br>
-		                            <a href="#" style="color: rgb(218, 0, 0);">음식점 목록</a>
-		                        </div>
-	                        </c:if>
-                        
+                        <div class="h7" style="height: 80px;">
+                            <a href="./updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br>
+                            <a href="./myUserList.jsp" style="color: rgb(218, 0, 0);">회원 목록</a> <br>
+                            <a href="./myReviewList.jsp" style="color: rgb(218, 0, 0);">리뷰 목록</a> <br>
+                            <a href="./myRestList.jsp" style="color: rgb(218, 0, 0);">음식점 목록</a>
+                        </div>
                         
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div class="h6 text-muted">Riview</div>
-                            <div class="h5">${fn:length(pageScope.profileFeedList)}</div>
-                        </li>
-                        <c:choose>
-	                        <c:when test="${sessionScope.member.id eq pageScope.id}">
-								<li class="list-group-item">
-		                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
-		                                style="color: rgb(218, 0, 0);" onclick="location.href='LogoutCon'">
-		                                로그아웃
-		                            </button>
-		                        </li>
-	                        <li class="list-group-item">
-	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
-	                                style="color: rgb(218, 0, 0);" onclick="location.href='#'">
-	                                회원탈퇴
-	                            </button>
-	                        </li>
-	                        </c:when>
-	                        <c:otherwise>
-	                        <li class="list-group-item">
-	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
-	                                style="color: rgb(218, 0, 0);" onclick="location.href='BlockMemberCon?id=${pageScope.profile.id}&state=1'">
-	                                차단하기
-	                            </button>
-	                        </li>
-	                        <li class="list-group-item">
-	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
-	                                style="color: rgb(218, 0, 0);" onclick="location.href='ReportMemberCon?id=${pageScope.profile.id}'">
-	                                신고하기
-	                            </button>
-	                        </li>
-	                        </c:otherwise>
-                        </c:choose>
-                    </ul>
+						<li class="list-group-item">
+							<div class="h6 text-muted">Riview</div>
+							<div class="h5">${fn:length(pageScope.profileFeedList)}</div>
+						</li>
+						<li class="list-group-item">
+							<button class="btn btn-outline-danger" type="button"
+								id="button-addon2" style="color: rgb(218, 0, 0);"
+								onclick="location.href='LogoutCon'">로그아웃</button>
+						</li>
+						<li class="list-group-item">
+							<button class="btn btn-outline-danger" type="button"
+								id="button-addon2" style="color: rgb(218, 0, 0);"
+								onclick="location.href='./quit.jsp'">회원탈퇴</button>
+						</li>
+
+					</ul>
                 </div>
             </div>
 
@@ -380,9 +357,9 @@
                             <c:if test="${empty pageScope.profileFollowerList}">팔로우한 회원이 없습니다.</c:if>
                             <c:forEach var="follower" items="${pageScope.profileFollowerList}">
                                 <tr>
-                                    <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                            src="https://picsum.photos/50/50"></td>
-                                    <td id="modal_userID">닉네임</td>
+                                    <td style="width:70px;"><a href="./profile.jsp?id=${follower.id}"><img class="rounded-circle" id="modal_userImg"
+                                            src="https://picsum.photos/50/50"></a></td>
+                                    <td id="modal_userID"><a href="./profile.jsp?id=${follower.id}">${follower.nick}</a></td>
                                     <td id="modal_userFollow">
                                         <buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
                                     </td>
@@ -401,11 +378,11 @@
                         <div>
                             <table class="modal_table" style="top: 80px;">
                             <c:if test="${empty pageScope.profileFollowingList}">팔로잉한 회원이 없습니다.</c:if>
-                            <c:forEach var="follwing" items="${pageScope.profileFollowingList}">
+                            <c:forEach var="following" items="${pageScope.profileFollowingList}">
                                 <tr>
-                                    <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                            src="https://picsum.photos/50/50"></td>
-                                    <td id="modal_userID">닉네임</td>
+                                    <td style="width:70px;"><a href="./profile.jsp?id=${following.id}"><img class="rounded-circle" id="modal_userImg"
+                                            src="https://picsum.photos/50/50"></a></td>
+                                    <td id="modal_userID"><a href="./profile.jsp?id=${following.id}">${following.nick}</a></td>
                                     <td id="modal_userFollow">
                                         <buttton class="btn btn-danger" style="margin-left: 20px;">언팔로우</button>
                                     </td>

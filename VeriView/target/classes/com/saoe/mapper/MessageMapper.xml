@@ -7,7 +7,7 @@
 
 <mapper namespace="com.saoe.mapper.MessageMapper">
 	<select id="selectMessage" resultType="MessageDTO">
-		select * from message where send_id = #{id} or receive_id = #{id} order by message_date desc
+		select * from message where receive_id = #{id} order by message_date desc
 	</select>
 	
 	<insert id="sendMessage" parameterType="MessageDTO">

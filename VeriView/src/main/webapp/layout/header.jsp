@@ -20,9 +20,9 @@
 				style="height: 50px; float: left; display: flex; justify-content: center; align-items: center;">
 				<a href="#"
 					style="color: white; font-size: 20px; float: left; margin-right: 50px;">음식점</a>
-				<a href="#"
+				<a href="./ranking.jsp"
 					style="color: white; font-size: 20px; float: left; margin-right: 50px;">랭킹</a>
-				<a href="messageMain.jsp"
+				<a href="./messageMain.jsp"
 					style="color: white; font-size: 20px; float: left; margin-right: 50px;">쪽지</a>
 			</div>
 

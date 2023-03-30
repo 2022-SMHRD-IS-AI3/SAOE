@@ -27,6 +27,7 @@
 <link
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 	rel="stylesheet"">
+<script src="https://code.jquery.com/jquery-3.6.4.js"></script>
 <style>
 @import
 	url("https://fonts.googleapis.com/css?family=Abril+Fatface|Open+Sans:400,700&display=swap")
@@ -117,18 +118,17 @@
 							</div>
 							<div class="row-fluid">
 								<div class="h4" style="height: 40px;">
-									<a href="profile.jsp?id=${sessionScope.member.id}"
-										style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">@${sessionScope.member.getNick()}</a>
+									<a href="profile.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">
+										@${sessionScope.member.getNick()}
+									</a>
 								</div>
 								<div class="h7 text-muted" style="height: 40px;">
 									<c:if test="${empty sessionScope.member.profile_message}">@회원 코멘트가 없습니다.</c:if>
 									<c:if test="${not empty sessionScope.member.profile_message}">@${sessionScope.member.profile_message}</c:if>
 								</div>
 								<div class="h7">
-									<a href="updateMember.jsp" style="color: rgb(218, 0, 0);">프로필
-										수정</a> <br> <a
-										href="profile.jsp?id=${sessionScope.member.id}"
-										style="color: rgb(218, 0, 0);">My 목록</a> <br>
+									<a href="updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br> 
+									<a href="profile.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0);">My 목록</a> <br>
 								</div>
 							</div>
 						</div>
@@ -154,8 +154,7 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="h5" style="height: 30px; color: rgb(218, 0, 0);">게스트</div>
-							<div class="h7 text-muted" style="height: 40px;">로그인 후 이용해
-								주세요!</div>
+							<div class="h7 text-muted" style="height: 40px;">로그인 후 이용해 주세요!</div>
 						</div>
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item">
@@ -202,11 +201,8 @@
 									<div class="tab-pane fade show active" id="posts"
 										role="tabpanel" aria-labelledby="posts-tab">
 										
-							<label for="exampleDataList" class="form-label ">Datalist example</label>
-							<input class="form-control" list="datalistOptions" id="input1"
-								placeholder="Type to search...">
-							<datalist id="datalistOptions" name="rest_no">
-						
+							<input class="form-control" list="datalistOptions" id="input1" name="rest_no" placeholder="Type to search...">
+							<datalist id="datalistOptions">
 							</datalist>
 
 										<div class="form-group my-3">
@@ -217,10 +213,8 @@
 
 										<div class="form-group">
 											<div class="custom-file">
-												<input type="file" multiple class="custom-file-input"
-													id="customFile" name="img"> <label
-													class="custom-file-label" for="customFile">Upload
-													image</label>
+												<input type="file" multiple class="custom-file-input" id="customFile" name="img"> 
+												<label class="custom-file-label" for="customFile">Upload image</label>
 											</div>
 										</div>
 										<div class="btn-toolbar justify-content-between">
@@ -266,10 +260,10 @@
 
 
 
-				<div class="row">
+				<div class="row-fluid">
 					<c:forEach var="feed" items="${pageScope.feedList}">
 						<!--- \\\\\\\Post1111111111111-->
-						<div class="card gedf-card container-fluid">
+						<div class="card gedf-card">
 							<div class="card-header">
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="d-flex justify-content-between align-items-center">
@@ -279,14 +273,14 @@
 										</div>
 										<div class="ml-2">
 											<div class="h5 m-0">
-												<a href="./profile.jsp?id=${feed.id}"
-													style="color: rgb(0, 0, 0);">${feed.nick}</a> <a
+											<c:if test="${feed.id ne 'admin' }">
+												<a href="./profile.jsp?id=${feed.id}" style="color: rgb(0, 0, 0);">
+											</c:if>
+												${feed.nick}</a> <a
 													href="/VeriView/FollowMemberCon?id=${feed.id}&state=1"
-													class="card-link" style="color: rgb(218, 0, 0);"><i
-													class="fa fa-regular fa-heart"></i></a>
+													style="color: rgb(218, 0, 0);"><i
+													class="fa fa-regular fa-heart card-link actionBtn"></i></a>
 											</div>
-											<!-- <div class="h7 text-muted">Miracles Lee Cross</div> -->
-
 										</div>
 									</div>
 									<div>
@@ -299,14 +293,11 @@
 											<div class="dropdown-menu dropdown-menu-right"
 												aria-labelledby="gedf-drop1">
 												<!-- <div class="h6 dropdown-header">Configuration</div> -->
-												<a class="dropdown-item"
-													href="/VeriView/ScrapReviewCon?review_no=${feed.review_no}&state=1"
-													style="color: rgb(218, 0, 0);">스크랩</a> <a
-													class="dropdown-item"
-													href="/VeriView/ReportReviewCon?review_no=${feed.review_no}&state=1"
-													style="color: rgb(218, 0, 0);">신고</a> <a
-													class="dropdown-item"
-													href="/VeriView/BlockReviewCon?review_no=${feed.review_no}&state=1"
+												<a class="dropdown-item actionBtn" href="/VeriView/ScrapReviewCon?review_no=${feed.review_no}&state=1"
+													style="color: rgb(218, 0, 0);">스크랩</a> 
+												<a class="dropdown-item actionBtn" href="/VeriView/ReportReviewCon?review_no=${feed.review_no}&state=1"
+													style="color: rgb(218, 0, 0);">신고</a> 
+												<a class="dropdown-item actionBtn" href="/VeriView/BlockReviewCon?review_no=${feed.review_no}&state=1"
 													style="color: rgb(218, 0, 0);">게시물 차단</a>
 											</div>
 										</div>
@@ -328,8 +319,7 @@
 									data-ride="carousel">
 									
 									<ol class="carousel-indicators">
-										<li data-target="#carouselExampleIndicators" data-slide-to="0"
-											class="active"></li>
+										<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 										<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
 										<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
 									</ol>
@@ -356,15 +346,12 @@
 										</c:forEach>
 										</c:if>
 									</div>
-									<a class="carousel-control-prev"
-										href="#carouselExampleIndicators" role="button"
-										data-slide="prev"> <span
-										class="carousel-control-prev-icon" aria-hidden="true"></span>
+									<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev"> 
+										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 										<span class="sr-only">Previous</span>
-									</a> <a class="carousel-control-next"
-										href="#carouselExampleIndicators" role="button"
-										data-slide="next"> <span
-										class="carousel-control-next-icon" aria-hidden="true"></span>
+									</a> 
+									<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next"> 
+										<span class="carousel-control-next-icon" aria-hidden="true"></span>
 										<span class="sr-only">Next</span>
 									</a>
 								</div>
@@ -376,16 +363,15 @@
 								</div>
 							</div>
 							<div class="card-footer">
-								<a
-									href="/VeriView/GBReviewCon?review_no=${feed.review_no}&state=1"
-									class="card-link" style="color: rgb(218, 0, 0);"><i
-									class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요</a>
-								<a
-									href="/VeriView/GBReviewCon?review_no=${feed.review_no}&state=-1"
-									class="card-link" style="color: rgb(218, 0, 0);"><i
-									class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i>싫어요</a>
-								<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
-									class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유</a>
+								<a href="javascript:void(0);" onclick="like(${feed.review_no})" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+									<i class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요
+								</a>
+								<a href="/VeriView/GBReviewCon?review_no=${feed.review_no}&state=-1" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+									<i class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i>싫어요
+								</a>
+								<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+									<i class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유
+								</a>
 							</div>
 
 							<div class="card mb-2">
@@ -463,9 +449,10 @@
 									</div>
 									<div class="ml-2">
 										<div class="h5 m-0">
-											<a href="" style="color: rgb(0, 0, 0);">식당</a> <a href="#"
-												class="card-link" style="color: rgb(218, 0, 0);"><i
-												class="fa fa-regular fa-heart"></i></a>
+											<a href="" style="color: rgb(0, 0, 0);">식당</a> 
+											<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+												<i class="fa fa-regular fa-heart"></i>
+											</a>
 										</div>
 										<!-- <div class="h7 text-muted">Miracles Lee Cross</div> -->
 									</div>
@@ -479,11 +466,8 @@
 										</button>
 										<div class="dropdown-menu dropdown-menu-right"
 											aria-labelledby="gedf-drop1">
-											<!-- <div class="h6 dropdown-header">Configuration</div> -->
-											<a class="dropdown-item" href="#"
-												style="color: rgb(218, 0, 0);">스크랩</a> <a
-												class="dropdown-item" href="#"
-												style="color: rgb(218, 0, 0);">식당 차단</a>
+											<a class="dropdown-item actionBtn" href="#" style="color: rgb(218, 0, 0);">스크랩</a> 
+											<a class="dropdown-item actionBtn" href="#" style="color: rgb(218, 0, 0);">식당 차단</a>
 										</div>
 									</div>
 								</div>
@@ -542,13 +526,15 @@
 							</div>
 						</div>
 						<div class="card-footer">
-							<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
-								class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요</a>
-							<a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
-								class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i>
-								싫어요</a> <a href="#" class="card-link" style="color: rgb(218, 0, 0);"><i
-								class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>
-								공유</a>
+							<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+								<i class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요
+							</a>
+							<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+								<i class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i> 싫어요
+							</a>
+							<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+								<i class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i> 공유
+							</a>
 						</div>
 					</div>
 				</div>
@@ -577,8 +563,15 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		function like(review_no){
+			alert(review_no);
+		}
 	
-<!-- 		<script>
+	
+	</script>
+	
+<script>
 
 		$(function() {
 			$("#input1").keyup(function() {
@@ -590,6 +583,7 @@
 					},
 					timeout : 3000,
 					success : function(data) {
+						$("#datalistOptions").empty();
 						let obj = JSON.parse(data);
 						for (var i = 0; i < obj.length; i++) {
 							$("#datalistOptions").append("<option value=\"" + obj[i].rest_no + "\">" + obj[i].rest_name + "</option>");
@@ -606,14 +600,13 @@
 		
 		$("#datalistOptions").onclick()
 		
-	</script> -->
+	</script>
 
 
 	<script
 		src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script
 		src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script

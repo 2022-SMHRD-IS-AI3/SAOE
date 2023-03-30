@@ -1,8 +1,19 @@
-<%@page import="com.saoe.model.member.MemberDTO"%>
-<%@page import="com.saoe.model.message.MessageDAO"%>
 <%@page import="com.saoe.model.message.MessageDTO"%>
+<%@page import="com.saoe.model.message.MessageDAO"%>
+<%@page import="com.saoe.model.member.SessionUserDTO"%>
+<%@page import="com.saoe.model.member.MemberMemberDAO"%>
+<%@page import="com.saoe.model.category.CategoryDTO"%>
+<%@page import="com.saoe.model.feed.FeedDAO"%>
+<%@page import="com.saoe.model.feed.FeedDTO"%>
+<%@page import="com.saoe.model.member.MemberDTO"%>
+<%@page import="java.net.URLDecoder"%>
+<%@page import="com.saoe.model.reply.ReplyDTO"%>
+<%@page import="com.saoe.model.review.ReviewPicDTO"%>
+<%@page import="com.saoe.model.review.ReviewDAO"%>
+<%@page import="com.saoe.model.review.ReviewDTO"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html>
@@ -92,75 +103,70 @@
     <!-- 부트스트랩 링크 end -->
 
     <!-- html start -->
-    <div class="fix-nav" style="background-color: rgb(218, 0, 0); height: 70px;">
-        <nav class="tab" style="padding: 10px;">
-            <div class="header" style="float: left; margin-right: 50px; margin-left: 20px;">
-                <a href="#" class="navbar-brand" style="color: white; font-size: 25px;">VeriView🍒</a>
-            </div>
+<!-- header -->
+	<c:import url="./layout/header.jsp"></c:import>
+	
+		<%
+		MemberMemberDAO memberMemberDAO = new MemberMemberDAO();
 
-            <!-- navigator -->
-            <div class="nav"
-                style="height: 50px; float: left; display: flex; justify-content: center; align-items: center;">
-                <a href="#" style="color: white; font-size: 20px; float: left; margin-right: 50px;">음식점</a>
-                <a href="#" style="color: white; font-size: 20px; float: left; margin-right: 50px;">랭킹</a>
-                <a href="#" style="color: white; font-size: 20px; float: left; margin-right: 50px;">쪽지</a>
-            </div>
+		SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
 
-
-            <form class="form-inline" style="float: right; height: 50px;">
-                <div class="input-group">
-                    <input type="text" class="form-control">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-danger" type="button" id="button-addon2"
-                            style="color: rgb(218, 0, 0);">
-                            <i class="fa fa-search" style="color: white;"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </nav>
-    </div>
-
-    <div style="height: 60px; display: flex; justify-content: center; align-items: center;">
-        <a href="#" style="margin-right: 30px; color: rgb(218, 0, 0); font-size: 20px;">새글</a>
-        <a href="#" style="color: rgb(218, 0, 0); font-size: 20px;">팔로잉</a>
-    </div>
+		int followerCnt = memberMemberDAO.selectFollowerCnt(member.getId());
+		int followingCnt = memberMemberDAO.selectFollowingCnt(member.getId());
+		pageContext.setAttribute("followerCnt", followerCnt);
+		pageContext.setAttribute("followingCnt", followingCnt);
+		
+    	MessageDAO msgDAO = new MessageDAO();
+        List<MessageDTO> messageList = msgDAO.selectMessage(member.getId());
+	%>
 
     <div class="container-fluid gedf-wrapper">
         <div class="row">
             <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="h5" style="height: 30px;">
-                            <a href="#" style="color: rgb(218, 0, 0);">@${sessionScope.member.getNick()}</a>
-                        </div>
-                        <div class="h7 text-muted" style="height: 40px;">간단한 자기소개
-                        </div>
-                        <div class="h7" style="height: 100px;">
-                            <a href="#" style="color: rgb(218, 0, 0);">프로필 수정</a>
-                            <br> <a href="#" style="color: rgb(218, 0, 0);">My
-                                목록</a> <br> <a href="#" style="color: rgb(218, 0, 0);">신고 목록</a> <br> <a href="#"
-                                style="color: rgb(218, 0, 0);">회원탈퇴</a>
-                        </div>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div class="h6 text-muted">Followers</div>
-                            <div class="h5">${sessionScope.member.getFollowerCnt()}
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="h6 text-muted">Following</div>
-                            <div class="h5">${sessionScope.member.getFollowingCnt()}
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
-                                style="color: rgb(218, 0, 0);"
-                                onclick="location.href='/VeriView/LogoutCon'">로그아웃</button>
-                        </li>
-                    </ul>
-                </div>
+                					<div class="card">
+						<div class="card-body">
+							<div class="row" height="80px">
+								<div class="media" style="text-align: center;">
+									<a class="thumbnail pull-left"
+										href="profile.jsp?id=${sessionScope.member.id}"> <img
+										class="rounded-circle" width="80px"
+										src="https://picsum.photos/50/50" alt="">
+									</a>
+								</div>
+							</div>
+							<div class="row-fluid">
+								<div class="h4" style="height: 40px;">
+									<a href="profile.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">
+										@${sessionScope.member.getNick()}
+									</a>
+								</div>
+								<div class="h7 text-muted" style="height: 40px;">
+									<c:if test="${empty sessionScope.member.profile_message}">@회원 코멘트가 없습니다.</c:if>
+									<c:if test="${not empty sessionScope.member.profile_message}">@${sessionScope.member.profile_message}</c:if>
+								</div>
+								<div class="h7">
+									<a href="updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br> 
+									<a href="profile.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0);">My 목록</a> <br>
+								</div>
+							</div>
+						</div>
+
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								<div class="h6 text-muted">Followers</div>
+								<div class="h5">${pageScope.followerCnt }</div>
+							</li>
+							<li class="list-group-item">
+								<div class="h6 text-muted">Following</div>
+								<div class="h5">${pageScope.followingCnt }</div>
+							</li>
+							<li class="list-group-item">
+								<button class="btn btn-outline-danger" type="button"
+									id="button-addon2" style="color: rgb(218, 0, 0);"
+									onclick="location.href='/VeriView/LogoutCon'">로그아웃</button>
+							</li>
+						</ul>
+					</div>
             </div>
 
             <div class="col-md-6 gedf-main">
@@ -187,7 +193,9 @@
                         <!-- 메세지 리스트 자리-->
                         <!-- 
     <%
-for (MessageDTO msg : messageList) {
+    int cnt = 1;       
+                      
+	for (MessageDTO msg : messageList) {
 %>
     <%=msg.getSend_id() %>, 
     <%=msg.getReceive_id() %>, 
@@ -203,7 +211,7 @@ for (MessageDTO msg : messageList) {
                             <tr>
                                 <% for (MessageDTO msg : messageList) { %>
                                     <th scope="row">
-                                        <%= i%>,
+                                        <%=cnt++%>,
                                     </th>
                                     <td>
                                         <%=msg.getSend_id() %>,
@@ -216,9 +224,8 @@ for (MessageDTO msg : messageList) {
                                     </td>
                                     <th><a href="DeleteMessageCon"><button class="btn btn-outline-danger">쪽지
                                                 삭제</button></a><br>
-                                        <%< /th>
-                                            }
-                                            %>
+                                     </th>
+                                        <%    }  %>
                             </tr>
                         </tbody>
                     </table>

@@ -25,6 +25,10 @@
 		select count(*) from member_member where actor_id = #{id} and member_follow_yn = 1
 	</select>
 	
+	<select id="selectUpdateMember" resultType="memberDTO">
+		select * from member where id = #{id}
+	</select>
+	
 
 	
 

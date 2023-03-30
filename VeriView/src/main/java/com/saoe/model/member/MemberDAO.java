@@ -42,6 +42,16 @@ public class MemberDAO {
 		
 	}
 	
+	public MemberDTO selectUpdateMember(String id) {
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		MemberDTO updateMember = sqlSession.selectOne("selectUpdateMember", id);
+		
+		sqlSession.close();		
+		
+		return updateMember;
+	}
+	
 	// (회원 정보 수정, s_f_501)
 	public int updateMember(MemberDTO updateMember) {
 		

@@ -1,3 +1,4 @@
+<%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.profile.ProfileFollowDTO"%>
 <%@page import="com.saoe.model.profile.ProfileFeedDTO"%>
 <%@page import="com.saoe.model.profile.ProfileDTO"%>
@@ -124,17 +125,16 @@
 	<c:import url="./layout/header.jsp"></c:import>
 	
 	<%
-		String id = request.getParameter("id");
+		SessionUserDTO member = (SessionUserDTO)session.getAttribute("member");
+		String id = member.getId();
 		pageContext.setAttribute("id", id);
 
 		ProfileDAO profileDAO = new ProfileDAO();
 		ProfileDTO profile = profileDAO.selectProfile(id);
-		List<ProfileFeedDTO> profileFeedList = profileDAO.selectProfileFeed(id);
 		List<ProfileFollowDTO> profileFollowerList = profileDAO.selectProfileFollower(id);
 		List<ProfileFollowDTO> profileFollowingList = profileDAO.selectProfileFollowing(id);
 		
 		pageContext.setAttribute("profile", profile);
-		pageContext.setAttribute("profileFeedList", profileFeedList);
 		pageContext.setAttribute("profileFollowerList", profileFollowerList);
 		pageContext.setAttribute("profileFollowingList", profileFollowingList);
 		
@@ -159,104 +159,67 @@
        						<c:if test="${empty pageScope.profile.profile_message}">@회원 코멘트가 없습니다.</c:if>
 							<c:if test="${not empty pageScope.profile.profile_message}">@${pageScope.profile.profile_message}</c:if>
                         </div>
-                        	<c:if test="${sessionScope.member.id eq pageScope.id}">
-		                        <div class="h7" style="height: 80px;">
-		                            <a href="./updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br>
-		                            <a href="./myUserList.jsp" style="color: rgb(218, 0, 0);">회원 목록</a> <br>
-		                            <a href="./myReviewList.jsp" style="color: rgb(218, 0, 0);">리뷰 목록</a> <br>
-		                            <a href="./myRestList.jsp" style="color: rgb(218, 0, 0);">음식점 목록</a>
-		                        </div>
-	                        </c:if>
+                         <div class="h7" style="height: 80px;">
+                            <a href="./updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br>
+                            <a href="./myUserList.jsp" style="color: rgb(218, 0, 0);">회원 목록</a> <br>
+                            <a href="./myReviewList.jsp" style="color: rgb(218, 0, 0);">리뷰 목록</a> <br>
+                            <a href="./myRestList.jsp" style="color: rgb(218, 0, 0);">음식점 목록</a>
+                        </div>
                         
                         
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div class="h6 text-muted">Riview</div>
-                            <div class="h5">${fn:length(pageScope.profileFeedList)}</div>
-                        </li>
-                        <c:choose>
-	                        <c:when test="${sessionScope.member.id eq pageScope.id}">
-								<li class="list-group-item">
-		                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
-		                                style="color: rgb(218, 0, 0);" onclick="location.href='LogoutCon'">
-		                                로그아웃
-		                            </button>
-		                        </li>
-	                        <li class="list-group-item">
-	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
-	                                style="color: rgb(218, 0, 0);" onclick="location.href='./quit.jsp'">
-	                                회원탈퇴
-	                            </button>
-	                        </li>
-	                        </c:when>
-	                        <c:otherwise>
-	                        <li class="list-group-item">
-	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
-	                                style="color: rgb(218, 0, 0);" onclick="location.href='BlockMemberCon?id=${pageScope.profile.id}&state=1'">
-	                                차단하기
-	                            </button>
-	                        </li>
-	                        <li class="list-group-item">
-	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
-	                                style="color: rgb(218, 0, 0);" onclick="location.href='ReportMemberCon?id=${pageScope.profile.id}'">
-	                                신고하기
-	                            </button>
-	                        </li>
-	                        </c:otherwise>
-                        </c:choose>
-                    </ul>
+                     <ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<div class="h6 text-muted">Riview</div>
+							<div class="h5">${fn:length(pageScope.profileFeedList)}</div>
+						</li>
+						<li class="list-group-item">
+							<button class="btn btn-outline-danger" type="button"
+								id="button-addon2" style="color: rgb(218, 0, 0);"
+								onclick="location.href='LogoutCon'">로그아웃</button>
+						</li>
+						<li class="list-group-item">
+							<button class="btn btn-outline-danger" type="button"
+								id="button-addon2" style="color: rgb(218, 0, 0);"
+								onclick="location.href='./quit.jsp'">회원탈퇴</button>
+						</li>
+
+					</ul>
                 </div>
             </div>
 
             <div class="col-md-6 gedf-main">
-                <div class="container">
-                    <div class="row">	
-                        <c:forEach var="review" items="${pageScope.profileFeedList}">
-	                        <div class="card gedf-card" style="margin-right: 30px;">
-	                            <div class="box">
-	                                <div>
-	                                    <img src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-	                                        class="aaa">
-	                                </div>
-	                                <div class="card-body">
-	                                    <div class="box-title">
-	                                        <h4>식당이름</h4>
-	                                    </div>
-	                                    <div class="box-text">
-	                                        <span>간단한 리뷰 내용</span>
-	                                    </div>
-	                                    <div class="box-btn">
-	                                        <a href="#">더보기</a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </div>
-                        </c:forEach>
-                         <div class="card gedf-card" style="margin-right: 30px;">
-	                            <div class="box">
-	                                <div>
-	                                    <img src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-	                                        class="aaa">
-	                                </div>
-	                                <div class="card-body">
-	                                    <div class="box-title">
-	                                        <h4>식당이름</h4>
-	                                    </div>
-	                                    <div class="box-text">
-	                                        <span>간단한 리뷰 내용</span>
-	                                    </div>
-	                                    <div class="box-btn">
-	                                        <a href="#">더보기</a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </div>
+                <form action="">
+
+                    <div class="card mb-2">
+                        <div class="card-header bg-light" style="color: rgb(218, 0, 0); text-align: center;">
+                            <h6>탈퇴 사유를 입력해 주세요.</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group"><textarea class="form-control" rows="3"></textarea></div>
+                        </div>
+                        <div class="card-header bg-light" style="color: rgb(218, 0, 0); text-align: center;">
+                            <h6>비밀번호를 입력해 주세요.</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group"><textarea class="form-control" rows="1"></textarea></div>
+                        </div>
+                        <div class="card-header bg-light" style="color: rgb(218, 0, 0); text-align: center;">
+                            <h6>정말 떠나시겠습니까?</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group" style="text-align: center;">
+                                <button class="btn btn-danger" type="submit"
+                                    style="margin-right: 30px; width: 75px;">네</button>
+                                <button class="btn btn-danger" onclick="location.href='#'">아니오</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+                </form>
             </div>
             <!-- 광고 배너 -->
-            <div class="col-md-3">
+<div class="col-md-3">
                 <div class="card gedf-card">
                     <div class="card-body">
                         <div>
@@ -304,8 +267,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
     <div class="container">
   <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">

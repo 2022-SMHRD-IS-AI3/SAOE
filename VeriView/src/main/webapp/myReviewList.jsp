@@ -1,3 +1,4 @@
+<%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.profile.ProfileReportDTO"%>
 <%@page import="com.saoe.model.profile.ProfileBlockDTO"%>
 <%@page import="com.saoe.model.profile.ProfileFollowDTO"%>
@@ -130,7 +131,8 @@ a {
 	<c:import url="./layout/header.jsp"></c:import>
 
 	<%
-	String id = request.getParameter("id");
+	SessionUserDTO member = (SessionUserDTO)session.getAttribute("member");
+	String id = member.getId();
 	pageContext.setAttribute("id", id);
 
 	ProfileDAO profileDAO = new ProfileDAO();
@@ -162,27 +164,25 @@ a {
 				<div class="card">
 					<div class="card-body">
 						<div class="media" style="text-align: center;">
-							<a class="thumbnail pull-left" href="#"> <img
+							<a class="thumbnail pull-left" href="./profile.jsp?id=${pageScope.profile.id}"> <img
 								class="rounded-circle" width="80px"
 								src="https://picsum.photos/50/50" alt="">
 							</a>
 						</div>
 						<div class="h4" style="height: 40px;">
-							<a href="#"
+							<a href="./profile.jsp?id=${pageScope.profile.id}"
 								style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">@${pageScope.profile.nick}</a>
 						</div>
 						<div class="h7 text-muted" style="height: 40px;">
 							<c:if test="${empty pageScope.profile.profile_message}">@회원 코멘트가 없습니다.</c:if>
 							<c:if test="${not empty pageScope.profile.profile_message}">@${pageScope.profile.profile_message}</c:if>
 						</div>
-						<c:if test="${sessionScope.member.id eq pageScope.id}">
-							<div class="h7" style="height: 80px;">
-								<a href="#" style="color: rgb(218, 0, 0);">프로필 수정</a> <br>
-								<a href="#" style="color: rgb(218, 0, 0);">회원 목록</a> <br> <a
-									href="#" style="color: rgb(218, 0, 0);">리뷰 목록</a> <br> <a
-									href="#" style="color: rgb(218, 0, 0);">음식점 목록</a>
-							</div>
-						</c:if>
+                        <div class="h7" style="height: 80px;">
+                            <a href="./updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br>
+                            <a href="./myUserList.jsp" style="color: rgb(218, 0, 0);">회원 목록</a> <br>
+                            <a href="./myReviewList.jsp" style="color: rgb(218, 0, 0);">리뷰 목록</a> <br>
+                            <a href="./myRestList.jsp" style="color: rgb(218, 0, 0);">음식점 목록</a>
+                        </div>
 
 
 					</div>
@@ -191,34 +191,17 @@ a {
 							<div class="h6 text-muted">Riview</div>
 							<div class="h5">${fn:length(pageScope.profileFeedList)}</div>
 						</li>
-						<c:choose>
-							<c:when test="${sessionScope.member.id eq pageScope.id}">
-								<li class="list-group-item">
-									<button class="btn btn-outline-danger" type="button"
-										id="button-addon2" style="color: rgb(218, 0, 0);"
-										onclick="location.href='LogoutCon'">로그아웃</button>
-								</li>
-								<li class="list-group-item">
-									<button class="btn btn-outline-danger" type="button"
-										id="button-addon2" style="color: rgb(218, 0, 0);"
-										onclick="location.href='#'">회원탈퇴</button>
-								</li>
-							</c:when>
-							<c:otherwise>
-								<li class="list-group-item">
-									<button class="btn btn-outline-danger" type="button"
-										id="button-addon2" style="color: rgb(218, 0, 0);"
-										onclick="location.href='BlockMemberCon?id=${pageScope.profile.id}&state=1'">
-										차단하기</button>
-								</li>
-								<li class="list-group-item">
-									<button class="btn btn-outline-danger" type="button"
-										id="button-addon2" style="color: rgb(218, 0, 0);"
-										onclick="location.href='ReportMemberCon?id=${pageScope.profile.id}'">
-										신고하기</button>
-								</li>
-							</c:otherwise>
-						</c:choose>
+						<li class="list-group-item">
+							<button class="btn btn-outline-danger" type="button"
+								id="button-addon2" style="color: rgb(218, 0, 0);"
+								onclick="location.href='LogoutCon'">로그아웃</button>
+						</li>
+						<li class="list-group-item">
+							<button class="btn btn-outline-danger" type="button"
+								id="button-addon2" style="color: rgb(218, 0, 0);"
+								onclick="location.href='./quit.jsp'">회원탈퇴</button>
+						</li>
+
 					</ul>
 				</div>
 			</div>
@@ -254,11 +237,11 @@ a {
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="#" style="color: rgb(218, 0, 0);">${scrapReview.rest_name }</a>
+													<a href="#" style="color: rgb(218, 0, 0);">${fn:substring(scrapReview.rest_name,0,5) }...</a>
 												</h4>
 											</div>
 											<div class="box-text">
-												<span>${scrapReview.review_content}</span>
+												<span>${fn:substring(scrapReview.review_content,0,8)}...</span>
 											</div>
 											<div>
 												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
@@ -291,11 +274,11 @@ a {
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="#" style="color: rgb(218, 0, 0);">${goodReview.rest_name }</a>
+													<a href="#" style="color: rgb(218, 0, 0);">${fn:substring(goodReview.rest_name,0,5) }...</a>
 												</h4>
 											</div>
 											<div class="box-text">
-												<span>${goodReview.review_content }</span>
+												<span>${fn:substring(goodReview.review_content,0,8)}...</span>
 											</div>
 											<div>
 												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
@@ -355,11 +338,11 @@ a {
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="#" style="color: rgb(218, 0, 0);">${badReview.rest_name }</a>
+													<a href="#" style="color: rgb(218, 0, 0);">${fn:substring(badReview.rest_name,0,5) }...</a>
 												</h4>
 											</div>
 											<div class="box-text">
-												<span>${badReview.review_content }</span>
+												<span>${fn:substring(badReview.review_content,0,8)}...</span>
 											</div>
 											<div>
 												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
@@ -418,11 +401,11 @@ a {
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="#" style="color: rgb(218, 0, 0);">${blockReview.rest_name }</a>
+													<a href="#" style="color: rgb(218, 0, 0);">${fn:substring(blockReview.rest_name,0,5) }...</a>
 												</h4>
 											</div>
 											<div class="box-text">
-												<span>${blockReview.review_content }</span>
+												<span>${fn:substring(blockReview.rest_name,0,7) }...</span>
 											</div>
 											<div>
 												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
@@ -482,11 +465,11 @@ a {
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="#" style="color: rgb(218, 0, 0);">${reportReview.rest_name}</a>
+													<a href="#" style="color: rgb(218, 0, 0);">{fn:substring(reportReview.rest_name,0,7) }...</a>
 												</h4>
 											</div>
 											<div class="box-text">
-												<span>${reportReview.review_content }</span>
+												<span>{fn:substring(reportReview.rest_name,0,7) }...</span>
 											</div>
 											<div>
 												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
@@ -534,56 +517,54 @@ a {
 
 
 			<!-- 팔로잉 팔로워 -->
-			<div class="col-md-3">
-				<div class="card gedf-card">
-					<div class="card-body">
-						<div>
-							<h4 class="card-title">
-								<span style="color: rgb(218, 0, 0); margin-right: 15px;">Followers</span>${fn:length(pageScope.profileFollowerList)}</h4>
-						</div>
-						<div>
-							<table class="modal_table" style="top: 80px;">
-								<c:if test="${empty pageScope.profileFollowerList}">팔로우한 회원이 없습니다.</c:if>
-								<c:forEach var="follower"
-									items="${pageScope.profileFollowerList}">
-									<tr>
-										<td style="width: 70px;"><img class="rounded-circle"
-											id="modal_userImg" src="https://picsum.photos/50/50"></td>
-										<td id="modal_userID">${follower.nick }</td>
-										<td id="modal_userFollow"><buttton
-												class="btn btn-outline-danger" style="margin-left: 20px;">팔로우
-											</button></td>
-									</tr>
-								</c:forEach>
-							</table>
-						</div>
-					</div>
-				</div>
-				<div class="card gedf-card">
-					<div class="card-body">
-						<div>
-							<h4 class="card-title">
-								<span style="color: rgb(218, 0, 0); margin-right: 15px;">Following</span>${fn:length(pageScope.profileFollowingList)}</h4>
-						</div>
-						<div>
-							<table class="modal_table" style="top: 80px;">
-								<c:if test="${empty pageScope.profileFollowingList}">팔로잉한 회원이 없습니다.</c:if>
-								<c:forEach var="following"
-									items="${pageScope.profileFollowingList}">
-									<tr>
-										<td style="width: 70px;"><img class="rounded-circle"
-											id="modal_userImg" src="https://picsum.photos/50/50"></td>
-										<td id="modal_userID">${following.nick }</td>
-										<td id="modal_userFollow"><buttton class="btn btn-danger"
-												style="margin-left: 20px;">언팔로우
-											</button></td>
-									</tr>
-								</c:forEach>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
+            <div class="col-md-3">
+                <div class="card gedf-card">
+                    <div class="card-body">
+                        <div>
+                            <h4 class="card-title"><span
+                                    style="color: rgb(218, 0, 0); margin-right: 15px;">Followers</span>${fn:length(pageScope.profileFollowerList)}</h4>
+                        </div>
+                        <div>
+                            <table class="modal_table" style="top: 80px;">
+                            <c:if test="${empty pageScope.profileFollowerList}">팔로우한 회원이 없습니다.</c:if>
+                            <c:forEach var="follower" items="${pageScope.profileFollowerList}">
+                                <tr>
+                                    <td style="width:70px;"><a href="./profile.jsp?id=${follower.id}"><img class="rounded-circle" id="modal_userImg"
+                                            src="https://picsum.photos/50/50"></a></td>
+                                    <td id="modal_userID"><a href="./profile.jsp?id=${follower.id}">${follower.nick}</a></td>
+                                    <td id="modal_userFollow">
+                                        <buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card gedf-card">
+                    <div class="card-body">
+                        <div>
+                            <h4 class="card-title"><span
+                                    style="color: rgb(218, 0, 0); margin-right: 15px;">Following</span>${fn:length(pageScope.profileFollowingList)}</h4>
+                        </div>
+                        <div>
+                            <table class="modal_table" style="top: 80px;">
+                            <c:if test="${empty pageScope.profileFollowingList}">팔로잉한 회원이 없습니다.</c:if>
+                            <c:forEach var="following" items="${pageScope.profileFollowingList}">
+                                <tr>
+                                    <td style="width:70px;"><a href="./profile.jsp?id=${following.id}"><img class="rounded-circle" id="modal_userImg"
+                                            src="https://picsum.photos/50/50"></a></td>
+                                    <td id="modal_userID"><a href="./profile.jsp?id=${following.id}">${following.nick}</a></td>
+                                    <td id="modal_userFollow">
+                                        <buttton class="btn btn-danger" style="margin-left: 20px;">언팔로우</button>
+                                    </td>
+                                </tr>
+							</c:forEach>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 			<div class="container">
 				<footer class="py-3 my-4">
 					<ul class="nav justify-content-center border-bottom pb-3 mb-3">
