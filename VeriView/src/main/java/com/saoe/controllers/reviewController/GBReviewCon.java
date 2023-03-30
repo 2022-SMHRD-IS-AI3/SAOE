@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.saoe.model.ReviewDAO;
-import com.saoe.model.ReviewMemberDTO;
 import com.saoe.model.member.MemberDTO;
+import com.saoe.model.review.ReviewDAO;
+import com.saoe.model.review.ReviewMemberDTO;
 
 @WebServlet("/GBReviewCon")
 public class GBReviewCon extends HttpServlet {

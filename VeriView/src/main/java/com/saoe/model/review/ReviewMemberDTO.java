@@ -1,4 +1,4 @@
-package com.saoe.model;
+package com.saoe.model.review;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

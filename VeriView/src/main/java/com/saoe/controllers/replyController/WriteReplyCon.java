@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.saoe.model.ReplyDAO;
-import com.saoe.model.ReplyDTO;
 import com.saoe.model.member.MemberDTO;
+import com.saoe.model.reply.ReplyDAO;
+import com.saoe.model.reply.ReplyDTO;
 
 @WebServlet("/WriteReplyCon")
 public class WriteReplyCon extends HttpServlet {

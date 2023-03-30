@@ -1,4 +1,4 @@
-package com.saoe.model;
+package com.saoe.model.reply;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

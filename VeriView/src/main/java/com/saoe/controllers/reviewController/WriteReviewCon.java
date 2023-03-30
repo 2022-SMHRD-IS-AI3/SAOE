@@ -15,10 +15,11 @@ import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.saoe.model.ReviewDAO;
-import com.saoe.model.ReviewDTO;
-import com.saoe.model.ReviewPicDTO;
 import com.saoe.model.member.MemberDTO;
+import com.saoe.model.member.SessionUserDTO;
+import com.saoe.model.review.ReviewDAO;
+import com.saoe.model.review.ReviewDTO;
+import com.saoe.model.review.ReviewPicDTO;
 
 @WebServlet("/WriteReviewCon")
 public class WriteReviewCon extends HttpServlet {
@@ -62,16 +63,17 @@ public class WriteReviewCon extends HttpServlet {
 			
 			
 			// 리뷰 작성 페이지에서 받아오는 값들
+			int review_no = Integer.parseInt(request.getParameter("review_no"));
 			String review_content = multi.getParameter("review_content");
 
 
 			// 리뷰 작성자 id를 세션에서 받아옴
 			HttpSession session = request.getSession();
-			MemberDTO dto = (MemberDTO) session.getAttribute("member");
+			SessionUserDTO dto = (SessionUserDTO) session.getAttribute("member");
 			String id = dto.getId();
 
 			// review 테이블에 넣기위해 객체에 담음
-			ReviewDTO review = new ReviewDTO(id, 1, review_content);
+			ReviewDTO review = new ReviewDTO(id, review_no, review_content);
 
 			// 사진을 업로드하기위해 생성된 게시글 시퀀스를 받음
 			ReviewDAO dao = new ReviewDAO();

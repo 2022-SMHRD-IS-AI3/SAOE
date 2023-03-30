@@ -5,9 +5,8 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import com.saoe.model.MemberMemberDTO;
-import com.saoe.model.RestMemberDTO;
-import com.saoe.model.ReviewMemberDTO;
+import com.saoe.model.restaurant.RestMemberDTO;
+import com.saoe.model.review.ReviewMemberDTO;
 import com.saoe.mybatis.SqlSessionManager;
 
 public class MemberDAO {
@@ -32,28 +31,7 @@ public class MemberDAO {
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 		
 		SessionUserDTO member = sqlSession.selectOne("login", dto);
-		
-//		List<MemberMemberDTO> memberMemberList = sqlSession.selectList("loginMember", member);
-//		member.setMemberMemberList(memberMemberList);
-//		
-//		int followerCnt = 0;
-//		int followingCnt = 0;
-//		for(MemberMemberDTO memberMember : memberMemberList) {
-//			if(memberMember.getId().equals(dto.getId()) && memberMember.getMember_follow_yn() == 1) {
-//				followerCnt++;
-//			}
-//			if(memberMember.getActor_id().equals(dto.getId()) && memberMember.getMember_follow_yn() == 1){
-//				followingCnt++;
-//			}
-//		}
-//		member.setFollowerCnt(followerCnt);
-//		member.setFollowingCnt(followingCnt);
-//		
-//		List<ReviewMemberDTO> reviewMemberList = sqlSession.selectList("loginReview", member);
-//		member.setReviewMemberList(reviewMemberList);
-//		List<RestMemberDTO> restMemberList = sqlSession.selectList("loginRest", member);
-//		member.setRestMemberList(restMemberList);
-		
+				
 		sqlSession.close();		
 		
 		return member;

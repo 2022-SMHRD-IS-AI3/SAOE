@@ -1,6 +1,8 @@
-package com.saoe.model;
+package com.saoe.model.review;
 
 import java.util.List;
+
+import com.saoe.model.reply.ReplyDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,9 +29,6 @@ public class ReviewDTO {
 	private int review_display;
 	private String review_post_date;
 	private String review_update_date;
-	
-	// 게시글 공감 테이블에서 count로 가져옴
-	private int likeCnt;
 	
 	// 리뷰 댓글을 담음
 	private List<ReplyDTO> replyList;

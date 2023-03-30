@@ -1,4 +1,4 @@
-package com.saoe.model;
+package com.saoe.model.reply;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

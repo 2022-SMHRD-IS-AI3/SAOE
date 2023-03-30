@@ -1,7 +1,7 @@
 <%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.member.MemberDTO"%>
-<%@page import="com.saoe.model.ReviewDTO"%>
-<%@page import="com.saoe.model.ReviewDAO"%>
+<%@page import="com.saoe.model.review.ReviewDTO"%>
+<%@page import="com.saoe.model.review.ReviewDAO"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"

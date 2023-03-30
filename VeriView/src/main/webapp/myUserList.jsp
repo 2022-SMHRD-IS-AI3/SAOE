@@ -7,14 +7,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page import="com.saoe.model.member.MemberDAO"%>
-<%@page import="com.saoe.model.FeedDAO"%>
-<%@page import="com.saoe.model.FeedDTO"%>
+<%@page import="com.saoe.model.feed.FeedDAO"%>
+<%@page import="com.saoe.model.feed.FeedDTO"%>
 <%@page import="com.saoe.model.member.MemberDTO"%>
 <%@page import="java.net.URLDecoder"%>
-<%@page import="com.saoe.model.ReplyDTO"%>
-<%@page import="com.saoe.model.ReviewPicDTO"%>
-<%@page import="com.saoe.model.ReviewDAO"%>
-<%@page import="com.saoe.model.ReviewDTO"%>
+<%@page import="com.saoe.model.reply.ReplyDTO"%>
+<%@page import="com.saoe.model.review.ReviewPicDTO"%>
+<%@page import="com.saoe.model.review.ReviewDAO"%>
+<%@page import="com.saoe.model.review.ReviewDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>

@@ -36,6 +36,7 @@ font-family: 'Open Sans', sans-serif; */
             margin: auto;
             border-radius: 10px;
             /* display: flex; */
+            
             /* background: rgb(249, 63, 76); */
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
             transition: all 0.1s ease-in 0.1s;

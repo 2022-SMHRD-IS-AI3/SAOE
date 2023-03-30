@@ -1,4 +1,6 @@
-package com.saoe.model;
+package com.saoe.model.restaurant;
+
+import com.saoe.model.category.CategoryDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

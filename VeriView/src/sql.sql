@@ -8,6 +8,91 @@ and r.rest_no = rest.rest_no
 and rest.code_no = c.code_no
 and r.id = '1';
 
+update review set id = 'admin';
+
+select * from RESTAURANT where rest_name like '%그%';
+
+select * from review
+    order by DBMS_RANDOM.RANDOM
+    
+    		select * from
+		review_pic where review_no = 9057;
+		
+		select * from review where review_no = 27025;
+		
+		select * from restaurant where rest_no = 882;
+		
+
+
+select * from member_member;
+select * from review_member;
+select * from rest_member;
+
+update review set review_post_date = sysdate;
+
+select * from review order by review_no desc;
+
+select * from restaurant where rest_no = 1;
+
+select * from review where rownum < 10;
+
+		select m.id id, m.nick nick, m.profile profile,
+		r.review_no review_no, r.review_content review_content, r.review_post_date review_post_date, r.review_update_date review_update_date,
+		rest.rest_no rest_no, rest.rest_name rest_name, rest.rest_addr rest_addr,
+		c.code_no code_no, c.main_cate main_cate, c.sub_cate sub_cate
+		from (select * from(
+    select * from review
+    order by DBMS_RANDOM.RANDOM
+) where rownum < 10) r, member m, restaurant rest, category c
+		where r.id = m.id
+		and r.rest_no = rest.rest_no
+		and rest.code_no = c.code_no
+
+		
+
+		select * from review
+		order by DBMS_RANDOM.RANDOM
+
+
+
+select rest.rest_no rest_no, rest.rest_name rest_name, rest.rest_profile rest_profile from restaurant rest, rest_member rest_m where rest_m.actor_id = '2' and rest_m.rest_follow_yn = 1;
+
+select rest_no, rest_name from restaurant where rest_name like '%그%';
+
+select * from restaurant;
+
+		select r.review_no
+		review_no, r.review_content review_content,
+		r.review_post_date
+		review_post_date,
+		rp.review_pic_src review_pic_src, rest.rest_no
+		rest_no, rest.rest_name rest_name
+		from review r, review_pic rp,
+		restaurant rest, review_member rm
+		where r.review_no = rp.review_no
+		and r.rest_no =
+		rest.rest_no
+		and rm.actor_id = '2'
+		and r.review_no = rm.review_no
+		and rm.review_gb = 1;
+
+
+select id, nick, profile from member where id in (select actor_id from member_member where id = '2' and member_follow_yn = 1);
+select id, nick, profile from member where id in (select id from member_member where actor_id = '2' and member_follow_yn = 1);
+select id from	member_member where	actor_id = '2' and member_rep_yn = 1;
+		
+		select m.id id,	m.nick nick, m.profile profile, mm.member_rep_content member_rep_content 
+		from member m, (select * from member_member where actor_id = '2' and member_rep_yn = 1) mm 
+		where m.id = mm.id;
+
+		select m.id id,
+		m.nick nick, m.profile profile from member m, member_member mm where
+		m.id = mm.id and mm.member_follow_yn = 1 and mm.id= 2;
+
+				select m.id id,
+		m.nick nick, m.profile profile from member m, member_member mm where
+		m.id = mm.id and mm.member_follow_yn = 1 and mm.actor_id= 2;
+		
 select r.review_no review_no, r.review_content review_content, r.review_post_date review_post_date,
 rp.review_pic_src review_pic_src, rest.rest_no rest_no, rest.rest_name rest_name
 from review r, review_pic rp, restaurant rest

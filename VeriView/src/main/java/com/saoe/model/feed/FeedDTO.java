@@ -1,8 +1,10 @@
-package com.saoe.model;
+package com.saoe.model.feed;
 
 import java.util.List;
 
 import com.saoe.model.member.MemberDTO;
+import com.saoe.model.reply.ReplyDTO;
+import com.saoe.model.review.ReviewPicDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

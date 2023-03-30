@@ -1,6 +1,6 @@
 <%@page import="com.saoe.model.member.MemberDTO"%>
-<%@page import="com.saoe.model.MessageDAO"%>
-<%@page import="com.saoe.model.MessageDTO"%>
+<%@page import="com.saoe.model.message.MessageDAO"%>
+<%@page import="com.saoe.model.message.MessageDTO"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"

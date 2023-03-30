@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.saoe.model.ReviewDAO;
-import com.saoe.model.ReviewDTO;
+import com.saoe.model.review.ReviewDAO;
+import com.saoe.model.review.ReviewDTO;
 
 public class UpdateReviewCon extends HttpServlet {
 	private static final long serialVersionUID = 1L;

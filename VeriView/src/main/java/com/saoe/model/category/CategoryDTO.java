@@ -1,4 +1,4 @@
-package com.saoe.model;
+package com.saoe.model.category;
 
 import java.util.List;
 

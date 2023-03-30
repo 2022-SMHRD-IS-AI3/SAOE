@@ -1,10 +1,11 @@
-package com.saoe.model;
+package com.saoe.model.review;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import com.saoe.model.reply.ReplyDTO;
 import com.saoe.mybatis.SqlSessionManager;
 
 public class ReviewDAO {

@@ -1,4 +1,4 @@
-package com.saoe.model;
+package com.saoe.model.feed;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,10 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import com.saoe.model.category.CategoryDTO;
 import com.saoe.model.member.MemberDTO;
+import com.saoe.model.reply.ReplyDTO;
+import com.saoe.model.review.ReviewPicDTO;
 import com.saoe.mybatis.SqlSessionManager;
 
 public class FeedDAO {
@@ -20,7 +23,9 @@ public class FeedDAO {
 
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 
+		System.out.println("불러오는중");
 		List<FeedDTO> feedList = sqlSession.selectList("selectFeed");
+		System.out.println("불러왔음");
 		
 		for(FeedDTO feed : feedList) {
 			int review_no = feed.getReview_no();

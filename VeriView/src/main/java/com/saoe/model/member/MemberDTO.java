@@ -2,10 +2,9 @@ package com.saoe.model.member;
 
 import java.util.List;
 
-import com.saoe.model.CategoryDTO;
-import com.saoe.model.MemberMemberDTO;
-import com.saoe.model.RestMemberDTO;
-import com.saoe.model.ReviewMemberDTO;
+import com.saoe.model.category.CategoryDTO;
+import com.saoe.model.restaurant.RestMemberDTO;
+import com.saoe.model.review.ReviewMemberDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

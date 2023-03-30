@@ -1,4 +1,4 @@
-package com.saoe.model;
+package com.saoe.model.message;
 
 import java.util.List;
 

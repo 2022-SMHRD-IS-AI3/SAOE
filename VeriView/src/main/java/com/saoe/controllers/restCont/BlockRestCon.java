@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.saoe.model.RestMemberDTO;
-import com.saoe.model.RestaurantDAO;
 import com.saoe.model.member.MemberDTO;
+import com.saoe.model.restaurant.RestMemberDTO;
+import com.saoe.model.restaurant.RestaurantDAO;
 
 public class BlockRestCon extends HttpServlet {
 	private static final long serialVersionUID = 1L;

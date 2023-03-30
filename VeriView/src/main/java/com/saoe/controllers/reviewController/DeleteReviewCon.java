@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.saoe.model.ReviewDAO;
+import com.saoe.model.review.ReviewDAO;
 
 public class DeleteReviewCon extends HttpServlet {
 	private static final long serialVersionUID = 1L;

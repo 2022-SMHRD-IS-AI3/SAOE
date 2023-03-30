@@ -1,4 +1,4 @@
-package com.saoe.model;
+package com.saoe.model.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,18 +7,18 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 
-public class ReviewPicDTO {
+public class MessageDTO {
 	
-	private int review_pic_no;
-	private int review_no;
-	@NonNull private String review_pic_src;
-	@NonNull private int review_pic_size;
+	@NonNull public String send_id;
+	@NonNull public String receive_id;
+	public String message_date;
+	@NonNull public String message_content;
+	public int review_no;
 	
-
 }
