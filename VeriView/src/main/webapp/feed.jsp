@@ -323,6 +323,7 @@
 								</a>
 
 								<p class="card-text">
+                              <c:if test="${not empty feed.reviewPicList }">
 								<div id="carouselExampleIndicators" class="carousel slide"
 									data-ride="carousel">
 									
@@ -333,7 +334,6 @@
 									</ol>
 									
 									<div class="carousel-inner" style="height: 600px">
-                              <c:if test="${not empty feed.reviewPicList }">
                               <c:forEach var="reviewPic" items="${feed.reviewPicList}" varStatus="status">
                                  <c:choose>
                                        <c:when test="${status.index eq 0}">
@@ -354,7 +354,6 @@
                                        </c:otherwise>
                                  </c:choose>
                               </c:forEach>
-                              </c:if>
                            </div>
 									<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev"> 
 										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -365,6 +364,7 @@
 										<span class="sr-only">Next</span>
 									</a>
 								</div>
+                              </c:if>
 								${feed.review_content}
 								</p>
 								<div>

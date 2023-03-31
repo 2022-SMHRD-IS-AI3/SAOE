@@ -206,10 +206,7 @@
 										aria-labelledby="gedf-drop1">
 										<!-- <div class="h6 dropdown-header">Configuration</div> -->
 										<a class="dropdown-item" href="#"
-											style="color: rgb(218, 0, 0);">스크랩</a> <a
-											class="dropdown-item" href="#" style="color: rgb(218, 0, 0);">신고</a>
-										<a class="dropdown-item" href="#"
-											style="color: rgb(218, 0, 0);">게시물 차단</a>
+										<a class="dropdown-item" href="#" style="color: rgb(218, 0, 0);">게시물 차단</a>
 									</div>
 								</div>
 							</div>
@@ -232,16 +229,15 @@
 									<div id="carouselExample" class="carousel slide">
 										<div class="carousel-inner">
 											<div class="carousel-item active">
-												<img
-													src="${pageScope.rest.rest_profile }"
+												<img src="${pageScope.rest.rest_profile }"
 													class="d-block w-100" alt="...">
 											</div>
-											<c:forEach var="restPic" items="${pageScope.rest.restPicList}">
-											<div class="carousel-item">
-												<img
-													src="${restPic.rest_pic_src}"
-													class="d-block w-100" alt="...">
-											</div>
+											<c:forEach var="restPic"
+												items="${pageScope.rest.restPicList}">
+												<div class="carousel-item">
+													<img src="${restPic.rest_pic_src}" class="d-block w-100"
+														alt="...">
+												</div>
 											</c:forEach>
 										</div>
 										<button class="carousel-control-prev" type="button"
@@ -258,7 +254,7 @@
 									<!-- 여기까지 -->
 								</div>
 								<hr width="100%">
-								<td class="rest_score">음식점 점수</td>
+								<td class="rest_score">음식점 점수 : ${pageScope.rest.rest_score} </td>
 								<td style="text-align: left;">
 									<!-- 음식점 종합 점수 -->
 								</td> <br>
@@ -300,10 +296,6 @@
 										<td class="rest_info">구글 점수</td>
 										<td class="rest_detail">${pageScope.rest.rest_google_score}
 										</td>
-									</tr>
-									<tr>
-										<td class="rest_info">베리뷰 점수</td>
-										<td class="rest_detail">${pageScope.rest.rest_score}</td>
 									</tr>
 								</table>
 								<br>
@@ -409,6 +401,11 @@
 			</div>
 		</div>
 	</div>
+	<!-- 페이지 넘기기 버튼 -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+		crossorigin="anonymous"></script>
 
 
 	<script
