@@ -299,13 +299,13 @@
                             <div class="row">
                                 <div class="col-12">
                                     <ul class="list-group">
-                                    <c:forEach var="Reports" items="${pageScope.profileReportList}">
+                                    <c:forEach var="report" items="${pageScope.profileReportList}">
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
                                                     src="https://picsum.photos/50/50"></td>
-                                            ${reports.nick}
+                                            ${report.nick}
                                             <div>
-                                                <span>${reports.member_rep_content }</span>
+                                                <span>${report.member_rep_content }</span>
                                             </div>
                                         </li>
                                         </c:forEach>

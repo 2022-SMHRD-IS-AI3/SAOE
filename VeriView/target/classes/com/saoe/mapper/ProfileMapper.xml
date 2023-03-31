@@ -45,7 +45,7 @@
 		actor_id = #{id} and member_block_yn = 1)
 	</select>
 
-	<select id="selectProfileReport" resultType="ProfileFollowDTO">
+	<select id="selectProfileReport" resultType="ProfileReportDTO">
 		select m.id id,
 		m.nick nick, m.profile profile, mm.member_rep_content
 		member_rep_content
@@ -160,25 +160,25 @@
 		resultType="ProfileRestDTO">
 		select rest.rest_no rest_no, rest.rest_name rest_name, rest.rest_profile
 		rest_profile from restaurant rest, rest_member rest_m where
-		rest_m.actor_id = #{id} and rest_m.rest_follow_yn = 1
+		rest_m.actor_id = #{id} and rest_m.rest_follow_yn = 1 and rest.rest_no = rest_m.rest_no
 	</select>
 	<select id="selectProfileGoodRest"
 		resultType="ProfileRestDTO">
 		select rest.rest_no rest_no, rest.rest_name rest_name, rest.rest_profile
 		rest_profile from restaurant rest, rest_member rest_m where
-		rest_m.actor_id = #{id} and rest_m.rest_gb = 1
+		rest_m.actor_id = #{id} and rest_m.rest_gb = 1 and rest.rest_no = rest_m.rest_no
 	</select>
 	<select id="selectProfileBadRest"
 		resultType="ProfileRestDTO">
 		select rest.rest_no rest_no, rest.rest_name rest_name, rest.rest_profile
 		rest_profile from restaurant rest, rest_member rest_m where
-		rest_m.actor_id = #{id} and rest_m.rest_gb = -1
+		rest_m.actor_id = #{id} and rest_m.rest_gb = -1 and rest.rest_no = rest_m.rest_no
 	</select>
 	<select id="selectProfileBlockRest"
 		resultType="ProfileRestDTO">
 		select rest.rest_no rest_no, rest.rest_name rest_name, rest.rest_profile
 		rest_profile from restaurant rest, rest_member rest_m where
-		rest_m.actor_id = #{id} and rest_m.rest_block_yn = 1
+		rest_m.actor_id = #{id} and rest_m.rest_block_yn = 1 and rest.rest_no = rest_m.rest_no
 	</select>
 
 

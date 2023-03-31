@@ -199,7 +199,7 @@
 	                        </li>
 	                        <li class="list-group-item">
 	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
-	                                style="color: rgb(218, 0, 0);" onclick="location.href='ReportMemberCon?id=${pageScope.profile.id}'">
+	                                style="color: rgb(218, 0, 0);" onclick="report_member(${pageScope.profile.id})">
 	                                신고하기
 	                            </button>
 	                        </li>
@@ -216,15 +216,15 @@
 	                        <div class="card gedf-card" style="margin-right: 30px;">
 	                            <div class="box">
 	                                <div>
-	                                    <img src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
+	                                    <img src="${review.review_pic_src }"
 	                                        class="aaa">
 	                                </div>
 	                                <div class="card-body">
 	                                    <div class="box-title">
-	                                        <h4>식당이름</h4>
+	                                        <a href="./restDetail.jsp?rest_no=${review.rest_no }"><h4>${fn:substring(review.rest_name,0,5) }...</h4></a>
 	                                    </div>
 	                                    <div class="box-text">
-	                                        <span>간단한 리뷰 내용</span>
+	                                        <span>${fn:substring(review.review_content,0,8)}..</span>
 	                                    </div>
 	                                    <div class="box-btn">
 	                                        <a href="#">더보기</a>
@@ -233,25 +233,6 @@
 	                            </div>
 	                        </div>
                         </c:forEach>
-                         <div class="card gedf-card" style="margin-right: 30px;">
-	                            <div class="box">
-	                                <div>
-	                                    <img src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-	                                        class="aaa">
-	                                </div>
-	                                <div class="card-body">
-	                                    <div class="box-title">
-	                                        <h4>식당이름</h4>
-	                                    </div>
-	                                    <div class="box-text">
-	                                        <span>간단한 리뷰 내용</span>
-	                                    </div>
-	                                    <div class="box-btn">
-	                                        <a href="#">더보기</a>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </div>
                     </div>
                 </div>
             </div>
@@ -306,24 +287,35 @@
             </div>
         </div>
     </div>
-    <div class="container">
-  <footer class="py-3 my-4">
-    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
-    </ul>
-    <p class="text-center text-body-secondary">© 2023 Company, Inc</p>
-  </footer>
-</div>
     
-	<script	src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-	<script	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-	<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script>
+    	function report_member(id){
+    		var member_rep_content = prompt("신고 사유를 입력해주세요");
+
+    		 $.ajax({
+    		        url: 'ReportMemberCon',
+    		        type: 'post',
+    		        data: {
+    		            id: id,
+    		            member_rep_content: member_rep_content,
+    		        },
+    		        success: function () {
+    		        	alert("활동 성공");
+    		        },
+    		        error: function () {
+    					alert("활동 실패");
+    		        }
+    		    });
+    	}
+    </script>
+	<script
+		src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script
+		src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </body>
 
 </html>

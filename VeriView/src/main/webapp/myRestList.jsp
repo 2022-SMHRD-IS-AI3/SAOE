@@ -232,20 +232,13 @@
                                     <ul class="list-group">
 	                                    <c:forEach var="followingRest" items="${pageScope.profileFollowingRestList}">
 		                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-	                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-	                                                    src="https://picsum.photos/50/50"></td>
-	                                            <a href="#" style="color: rgb(218, 0, 0);">${followingRest.rest_name }</a>
+	                                            <td style="width:70px;"><img class="rounded-circle" width="45" id="modal_userImg"
+	                                                    src="${followingRest.rest_profile}"></td>
+	                                            <a href="./restDetail.jsp?rest_no=${followingRest.rest_no}" style="color: rgb(218, 0, 0);">${followingRest.rest_name }</a>
 	                                            <button class="btn btn-danger" id="w1" onmouseover="w1_mouseover()"
 	                                                onmouseout="w1_mouseout()">팔로잉</button>
 	                                        </li>
                                         </c:forEach>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                            <a href="#" style="color: rgb(218, 0, 0);">식당이름</a>
-                                            <button class="btn btn-danger" id="w1" onmouseover="w1_mouseover()"
-                                                onmouseout="w1_mouseout()">팔로잉</button>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -261,20 +254,13 @@
                                     <ul class="list-group">
 										<c:forEach var="goodRest" items="${pageScope.profileGoodRestList}">
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                                    <a href="#" style="color: rgb(218, 0, 0);">${goodRest.rest_name }</a>
+                                            <td style="width:70px;"><img class="rounded-circle" width="45" id="modal_userImg"
+                                                    src="${goodRest.rest_profile}"></td>
+                                                    <a href="./restDetail.jsp?rest_no=${goodRest.rest_no}" style="color: rgb(218, 0, 0);">${goodRest.rest_name }</a>
                                             <button class="btn btn-danger" id="w2" onmouseover="w2_mouseover()"
                                                 onmouseout="w2_mouseout()">좋아요</button>
                                         </li>
                                         </c:forEach>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                                    <a href="#" style="color: rgb(218, 0, 0);">식당이름</a>
-                                            <button class="btn btn-danger" id="w2" onmouseover="w2_mouseover()"
-                                                onmouseout="w2_mouseout()">좋아요</button>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -289,20 +275,13 @@
                                     <ul class="list-group">
                                     <c:forEach var="badRest" items="${pageScope.profileBadRestList}">
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                                    <a href="#" style="color: rgb(218, 0, 0);">${badRest.rest_name }</a>
+                                            <td style="width:70px;"><img class="rounded-circle" width="45" id="modal_userImg"
+                                                    src="${badRest.rest_profile}"></td>
+                                                    <a href="./restDetail.jsp?rest_no=${badRest.rest_no}" style="color: rgb(218, 0, 0);">${badRest.rest_name }</a>
                                             <button class="btn btn-danger" id="w3" onmouseover="w3_mouseover()"
                                                 onmouseout="w3_mouseout()">싫어요</button>
                                         </li>
                                     </c:forEach>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                                    <a href="#" style="color: rgb(218, 0, 0);">식당이름</a>
-                                            <button class="btn btn-danger" id="w3" onmouseover="w3_mouseover()"
-                                                onmouseout="w3_mouseout()">싫어요</button>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -316,21 +295,14 @@
                                     <ul class="list-group">
 										<c:forEach var="blockRest" items="${pageScope.profileBlockRestList}">
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                                    <a href="#" style="color: rgb(218, 0, 0);">${blockRest.rest_name }</a>
+                                            <td style="width:70px;">
+                                            	<img class="rounded-circle" width="45" id="modal_userImg" src="${blockRest.rest_profile}">
+                                                    </td>
+                                                    <a href="./restDetail.jsp?rest_no=${blockRest.rest_no}" style="color: rgb(218, 0, 0);">${blockRest.rest_name }</a>
                                             <button class="btn btn-danger" id="w4" onmouseover="w4_mouseover()"
                                                 onmouseout="w4_mouseout()">차단</button>
                                         </li>
                                         </c:forEach>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                                    <a href="#" style="color: rgb(218, 0, 0);">식당이름</a>
-                                            <button class="btn btn-danger" id="w4" onmouseover="w4_mouseover()"
-                                                onmouseout="w4_mouseout()">차단</button>
-                                        </li>
-
                                     </ul>
                                 </div>
                             </div>

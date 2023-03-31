@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.saoe.model.member.MemberDTO;
+import com.saoe.model.member.SessionUserDTO;
 import com.saoe.model.message.MessageDAO;
 import com.saoe.model.message.MessageDTO;
 
@@ -19,7 +20,7 @@ public class WriteMessageCon extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		MemberDTO member= (MemberDTO)session.getAttribute("member");
+		SessionUserDTO member= (SessionUserDTO)session.getAttribute("member");
 		
 		String send_id = member.getId();
 		String receive_id = request.getParameter("receive_id");

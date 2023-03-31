@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.saoe.model.member.MemberDTO;
+import com.saoe.model.member.SessionUserDTO;
 import com.saoe.model.restaurant.RestMemberDTO;
 import com.saoe.model.restaurant.RestaurantDAO;
 
@@ -23,7 +23,7 @@ public class GBRestCon extends HttpServlet {
 		int state = Integer.parseInt(request.getParameter("state"));
 
 		HttpSession session = request.getSession();
-		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
 
 		RestMemberDTO restMember = new RestMemberDTO(rest_no, member.getId());
 		restMember.setRest_gb(state);

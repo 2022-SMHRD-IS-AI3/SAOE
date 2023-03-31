@@ -12,11 +12,22 @@ public class MessageDAO {
 	SqlSessionFactory sqlSessionFactory = SqlSessionManager.getSqlSession();
 	
 	// (쪽지목록, s_f_602)
-	public List<MessageDTO> selectMessage(String id) {
+	public List<MessageDTO> selectReceiveMessage(String id) {
 		
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 		
-		List<MessageDTO> messageList = sqlSession.selectList("selectMessage", id);
+		List<MessageDTO> messageList = sqlSession.selectList("selectReceiveMessage", id);
+		
+		sqlSession.close();		
+		
+		return messageList;
+	}
+	
+	public List<MessageDTO> selectSendMessage(String id) {
+		
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		List<MessageDTO> messageList = sqlSession.selectList("selectSendMessage", id);
 		
 		sqlSession.close();		
 		
@@ -37,6 +48,18 @@ public class MessageDAO {
 		}
 		
 		return cnt;
+	}
+	
+	public List<FFFDTO> selectFFF(String id){
+		
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		List<FFFDTO> fffList = sqlSession.selectList("selectFFF", id);
+		
+		sqlSession.close();		
+		
+		return fffList;
+		
 	}
 	
 	// (쪽지삭제, ??)

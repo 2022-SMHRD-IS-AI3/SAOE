@@ -230,7 +230,7 @@ a {
 									<div class="box">
 										<div>
 											<img
-												src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
+												src=${scrapReview.review_pic_src }
 												class="aaa">
 										</div>
 										<div class="card-body">
@@ -267,7 +267,7 @@ a {
 									<div class="box">
 										<div>
 											<img
-												src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
+												src="${goodReview.review_pic_src }"
 												class="aaa">
 										</div>
 										<div class="card-body">
@@ -291,35 +291,7 @@ a {
 									</div>
 								</div>
 							</c:forEach>
-							<div class="card gedf-card" style="margin-right: 30px;">
-								<div class="box">
-									<div>
-										<img
-											src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-											class="aaa">
-									</div>
-									<div class="card-body">
-										<div class="box-title">
-											<h4>
-												<a href="#" style="color: rgb(218, 0, 0);">식당이름</a>
-											</h4>
-										</div>
-										<div class="box-text">
-											<span>간단한 리뷰 내용</span>
-										</div>
-										<div>
-											<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
-										</div>
-										<div class="box-btn"
-											style="text-align: center; margin-top: 10px;">
-											<button class="btn btn-danger" id="w2"
-												onmouseover="w2_mouseover()" onmouseout="w2_mouseout()">좋아요</button>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
-
 					</div>
 
 
@@ -331,7 +303,7 @@ a {
 									<div class="box">
 										<div>
 											<img
-												src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
+												src=${badReview.review_pic_src }
 												class="aaa">
 										</div>
 										<div class="card-body">
@@ -355,33 +327,6 @@ a {
 									</div>
 								</div>
 							</c:forEach>
-							<div class="card gedf-card" style="margin-right: 30px;">
-								<div class="box">
-									<div>
-										<img
-											src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-											class="aaa">
-									</div>
-									<div class="card-body">
-										<div class="box-title">
-											<h4>
-												<a href="#" style="color: rgb(218, 0, 0);">식당이름</a>
-											</h4>
-										</div>
-										<div class="box-text">
-											<span>간단한 리뷰 내용</span>
-										</div>
-										<div>
-											<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
-										</div>
-										<div class="box-btn"
-											style="text-align: center; margin-top: 10px;">
-											<button class="btn btn-danger" id="w3"
-												onmouseover="w3_mouseover()" onmouseout="w3_mouseout()">싫어요</button>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
 
 					</div>
@@ -394,7 +339,7 @@ a {
 									<div class="box">
 										<div>
 											<img
-												src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
+												src=${blockReview.review_pic_src }
 												class="aaa">
 										</div>
 										<div class="card-body">
@@ -418,33 +363,6 @@ a {
 									</div>
 								</div>
 							</c:forEach>
-							<div class="card gedf-card" style="margin-right: 30px;">
-								<div class="box">
-									<div>
-										<img
-											src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-											class="aaa">
-									</div>
-									<div class="card-body">
-										<div class="box-title">
-											<h4>
-												<a href="#" style="color: rgb(218, 0, 0);">식당이름</a>
-											</h4>
-										</div>
-										<div class="box-text">
-											<span>간단한 리뷰 내용</span>
-										</div>
-										<div>
-											<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
-										</div>
-										<div class="box-btn"
-											style="text-align: center; margin-top: 10px;">
-											<button class="btn btn-danger" id="w4"
-												onmouseover="w4_mouseover()" onmouseout="w4_mouseout()">차단</button>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
 
 					</div>
@@ -458,17 +376,17 @@ a {
 									<div class="box">
 										<div>
 											<img
-												src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
+												src=${reportReview.review_pic_src }
 												class="aaa">
 										</div>
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="#" style="color: rgb(218, 0, 0);">{fn:substring(reportReview.rest_name,0,7) }...</a>
+													<a href="#" style="color: rgb(218, 0, 0);">${fn:substring(reportReview.rest_name,0,7) }...</a>
 												</h4>
 											</div>
 											<div class="box-text">
-												<span>{fn:substring(reportReview.rest_name,0,7) }...</span>
+												<span>${fn:substring(reportReview.rest_name,0,7) }...</span>
 											</div>
 											<div>
 												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
@@ -480,32 +398,6 @@ a {
 									</div>
 								</div>
 							</c:forEach>
-								<div class="card gedf-card" style="margin-right: 30px;">
-									<div class="box">
-										<div>
-											<img
-												src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-												class="aaa">
-										</div>
-										<div class="card-body">
-											<div class="box-title">
-												<h4>
-													<a href="#" style="color: rgb(218, 0, 0);">식당이름</a>
-												</h4>
-											</div>
-											<div class="box-text">
-												<span>간단한 리뷰 내용</span>
-											</div>
-											<div>
-												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
-											</div>
-											<div class="box-text" style="margin-top: 5px;">
-												<p>신고사유</p>
-											</div>
-										</div>
-									</div>
-								</div>
-
 							</div>
 						</div>
 

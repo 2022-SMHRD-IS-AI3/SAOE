@@ -82,6 +82,12 @@
 		<description></description>
 		<servlet-class>com.saoe.controllers.restCont.BlockRestCon</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>DatalistCon</servlet-name>
+		<display-name>DatalistCon</display-name>
+		<description></description>
+		<servlet-class>com.saoe.controllers.testCont.DatalistCon</servlet-class>
+	</servlet>
 
 
 	<servlet-mapping>
@@ -135,6 +141,10 @@
 	<servlet-mapping>
 		<servlet-name>BlockRestCon</servlet-name>
 		<url-pattern>/BlockRestCon</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DatalistCon</servlet-name>
+		<url-pattern>/DatalistCon</url-pattern>
 	</servlet-mapping>
 
 </web-app>

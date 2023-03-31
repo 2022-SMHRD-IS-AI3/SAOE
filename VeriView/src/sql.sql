@@ -8,7 +8,39 @@ and r.rest_no = rest.rest_no
 and rest.code_no = c.code_no
 and r.id = '1';
 
-select * from review_member;
+select * from member_member;
+
+select * from review order by review_post_date desc;
+
+select * from message;
+
+select rest.rest_no rest_no, rest.rest_name rest_name, rest.rest_profile
+		rest_profile from restaurant rest, rest_member rest_m where
+		rest_m.actor_id = '1' and rest_m.rest_follow_yn = 1 and rest.rest_no = rest_m.rest_no
+		
+select m.id id, m.nick nick from member m, member_member mm
+where m.id = mm.actor_id and mm.actor_id in (select actor_id from member_member where id = '1' and member_follow_yn = 1) and member_follow_yn = 1;
+
+select actor_id from member_member where id = '1' and member_follow_yn = 1
+
+		select m.id id, m.nick nick, m.profile profile,
+		r.review_no review_no,
+		r.review_content review_content, r.review_post_date review_post_date,
+		r.review_update_date review_update_date,
+		rest.rest_no rest_no,
+		rest.rest_name rest_name, rest.rest_addr rest_addr,
+		c.code_no code_no,
+		c.main_cate main_cate, c.sub_cate sub_cate
+		from review r, member m, restaurant rest, category c
+		where r.id = m.id
+		and
+		r.rest_no = rest.rest_no
+		and rest.code_no = c.code_no
+		and rest.rest_no = 516
+
+		select * from review where rest_no = 516;
+		select * from restaurant;
+
 
 select
 		distinct(r.review_no)

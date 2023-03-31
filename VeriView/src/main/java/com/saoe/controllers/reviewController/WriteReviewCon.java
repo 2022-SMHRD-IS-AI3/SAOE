@@ -62,29 +62,22 @@ public class WriteReviewCon extends HttpServlet {
 				
 			}
 			
-			System.out.println(request.getParameter("rest_no"));
 			
 			// 리뷰 작성 페이지에서 받아오는 값들
-			int rest_no = Integer.parseInt(request.getParameter("rest_no"));
+			int rest_no = Integer.parseInt(multi.getParameter("rest_no"));
 			System.out.println(rest_no);
 			String review_content = multi.getParameter("review_content");
-
-			System.out.println(1111);
 
 			// 리뷰 작성자 id를 세션에서 받아옴
 			HttpSession session = request.getSession();
 			SessionUserDTO dto = (SessionUserDTO) session.getAttribute("member");
 			String id = dto.getId();
 
-			System.out.println(2222);			
-			
 			// review 테이블에 넣기위해 객체에 담음
 			ReviewDTO review = new ReviewDTO(id, rest_no, review_content);
 
 			// 사진을 업로드하기위해 생성된 게시글 시퀀스를 받음
 			ReviewDAO dao = new ReviewDAO();
-			
-			System.out.println(3333);
 			
 			// 사진을 객체에 담음
 			int cnt = dao.uploadReview(review, reviewPicList);

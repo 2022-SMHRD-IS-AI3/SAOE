@@ -21,13 +21,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
-<link
-	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-	rel="stylesheet"">
-	<script src="https://kit.fontawesome.com/6dc009df2e.js" crossorigin="anonymous"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"">
+<script src="https://kit.fontawesome.com/6dc009df2e.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
 <style>
 @import
@@ -245,29 +241,12 @@
 
 				<div class="row my-3">
 					<c:forEach var="cate" items="${pageScope.cateList}">
-						<button type="button" class="btn btn-outline-light mx-1"
+						<button type="button" class="btn btn-outline-light ml-3"
 							style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
 							data-bs-toggle="tooltip" data-bs-placement="top"
 							data-bs-title="Tooltip on top">${cate.main_cate}</button>
 					</c:forEach>
 				</div>
-
-				<c:forEach var="cate" items="${pageScope.cateList}">
-					<div class="row my-3">
-						<button type="button" class="btn btn-outline-light mx-1"
-							style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
-							data-bs-toggle="tooltip" data-bs-placement="top"
-							data-bs-title="Tooltip on top">${cate.main_cate}</button>
-						<c:forEach var="sub" items="${cate.sub_cateList}">
-							<button type="button" class="btn btn-outline-light mx-1"
-								style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
-								data-bs-toggle="tooltip" data-bs-placement="top"
-								data-bs-title="Tooltip on top">${sub.sub_cate}</button>
-						</c:forEach>
-					</div>
-				</c:forEach>
-
-
 
 				<div class="row-fluid">
 					<c:forEach var="feed" items="${pageScope.feedList}">
@@ -618,116 +597,112 @@ function updateLikeReview(review_no, state) {
     });
 
 }
-</script>
-<script>
-	function scrapReview(review_no, elem){
-		if($(elem).text() == '스크랩'){
-			$(elem).text('스크랩 취소');
-			updateScrapReview(review_no, 1);
-		}else if($(elem).text() == '스크랩 취소'){
-			$(elem).text('스크랩');
-			updateScrapReview(review_no, 0);
-		}
+
+function scrapReview(review_no, elem){
+	if($(elem).text() == '스크랩'){
+		$(elem).text('스크랩 취소');
+		updateScrapReview(review_no, 1);
+	}else if($(elem).text() == '스크랩 취소'){
+		$(elem).text('스크랩');
+		updateScrapReview(review_no, 0);
 	}
-	function updateScrapReview(review_no, state){
-	    $.ajax({
-	        url: 'ScrapReviewCon',
-	        type: 'post',
-	        data: {
-	            review_no: review_no,
-	            state: state,
-	        },
-	        success: function () {
-	        	alert("리뷰 스크랩 성공");
-	        },
-	        error: function () {
-				alert("리뷰 스크랩 실패");
-	        }
-	    });
+}
+function updateScrapReview(review_no, state){
+    $.ajax({
+        url: 'ScrapReviewCon',
+        type: 'post',
+        data: {
+            review_no: review_no,
+            state: state,
+        },
+        success: function () {
+        	alert("리뷰 스크랩 성공");
+        },
+        error: function () {
+			alert("리뷰 스크랩 실패");
+        }
+    });
+}
+function reportReview(review_no, elem){
+	
+	var review_rep_content = prompt('신고 사유를 입력해주세요');
+	
+	updateReportReview(review_no, review_rep_content);
+	
+	$(elem).parent().parent().parent().parent().parent().parent().remove();
+}
+function updateReportReview(review_no, review_rep_content){
+	$.ajax({
+        url: 'ReportReviewCon',
+        type: 'post',
+        data: {
+            review_no: review_no,
+            review_rep_content: review_rep_content,
+        },
+        success: function () {
+        	alert("리뷰 신고 성공");
+        },
+        error: function () {
+			alert("리뷰 신고 실패");
+        }
+    });
+}
+
+function blockReview(review_no, elem){
+	$(elem).parent().parent().parent().parent().parent().parent().remove();
+	
+	updateBlockReview(review_no, 1);		
+}
+function updateBlockReview(review_no, state){
+    $.ajax({
+        url: 'BlockReviewCon',
+        type: 'post',
+        data: {
+            review_no: review_no,
+            state: state,
+        },
+        success: function () {
+        	alert("리뷰 차단 성공");
+        },
+        error: function () {
+			alert("리뷰 차단 실패");
+        }
+    });
+	
+}
+
+
+function followMember(id, elem){
+	
+	if(($(elem).children().attr('class') == 'fa fa-regular fa-heart card-link actionBtn')){
+		$(elem).children().attr('class', 'fa fa-heart card-link actionBtn');
+		updateFollowMember(id, 1);
 	}
-	function reportReview(review_no, elem){
-		
-		var review_rep_content = prompt('신고 사유를 입력해주세요');
-		
-		updateReportReview(review_no, review_rep_content);
-		
-		$(elem).parent().parent().parent().parent().parent().parent().remove();
-	}
-	function updateReportReview(review_no, review_rep_content){
-		$.ajax({
-	        url: 'ReportReviewCon',
-	        type: 'post',
-	        data: {
-	            review_no: review_no,
-	            review_rep_content: review_rep_content,
-	        },
-	        success: function () {
-	        	alert("리뷰 신고 성공");
-	        },
-	        error: function () {
-				alert("리뷰 신고 실패");
-	        }
-	    });
+	else if(($(elem).children().attr('class') == 'fa fa-heart card-link actionBtn')){
+		$(elem).children().attr('class', 'fa fa-regular fa-heart card-link actionBtn');
+		updateFollowMember(id, 0);
 	}
 	
-	function blockReview(review_no, elem){
-		$(elem).parent().parent().parent().parent().parent().parent().remove();
-		
-		updateBlockReview(review_no, 1);		
-	}
-	function updateBlockReview(review_no, state){
-	    $.ajax({
-	        url: 'BlockReviewCon',
-	        type: 'post',
-	        data: {
-	            review_no: review_no,
-	            state: state,
-	        },
-	        success: function () {
-	        	alert("리뷰 차단 성공");
-	        },
-	        error: function () {
-				alert("리뷰 차단 실패");
-	        }
-	    });
-		
-	}
+}
 
-</script>
+function updateFollowMember(id, state) {_rest
+    $.ajax({
+        url: 'FollowMemberCon',
+        type: 'post',
+        data: {
+            id: id,
+            state: state,
+        },
+        success: function () {
+        	alert("활동 성공");
+        },
+        error: function () {
+			alert("활동 실패");
+        }
+    });
 
+}
 
-<script>
-	function followMember(id, elem){
-		
-		if(($(elem).children().attr('class') == 'fa fa-regular fa-heart card-link actionBtn')){
-			$(elem).children().attr('class', 'fa fa-heart card-link actionBtn');
-			updateFollowMember(id, 1);
-		}
-		else if(($(elem).children().attr('class') == 'fa fa-heart card-link actionBtn')){
-			$(elem).children().attr('class', 'fa fa-regular fa-heart card-link actionBtn');
-			updateFollowMember(id, 0);
-		}
-		
-	}
-	
-	function updateFollowMember(id, state) {
-	    $.ajax({
-	        url: 'FollowMemberCon',
-	        type: 'post',
-	        data: {
-	            id: id,
-	            state: state,
-	        },
-	        success: function () {
-	        	alert("활동 성공");
-	        },
-	        error: function () {
-				alert("활동 실패");
-	        }
-	    });
-
-	}
-	
 </script>
 
 <script>

@@ -54,6 +54,44 @@
 		member_follow_yn = #{member_follow_yn}, member_follow_date =
 		sysdate
 	</update>
+	
+	<update id="blockMember" parameterType="MemberMemberDTO">
+		MERGE INTO member_member
+		USING DUAL
+		ON (id = #{id} AND actor_id = #{actor_id})
+		WHEN NOT
+		MATCHED
+		THEN
+		INSERT (id, actor_id, member_block_yn,
+		member_block_date)
+		values
+		(#{id}, #{actor_id}, #{member_block_yn}, sysdate)
+		WHEN MATCHED
+		THEN
+		UPDATE SET
+		member_block_yn = #{member_block_yn}, member_block_date =
+		sysdate
+	</update>
+
+	<update id="reportMember" parameterType="MemberMemberDTO">
+		MERGE INTO member_member
+		USING DUAL
+		ON (id = #{id} AND actor_id = #{actor_id})
+		WHEN NOT
+		MATCHED
+		THEN
+		INSERT (id, actor_id, member_rep_yn, member_rep_content,
+		member_rep_date)
+		values
+		(#{id}, #{actor_id}, #{member_rep_yn},
+		#{member_rep_content}, sysdate)
+		WHEN MATCHED
+		THEN
+		UPDATE SET
+		member_rep_yn = #{member_rep_yn}, member_rep_content =
+		#{member_rep_content}, member_rep_date =
+		sysdate
+	</update>
 
 
 

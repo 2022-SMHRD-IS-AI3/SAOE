@@ -11,10 +11,12 @@
 	
 	
 		<typeAlias type="com.saoe.model.search.SearchDTO" alias="SearchDTO"/>
-		<typeAlias type="com.saoe.model.message.MessageDTO" alias="MessageDTO"/>
 		<typeAlias type="com.saoe.model.category.CategoryDTO" alias="CategoryDTO"/>
 		<typeAlias type="com.saoe.model.feed.FeedDTO" alias="FeedDTO"/>
 		<typeAlias type="com.saoe.model.reply.ReplyDTO" alias="ReplyDTO"/>
+		
+		<typeAlias type="com.saoe.model.message.MessageDTO" alias="MessageDTO"/>
+		<typeAlias type="com.saoe.model.message.FFFDTO" alias="FFFDTO"/>
 		
 		<typeAlias type="com.saoe.model.review.ReviewDTO" alias="ReviewDTO"/>
 		<typeAlias type="com.saoe.model.review.ReviewPicDTO" alias="ReviewPicDTO"/>

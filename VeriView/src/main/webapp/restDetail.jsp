@@ -28,7 +28,7 @@
 <link
 	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
 	rel="stylesheet" id="bootstrap-css">
-	
+
 <link
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 	rel="stylesheet">
@@ -44,11 +44,12 @@
 	box-sizing: border-box;
 }
 
-#img1{
-   object-fit:contain;
+#img1 {
+	object-fit: contain;
 }
-#img2{
-   object-fit:contain;
+
+#img2 {
+	object-fit: contain;
 }
 
 .h7 {
@@ -201,26 +202,9 @@
 									<div class="h5 m-0">
 										<a href="" style="color: rgb(0, 0, 0);">${pageScope.rest.rest_name}</a>
 									</div>
-									<!-- <div class="h7 text-muted">Miracles Lee Cross</div> -->
 								</div>
 							</div>
-							<div>
-								<div class="dropdown">
-									<button class="btn btn-link dropdown-toggle" type="button"
-										id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false" style="color: rgb(218, 0, 0);">
-										<i class="fa fa-ellipsis-h" style="color: rgb(218, 0, 0);"></i>
-									</button>
-									<div class="dropdown-menu dropdown-menu-right"
-										aria-labelledby="gedf-drop1">
-										<!-- <div class="h6 dropdown-header">Configuration</div> -->
-										<a class="dropdown-item" href="#"
-											style="color: rgb(218, 0, 0);">식당 스크랩</a> <a
-											class="dropdown-item" href="#" style="color: rgb(218, 0, 0);">게시물
-											차단</a>
-									</div>
-								</div>
-							</div>
+							<div></div>
 						</div>
 					</div>
 					<div class="card-body">
@@ -238,28 +222,35 @@
 								<div>
 									<!-- 부트스트랩 슬라이드 -->
 									<div id="carouselExampleIndicators" class="carousel slide"
-									data-ride="carousel">
+										data-ride="carousel">
 										<div class="carousel-inner" style="height: 600px">
-											<div class="carousel-item active" style="background-color: black;height:100%;width: 100%;">
+											<div class="carousel-item active"
+												style="background-color: black; height: 100%; width: 100%;">
 												<img id="img1" src="${pageScope.rest.rest_profile }"
-													class="d-block w-100" alt="..." style="max-height:100%; max-width:80%;transform: translate(-50%, -50%); position:absolute; top:50%;left:50%;">
+													class="d-block w-100" alt="..."
+													style="max-height: 100%; max-width: 80%; transform: translate(-50%, -50%); position: absolute; top: 50%; left: 50%;">
 											</div>
 											<c:forEach var="restPic"
 												items="${pageScope.rest.restPicList}">
-												<div class="carousel-item"  style="background-color: black;height:100%;width: 100%;">
-													<img id="img2"src="${restPic.rest_pic_src}" class="d-block w-100"
-														alt="..." style="max-height:100%; max-width:80%;transform: translate(-50%, -50%); position:absolute; top:50%;left:50%;">
+												<div class="carousel-item"
+													style="background-color: black; height: 100%; width: 100%;">
+													<img id="img2" src="${restPic.rest_pic_src}"
+														class="d-block w-100" alt="..."
+														style="max-height: 100%; max-width: 80%; transform: translate(-50%, -50%); position: absolute; top: 50%; left: 50%;">
 												</div>
 											</c:forEach>
 										</div>
-										<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev"> 
-										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-										<span class="sr-only">Previous</span>
-									</a> 
-									<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next"> 
-										<span class="carousel-control-next-icon" aria-hidden="true"></span>
-										<span class="sr-only">Next</span>
-									</a>
+										<a class="carousel-control-prev"
+											href="#carouselExampleIndicators" role="button"
+											data-slide="prev"> <span
+											class="carousel-control-prev-icon" aria-hidden="true"></span>
+											<span class="sr-only">Previous</span>
+										</a> <a class="carousel-control-next"
+											href="#carouselExampleIndicators" role="button"
+											data-slide="next"> <span
+											class="carousel-control-next-icon" aria-hidden="true"></span>
+											<span class="sr-only">Next</span>
+										</a>
 									</div>
 									<!-- 여기까지 -->
 								</div>
@@ -271,14 +262,18 @@
 								</td> <br>
 								<!--  식당 좋아요 싫어요 번튼 -->
 								<div class="rest_act_btn">
-									<button type="button" onclick="rest_follow();"
-										class="btn btn-outline-danger">식당 팔로우</button>
-									<button type="button" onclick="rest_like();"
-										class="btn btn-outline-danger">식당 좋아요</button>
-									<button type="button" onclick="rest_dislike();"
-										class="btn btn-outline-danger">식당 싫어요</button>
-									<button type="button" onclick="rest_block()"
-										class="btn btn-outline-danger">식당 차단</button>
+									<button type="button"
+										onclick="followRest(${pageScope.rest.rest_no}, this);"
+										class="btn btn-outline-danger">팔로우</button>
+									<button type="button"
+										onclick="likeRest(${pageScope.rest.rest_no}, this);"
+										class="btn btn-outline-danger">좋아요</button>
+									<button type="button"
+										onclick="dislikeRest(${pageScope.rest.rest_no}, this);"
+										class="btn btn-outline-danger">싫어요</button>
+									<button type="button"
+										onclick="blockRest(${pageScope.rest.rest_no}, this)"
+										class="btn btn-outline-danger">차단</button>
 								</div>
 								<hr width="100%">
 								<br>
@@ -365,24 +360,26 @@
 								<!-- 카카오맵 자바스크립트-->
 
 
-							</form>
-							<div class="card mb-2">
-								<div class="card-header bg-light" style="color: rgb(218, 0, 0);">
-									<!-- 리뷰 아이콘-->
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-										fill="currentColor" class="bi bi-card-text"
-										viewBox="0 0 16 16">
+							</form> <a href="./restFeed.jsp?rest_no=${pageScope.rest.rest_no}">
+								<div class="card mb-2">
+									<div class="card-header bg-light"
+										style="color: rgb(218, 0, 0);">
+										<!-- 리뷰 아이콘-->
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+											fill="currentColor" class="bi bi-card-text"
+											viewBox="0 0 16 16">
                                             <path
-											d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"></path>
+												d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"></path>
                                             <path
-											d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"></path>
+												d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"></path>
                                         </svg>
-									<!-- 리뷰 아이콘 -->
+										<!-- 리뷰 아이콘 -->
 
-									리뷰모아보기
+										리뷰모아보기
+									</div>
+
 								</div>
-
-							</div>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -421,6 +418,109 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
 		crossorigin="anonymous"></script>
+
+	<script>
+	function followRest(rest_no, elem){
+		
+		
+		if($(elem).text() == '팔로우'){
+			$(elem).text('팔로우 취소');
+			updateFollowRest(rest_no, 1);
+		}else if($(elem).text() == '팔로우 취소'){
+			$(elem).text('팔로우');
+			updateFollowRest(rest_no, 1);
+		}
+
+	}
+
+	function updateFollowRest(rest_no, state) {
+	    $.ajax({
+	        url: 'FollowRestCon',
+	        type: 'post',
+	        data: {
+	            rest_no: rest_no,
+	            state: state,
+	        },
+	        success: function () {
+	        	alert("활동 성공");
+	        },
+	        error: function () {
+				alert("활동 실패");
+	        }
+	    });
+
+	}
+	function likeRest(rest_no, elem){
+		
+		if($(elem).text() == '좋아요'){
+			$(elem).text('좋아요 취소');
+			updateGBRest(rest_no, 1);
+		}else if($(elem).text() == '좋아요 취소'){
+			$(elem).text('좋아요');
+			updateGBRest(rest_no, 0);
+		}
+	}
+	
+	function dislikeRest(rest_no, elem){
+		
+		if($(elem).text() == '싫어요'){
+			$(elem).text('싫어요 취소');
+			updateGBRest(rest_no, -1);
+		}else if($(elem).text() == '싫어요 취소'){
+			$(elem).text('싫어요');
+			updateGBRest(rest_no, 0);
+		}
+	}
+	
+	function blockRest(rest_no, elem){
+		
+		if($(elem).text() == '차단'){
+			$(elem).text('차단 취소');
+			updateBlockRest(rest_no, 1);
+		}else if($(elem).text() == '차단 취소'){
+			$(elem).text('차단');
+			updateBlockRest(rest_no, 0);
+		}
+	}
+	function updateBlockRest(rest_no, state) {
+	    $.ajax({
+	        url: 'BlockRestCon',
+	        type: 'post',
+	        data: {
+	            rest_no: rest_no,
+	            state: state,
+	        },
+	        success: function () {
+	        	alert("활동 성공");
+	        },
+	        error: function () {
+				alert("활동 실패");
+	        }
+	    });
+
+	}
+	
+	
+	
+	function updateGBRest(rest_no, state) {
+	    $.ajax({
+	        url: 'GBRestCon',
+	        type: 'post',
+	        data: {
+	            rest_no: rest_no,
+	            state: state,
+	        },
+	        success: function () {
+	        	alert("활동 성공");
+	        },
+	        error: function () {
+				alert("활동 실패");
+	        }
+	    });
+
+	}
+	
+	</script>
 
 
 	<script
