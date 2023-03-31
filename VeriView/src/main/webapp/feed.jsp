@@ -570,12 +570,12 @@ function like(review_no, elem) {
     if (($(elem).children().text() == '취소')) {
         $(elem).children().attr('class', 'fa fa-regular fa-thumbs-up');
         $(elem).children().text('좋아요');
-        updateLike(review_no, 0);
+        updateLikeReview(review_no, 0);
         
     } else if (($(elem).children().text() == '좋아요')) {
         $(elem).children().attr('class', 'fa-solid fa-thumbs-up');
         $(elem).children().text('취소');
-        updateLike(review_no, 1);
+        updateLikeReview(review_no, 1);
     }
 }
 function hate(review_no, elem){
@@ -583,15 +583,15 @@ function hate(review_no, elem){
     if (($(elem).children().text() == '취소')) {
         $(elem).children().attr('class', 'fa fa-regular fa-thumbs-down');
         $(elem).children().text('싫어요');
-        updateLike(review_no, 0);
+        updateLikeReview(review_no, 0);
     } else if (($(elem).children().text() == '싫어요')) {
         $(elem).children().attr('class', 'fa-solid fa-thumbs-down');
         $(elem).children().text('취소');
-        updateLike(review_no, -1);
+        updateLikeReview(review_no, -1);
     }
 }
 
-function updateLike(review_no, state) {
+function updateLikeReview(review_no, state) {
     $.ajax({
         url: 'GBReviewCon',
         type: 'post',
@@ -611,15 +611,36 @@ function updateLike(review_no, state) {
 </script>
 <script>
 	function followMember(id, elem){
-		$(elem).children().attr('class', 'fa fa-heart card-link actionBtn');
-/* 		if($(elem).children().attr('class') == 'fa fa-regular fa-heart card-link actionBtn'){
+		
+		if(($(elem).children().attr('class') == 'fa fa-regular fa-heart card-link actionBtn')){
 			$(elem).children().attr('class', 'fa fa-heart card-link actionBtn');
+			updateFollowMember(id, 1);
 		}
-		if($(elem).children().attr('class') == 'fa fa-heart card-link actionBtn'){
+		else if(($(elem).children().attr('class') == 'fa fa-heart card-link actionBtn')){
 			$(elem).children().attr('class', 'fa fa-regular fa-heart card-link actionBtn');
-		} */
+			updateFollowMember(id, 0);
+		}
 		
 	}
+	
+	function updateFollowMember(id, state) {
+	    $.ajax({
+	        url: 'GBReviewCon',
+	        type: 'post',
+	        data: {
+	            review_no: review_no,
+	            state: state,
+	        },
+	        success: function () {
+	        	alert("리뷰 평가 성공");
+	        },
+	        error: function () {
+				alert("리뷰 평가 실패");
+	        }
+	    });
+
+	}
+	
 </script>
 
 <script>
