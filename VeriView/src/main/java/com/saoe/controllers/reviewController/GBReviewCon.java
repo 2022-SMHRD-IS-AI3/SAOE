@@ -18,6 +18,9 @@ public class GBReviewCon extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		System.out.println("[GBReviewCon]");
+		
 		request.setCharacterEncoding("UTF-8");
 
 		HttpSession session = request.getSession();
@@ -25,6 +28,7 @@ public class GBReviewCon extends HttpServlet {
 		SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
 		String id = member.getId();
 		int review_no = Integer.parseInt(request.getParameter("review_no"));
+		System.out.println(review_no);
 		int state = Integer.parseInt(request.getParameter("state"));
 		
 
@@ -34,8 +38,6 @@ public class GBReviewCon extends HttpServlet {
 		reviewMember.setReview_gb(state);
 
 		int cnt = new ReviewDAO().gbReview(reviewMember);
-
-		System.out.println(id + review_no);
 
 		if (cnt > 0) {
 			System.out.println("리뷰 평가 성공");

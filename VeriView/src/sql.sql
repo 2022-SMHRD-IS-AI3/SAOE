@@ -8,6 +8,48 @@ and r.rest_no = rest.rest_no
 and rest.code_no = c.code_no
 and r.id = '1';
 
+select * from review_member;
+
+select
+		distinct(r.review_no)
+		review_no, r.review_content review_content,
+		r.review_post_date
+		review_post_date,
+		rp.review_pic_src review_pic_src,
+		rest.rest_no
+		rest_no, rest.rest_name rest_name
+		from review r, review_pic rp,
+		restaurant rest, review_member rm
+		where rm.actor_id = '1'
+		and r.rest_no = rest.rest_no
+		and r.review_no = rp.review_no
+		and r.review_no = rm.review_no
+		and rm.review_gb = 1
+
+
+		
+		
+select * from review_pic group by review_no;
+		
+select
+		r.review_no
+		review_no, r.review_content review_content,
+		r.review_post_date
+		review_post_date,
+		rp.review_pic_src review_pic_src,
+		rest.rest_no
+		rest_no, rest.rest_name rest_name
+		from review r, review_pic
+		rp,
+		restaurant rest, review_member rm
+		where r.review_no = rp.review_no
+		and r.rest_no = rest.rest_no
+		and rm.actor_id = '1'
+		and r.review_no =
+		rm.review_no
+		and rm.review_gb = 1		
+		
+
 update review set id = 'admin';
 
 select * from RESTAURANT where rest_name like '%그%';

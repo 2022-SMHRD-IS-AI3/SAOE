@@ -27,6 +27,7 @@
 <link
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 	rel="stylesheet"">
+	<script src="https://kit.fontawesome.com/6dc009df2e.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
 <style>
 @import
@@ -276,10 +277,9 @@
 											<c:if test="${feed.id ne 'admin' }">
 												<a href="./profile.jsp?id=${feed.id}" style="color: rgb(0, 0, 0);">
 											</c:if>
-												${feed.nick}</a> <a
-													href="/VeriView/FollowMemberCon?id=${feed.id}&state=1"
-													style="color: rgb(218, 0, 0);"><i
-													class="fa fa-regular fa-heart card-link actionBtn"></i></a>
+												${feed.nick}</a> 
+												<a href="javascript:void(0);" onclick="followMember('${feed.id}', this)" style="color: rgb(218, 0, 0);">
+												<i class="fa fa-regular fa-heart card-link actionBtn"></i></a>
 											</div>
 										</div>
 									</div>
@@ -363,11 +363,11 @@
 								</div>
 							</div>
 							<div class="card-footer">
-								<a href="javascript:void(0);" onclick="like(${feed.review_no})" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-									<i class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요
+								<a href="javascript:void(0);" onclick="like(${feed.review_no}, this)" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+									<i class="fa fa-regular fa-thumbs-up" style="color: rgb(218, 0, 0);">좋아요</i> 
 								</a>
-								<a href="/VeriView/GBReviewCon?review_no=${feed.review_no}&state=-1" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-									<i class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i>싫어요
+								<a href="javascript:void(0);" onclick="hate(${feed.review_no}, this)" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+									<i class="fa fa-regular fa-thumbs-down" style="color: rgb(218, 0, 0);">싫어요</i>
 								</a>
 								<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
 									<i class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유
@@ -562,15 +562,66 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<script>
-		function like(review_no){
-			alert(review_no);
+	</div>	
+
+<script>
+function like(review_no, elem) {
+
+    if (($(elem).children().text() == '취소')) {
+        $(elem).children().attr('class', 'fa fa-regular fa-thumbs-up');
+        $(elem).children().text('좋아요');
+        updateLike(review_no, 0);
+        
+    } else if (($(elem).children().text() == '좋아요')) {
+        $(elem).children().attr('class', 'fa-solid fa-thumbs-up');
+        $(elem).children().text('취소');
+        updateLike(review_no, 1);
+    }
+}
+function hate(review_no, elem){
+	
+    if (($(elem).children().text() == '취소')) {
+        $(elem).children().attr('class', 'fa fa-regular fa-thumbs-down');
+        $(elem).children().text('싫어요');
+        updateLike(review_no, 0);
+    } else if (($(elem).children().text() == '싫어요')) {
+        $(elem).children().attr('class', 'fa-solid fa-thumbs-down');
+        $(elem).children().text('취소');
+        updateLike(review_no, -1);
+    }
+}
+
+function updateLike(review_no, state) {
+    $.ajax({
+        url: 'GBReviewCon',
+        type: 'post',
+        data: {
+            review_no: review_no,
+            state: state,
+        },
+        success: function () {
+        	alert("리뷰 평가 성공");
+        },
+        error: function () {
+			alert("리뷰 평가 실패");
+        }
+    });
+
+}
+</script>
+<script>
+	function followMember(id, elem){
+		$(elem).children().attr('class', 'fa fa-heart card-link actionBtn');
+/* 		if($(elem).children().attr('class') == 'fa fa-regular fa-heart card-link actionBtn'){
+			$(elem).children().attr('class', 'fa fa-heart card-link actionBtn');
 		}
-	
-	
-	</script>
-	
+		if($(elem).children().attr('class') == 'fa fa-heart card-link actionBtn'){
+			$(elem).children().attr('class', 'fa fa-regular fa-heart card-link actionBtn');
+		} */
+		
+	}
+</script>
+
 <script>
 
 		$(function() {
@@ -598,7 +649,6 @@
 			})
 		})
 		
-		$("#datalistOptions").onclick()
 		
 	</script>
 

@@ -225,8 +225,7 @@ a {
 					<div class="tab-pane fade show active" id="a">
 
 						<div class="row">
-							<c:forEach var="scrapReview"
-								items="${pageScope.profileScrapReviewList}">
+							<c:forEach var="scrapReview" items="${pageScope.profileScrapReviewList}">
 								<div class="card gedf-card" style="margin-right: 30px;">
 									<div class="box">
 										<div>
