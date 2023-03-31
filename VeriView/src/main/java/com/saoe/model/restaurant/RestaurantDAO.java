@@ -1,5 +1,7 @@
 package com.saoe.model.restaurant;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -10,15 +12,16 @@ public class RestaurantDAO {
 	
 	SqlSessionFactory sqlSessionFactory = SqlSessionManager.getSqlSession();
 	
-	public RestaurantDTO selectRest(int rest_no) {
+	public RestaurantDTO restDetail(int rest_no) {
 		
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 		
+		
 		RestaurantDTO rest = sqlSession.selectOne("selectRest", rest_no);
 		
-		CategoryDTO cate = sqlSession.selectOne("selectCategory", rest);
+		List<RestPicDTO> restPicList = sqlSession.selectList("selectRestPic", rest_no);
 		
-		rest.setCategory(cate);
+		rest.setRestPicList(restPicList);
 		
 		sqlSession.close();
 		

@@ -61,11 +61,6 @@
 		select nick, profile from member where id = #{id}
 	</select>
 
-	<select id="selectRest" parameterType="ReviewDTO"
-		resultType="RestaurantDTO">
-		select * from restaurant where rest_no = #{rest_no}
-	</select>
-
 	<select id="selectCategory" parameterType="RestaurantDTO"
 		resultType="CategoryDTO">
 		select * from category where code_no = #{code_no}
@@ -131,13 +126,13 @@
 		review_rep_content, review_rep_date)
 		values (#{review_no}, #{actor_id},
 		#{review_rep_yn},
-		'그냥',sysdate)
+		#{review_rep_content},sysdate)
 		WHEN MATCHED
 		THEN
 		UPDATE SET
 		review_rep_yn
 		= #{review_rep_yn},
-		review_rep_content = '그냥', review_rep_date =
+		review_rep_content = #{review_rep_content}, review_rep_date =
 		sysdate
 	</update>
 

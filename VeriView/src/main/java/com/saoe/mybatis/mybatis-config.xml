@@ -23,6 +23,7 @@
 		
 		<typeAlias type="com.saoe.model.restaurant.RestMemberDTO" alias="RestMemberDTO"/>
 		<typeAlias type="com.saoe.model.restaurant.RestaurantDTO" alias="RestaurantDTO"/>
+		<typeAlias type="com.saoe.model.restaurant.RestPicDTO" alias="RestPicDTO"/>
 		
 		<typeAlias type="com.saoe.model.member.MemberDTO" alias="MemberDTO"/>
 		<typeAlias type="com.saoe.model.member.LoginDTO" alias="LoginDTO"/>

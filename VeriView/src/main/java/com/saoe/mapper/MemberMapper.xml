@@ -8,29 +8,54 @@
 
 	<insert id="join" parameterType="MemberDTO">
 		insert into member (id, pw,
-		name, nick, tel, addr, birth, gender, profile, profile_message, join_date, member_score, grade)
-		values (#{id}, #{pw}, #{name}, #{nick}, #{tel}, #{addr}, #{birth},
-		#{gender}, #{profile}, #{profile_message}, sysdate, #{member_score}, #{grade})
+		name, nick, tel, addr, birth, gender, profile, profile_message,
+		join_date, member_score, grade)
+		values (#{id}, #{pw}, #{name}, #{nick},
+		#{tel}, #{addr}, #{birth},
+		#{gender}, #{profile}, #{profile_message},
+		sysdate, #{member_score}, #{grade})
 	</insert>
 
-	<select id="login" parameterType="LoginDTO" resultType="SessionUserDTO">
-		select id, name, nick, profile, profile_message from member where id = #{id} and pw = #{pw}
+	<select id="login" parameterType="LoginDTO"
+		resultType="SessionUserDTO">
+		select id, name, nick, profile, profile_message from member
+		where id = #{id} and pw = #{pw}
 	</select>
-	
-	<select id="selectFollowerCnt" resultType="int">
-		select count(*) from member_member where id = #{id} and member_follow_yn = 1
-	</select>
-	
-	<select id="selectFollowingCnt" resultType="int">
-		select count(*) from member_member where actor_id = #{id} and member_follow_yn = 1
-	</select>
-	
-	<select id="selectUpdateMember" resultType="memberDTO">
-		select * from member where id = #{id}
-	</select>
-	
 
-	
+	<select id="selectFollowerCnt" resultType="int">
+		select count(*) from
+		member_member where id = #{id} and member_follow_yn = 1
+	</select>
+
+	<select id="selectFollowingCnt" resultType="int">
+		select count(*) from
+		member_member where actor_id = #{id} and member_follow_yn = 1
+	</select>
+
+	<select id="selectUpdateMember" resultType="memberDTO">
+		select * from member
+		where id = #{id}
+	</select>
+
+	<update id="followMember" parameterType="MemberMemberDTO">
+		MERGE INTO member_member
+		USING DUAL
+		ON (id = #{id} AND actor_id = #{actor_id})
+		WHEN NOT
+		MATCHED
+		THEN
+		INSERT (id, actor_id, member_follow_yn,
+		member_follow_date)
+		values
+		(#{id}, #{actor_id}, #{member_follow_yn}, sysdate)
+		WHEN MATCHED
+		THEN
+		UPDATE SET
+		member_follow_yn = #{member_follow_yn}, member_follow_date =
+		sysdate
+	</update>
+
+
 
 
 </mapper>

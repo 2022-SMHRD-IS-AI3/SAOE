@@ -34,7 +34,6 @@ public class ScrapReviewCon extends HttpServlet {
 		
 		int cnt = new ReviewDAO().scrapReview(reviewMember);
 		
-		System.out.println(id+review_no);
 		
 		if(cnt > 0) {
 			System.out.println("리뷰 스크랩 성공");

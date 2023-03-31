@@ -43,6 +43,14 @@
 	color: rgb(218, 0, 0);
 }
 
+#img1{
+   object-fit:contain;
+}
+#img2{
+   object-fit:contain;
+}
+
+
 .gedf-wrapper {
 	margin-top: 10px;
 }
@@ -293,11 +301,11 @@
 											<div class="dropdown-menu dropdown-menu-right"
 												aria-labelledby="gedf-drop1">
 												<!-- <div class="h6 dropdown-header">Configuration</div> -->
-												<a class="dropdown-item actionBtn" href="/VeriView/ScrapReviewCon?review_no=${feed.review_no}&state=1"
+												<a class="dropdown-item actionBtn" href="javascript:void(0);" onclick="scrapReview('${feed.review_no}', this)"
 													style="color: rgb(218, 0, 0);">스크랩</a> 
-												<a class="dropdown-item actionBtn" href="/VeriView/ReportReviewCon?review_no=${feed.review_no}&state=1"
+												<a class="dropdown-item actionBtn" href="javascript:void(0);" onclick="reportReview('${feed.review_no}', this)"
 													style="color: rgb(218, 0, 0);">신고</a> 
-												<a class="dropdown-item actionBtn" href="/VeriView/BlockReviewCon?review_no=${feed.review_no}&state=1"
+												<a class="dropdown-item actionBtn"  href="javascript:void(0);" onclick="blockReview('${feed.review_no}', this)"
 													style="color: rgb(218, 0, 0);">게시물 차단</a>
 											</div>
 										</div>
@@ -310,7 +318,7 @@
 									<i class="fa fa-clock-o"></i> ${feed.review_post_date} /
 									${feed.review_update_date }
 								</div>
-								<a class="card-link" href="#" style="color: rgb(218, 0, 0);">
+								<a class="card-link" href="./restDetail.jsp?rest_no=${feed.rest_no}" style="color: rgb(218, 0, 0);">
 									<h5 class="card-title">${feed.rest_name}</h5>
 								</a>
 
@@ -324,28 +332,30 @@
 										<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
 									</ol>
 									
-									<div class="carousel-inner">
-										<c:if test="${not empty feed.reviewPicList }">
-										<c:forEach var="reviewPic" items="${feed.reviewPicList}" varStatus="status">
-											<c:choose>
-													<c:when test="${status.index eq 0}">
-													<div class="carousel-item active">
-														<img class="d-block w-100"
-													src="${reviewPic.review_pic_src }"
-													alt="First slide" width="400px" height="600px">
-													</div>
-													</c:when>
-													<c:otherwise>
-													<div class="carousel-item">
-														<img class="d-block w-100"
-													src="${reviewPic.review_pic_src }"
-													alt="First slide" width="400px" height="600px">
-													</div>
-													</c:otherwise>
-											</c:choose>
-										</c:forEach>
-										</c:if>
-									</div>
+									<div class="carousel-inner" style="height: 600px">
+                              <c:if test="${not empty feed.reviewPicList }">
+                              <c:forEach var="reviewPic" items="${feed.reviewPicList}" varStatus="status">
+                                 <c:choose>
+                                       <c:when test="${status.index eq 0}">
+                                       <div class="carousel-item active" style="background-color: black;height:100%;max-width: 100%;">                        
+                                             <img id="img1" class="d-block w-100"
+                                                src="${reviewPic.review_pic_src }"
+                                                alt="First slide" style="max-height:100%; max-width:80%;transform: translate(-50%, -50%); position:absolute; top:50%;left:50%;">
+                                       <!--  margin: auto; display: flex; justify-content: center;align-self:center; -->
+                                       
+                                       </div>
+                                       </c:when>
+                                       <c:otherwise>
+                                       <div class="carousel-item" style="background-color: black; height:100%; width: 100%;">
+                                             <img id="img2" class="d-block w-100"
+                                                src="${reviewPic.review_pic_src}"
+                                                alt="First slide" style="max-height:100%; max-width:80%;transform: translate(-50%, -50%); position:absolute; top:50%;left:50%;">
+                                       </div>
+                                       </c:otherwise>
+                                 </c:choose>
+                              </c:forEach>
+                              </c:if>
+                           </div>
 									<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev"> 
 										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 										<span class="sr-only">Previous</span>
@@ -610,6 +620,83 @@ function updateLikeReview(review_no, state) {
 }
 </script>
 <script>
+	function scrapReview(review_no, elem){
+		if($(elem).text() == '스크랩'){
+			$(elem).text('스크랩 취소');
+			updateScrapReview(review_no, 1);
+		}else if($(elem).text() == '스크랩 취소'){
+			$(elem).text('스크랩');
+			updateScrapReview(review_no, 0);
+		}
+	}
+	function updateScrapReview(review_no, state){
+	    $.ajax({
+	        url: 'ScrapReviewCon',
+	        type: 'post',
+	        data: {
+	            review_no: review_no,
+	            state: state,
+	        },
+	        success: function () {
+	        	alert("리뷰 스크랩 성공");
+	        },
+	        error: function () {
+				alert("리뷰 스크랩 실패");
+	        }
+	    });
+	}
+	function reportReview(review_no, elem){
+		
+		var review_rep_content = prompt('신고 사유를 입력해주세요');
+		
+		updateReportReview(review_no, review_rep_content);
+		
+		$(elem).parent().parent().parent().parent().parent().parent().remove();
+	}
+	function updateReportReview(review_no, review_rep_content){
+		$.ajax({
+	        url: 'ReportReviewCon',
+	        type: 'post',
+	        data: {
+	            review_no: review_no,
+	            review_rep_content: review_rep_content,
+	        },
+	        success: function () {
+	        	alert("리뷰 신고 성공");
+	        },
+	        error: function () {
+				alert("리뷰 신고 실패");
+	        }
+	    });
+	}
+	
+	function blockReview(review_no, elem){
+		$(elem).parent().parent().parent().parent().parent().parent().remove();
+		
+		updateBlockReview(review_no, 1);		
+	}
+	function updateBlockReview(review_no, state){
+	    $.ajax({
+	        url: 'BlockReviewCon',
+	        type: 'post',
+	        data: {
+	            review_no: review_no,
+	            state: state,
+	        },
+	        success: function () {
+	        	alert("리뷰 차단 성공");
+	        },
+	        error: function () {
+				alert("리뷰 차단 실패");
+	        }
+	    });
+		
+	}
+
+</script>
+
+
+<script>
 	function followMember(id, elem){
 		
 		if(($(elem).children().attr('class') == 'fa fa-regular fa-heart card-link actionBtn')){
@@ -625,17 +712,17 @@ function updateLikeReview(review_no, state) {
 	
 	function updateFollowMember(id, state) {
 	    $.ajax({
-	        url: 'GBReviewCon',
+	        url: 'FollowMemberCon',
 	        type: 'post',
 	        data: {
-	            review_no: review_no,
+	            id: id,
 	            state: state,
 	        },
 	        success: function () {
-	        	alert("리뷰 평가 성공");
+	        	alert("활동 성공");
 	        },
 	        error: function () {
-				alert("리뷰 평가 실패");
+				alert("활동 실패");
 	        }
 	    });
 

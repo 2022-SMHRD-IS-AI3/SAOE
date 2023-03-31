@@ -37,23 +37,7 @@
 		#{pw}, nick = #{nick}, tel = #{tel}, addr = #{addr} where id = #{id}
 	</update>
 
-	<update id="followMember" parameterType="MemberMemberDTO">
-		MERGE INTO member_member
-		USING DUAL
-		ON (id = #{id} AND actor_id = #{actor_id})
-		WHEN NOT
-		MATCHED
-		THEN
-		INSERT (id, actor_id, member_follow_yn,
-		member_follow_date)
-		values
-		(#{id}, #{actor_id}, #{member_follow_yn}, sysdate)
-		WHEN MATCHED
-		THEN
-		UPDATE SET
-		member_follow_yn = #{member_follow_yn}, member_follow_date =
-		sysdate
-	</update>
+
 
 	<update id="blockMember" parameterType="MemberMemberDTO">
 		MERGE INTO member_member

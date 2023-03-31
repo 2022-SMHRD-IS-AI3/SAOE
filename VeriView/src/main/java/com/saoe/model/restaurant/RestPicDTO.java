@@ -15,6 +15,5 @@ public class RestPicDTO {
 	private int rest_pic_no;
 	private int rest_no;
 	private String rest_pic_src;
-	private int rest_pic_size;
 
 }

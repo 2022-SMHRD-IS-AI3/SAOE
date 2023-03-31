@@ -25,7 +25,18 @@ select
 		and r.review_no = rp.review_no
 		and r.review_no = rm.review_no
 		and rm.review_gb = 1
+		
+select r.rest_no rest_no, r.code_no code_no, r.rest_name rest_name, r.rest_profile rest_profile, r.rest_tel rest_tel, r.rest_addr rest_addr, r.rest_addr2 rest_addr2,
+r.rest_naver_score rest_naver_score, r.rest_kakao_score rest_kakao_score, r.rest_google_score rest_google_score,
+r.rest_score rest_score, r.rest_post_date rest_post_date,
+c.main_cate main_cate, c.sub_cate sub_cate
+from restaurant r, category c 
+where r.rest_no = 379 and r.code_no = c.code_no;
 
+select * from restaurant where rest_no = 379;
+
+		
+select * from restaurant;
 
 		
 		

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import com.saoe.model.member.MemberDAO;
 import com.saoe.model.member.MemberDTO;
 import com.saoe.model.member.MemberMemberDTO;
+import com.saoe.model.member.SessionUserDTO;
 
 public class FollowMemberCon extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -22,7 +23,7 @@ public class FollowMemberCon extends HttpServlet {
 		int state = Integer.parseInt(request.getParameter("state"));
 		
 		HttpSession session = request.getSession();
-		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		SessionUserDTO member = (SessionUserDTO)session.getAttribute("member");
 		
 		MemberMemberDTO memberMember = new MemberMemberDTO();
 		memberMember.setId(id);
