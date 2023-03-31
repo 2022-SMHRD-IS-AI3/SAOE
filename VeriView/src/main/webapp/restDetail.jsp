@@ -236,16 +236,13 @@
 													src="${pageScope.rest.rest_profile }"
 													class="d-block w-100" alt="...">
 											</div>
+											<c:forEach var="restPic" items="${pageScope.rest.restPicList}">
 											<div class="carousel-item">
 												<img
-													src="https://t1.kakaocdn.net/thumb/T800x0.q80/?fname=http%3A%2F%2Ft1.kakaocdn.net%2Ffiy_reboot%2Fplace%2F348DC23AD0EE409A895D73F3BF323CF8"
+													src="${restPic.rest_pic_src}"
 													class="d-block w-100" alt="...">
 											</div>
-											<div class="carousel-item">
-												<img
-													src="https://t1.kakaocdn.net/thumb/T800x0.q80/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fcfile%2F202F393B4FCC601C3E"
-													class="d-block w-100" alt="...">
-											</div>
+											</c:forEach>
 										</div>
 										<button class="carousel-control-prev" type="button"
 											data-bs-target="#carouselExample" data-bs-slide="prev">
