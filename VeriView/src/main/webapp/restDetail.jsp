@@ -320,8 +320,7 @@
 
 								<!-- 카카오맵 자바스크립트 -->
 								<script>
-									var mapContainer = document
-											.getElementById('map'), // 지도를 표시할 div 
+									var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 									mapOption = {
 										center : new kakao.maps.LatLng(
 												33.450701, 126.570667), // 지도의 중심좌표
@@ -336,7 +335,7 @@
 									// 주소로 좌표를 검색합니다
 									geocoder
 											.addressSearch(
-													'제주특별자치도 제주시 첨단로 242',
+													'광주 동구 지산로 21',
 													function(result, status) {
 														// 정상적으로 검색이 완료됐으면 
 														if (status === kakao.maps.services.Status.OK) {

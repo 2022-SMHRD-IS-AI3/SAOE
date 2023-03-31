@@ -39,6 +39,8 @@ public class FeedDAO {
 
 		return feedList;
 	}
+	
+	// 유저 추천 피드
 	public List<FeedDTO> selectUserFeed(String id) {
 		
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
@@ -58,6 +60,7 @@ public class FeedDAO {
 		return feedList;
 	}
 	
+	// 카테고리 불러옴
 	public List<CategoryDTO> selectCate(){
 		
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
@@ -76,5 +79,8 @@ public class FeedDAO {
 		
 		return cateList;
 	}
+	
+	// 식당 피드 불러옴
+	
 
 }
