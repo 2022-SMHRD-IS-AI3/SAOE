@@ -337,7 +337,7 @@
                               <c:forEach var="reviewPic" items="${feed.reviewPicList}" varStatus="status">
                                  <c:choose>
                                        <c:when test="${status.index eq 0}">
-                                       <div class="carousel-item active" style="background-color: black;height:100%;max-width: 100%;">                        
+                                       <div class="carousel-item active" style="background-color: black;height:100%;width: 100%;">                        
                                              <img id="img1" class="d-block w-100"
                                                 src="${reviewPic.review_pic_src }"
                                                 alt="First slide" style="max-height:100%; max-width:80%;transform: translate(-50%, -50%); position:absolute; top:50%;left:50%;">

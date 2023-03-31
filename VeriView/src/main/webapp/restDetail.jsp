@@ -24,12 +24,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
+
 <link
 	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
 	rel="stylesheet" id="bootstrap-css">
+	
 <link
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-	rel="stylesheet"">
+	rel="stylesheet">
 <script src="https://kit.fontawesome.com/6dc009df2e.js"
 	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
@@ -40,6 +42,13 @@
 
 * {
 	box-sizing: border-box;
+}
+
+#img1{
+   object-fit:contain;
+}
+#img2{
+   object-fit:contain;
 }
 
 .h7 {
@@ -228,30 +237,29 @@
 								<hr width="100%">
 								<div>
 									<!-- 부트스트랩 슬라이드 -->
-									<div id="carouselExample" class="carousel slide">
-										<div class="carousel-inner">
-											<div class="carousel-item active">
-												<img src="${pageScope.rest.rest_profile }"
-													class="d-block w-100" alt="...">
+									<div id="carouselExampleIndicators" class="carousel slide"
+									data-ride="carousel">
+										<div class="carousel-inner" style="height: 600px">
+											<div class="carousel-item active" style="background-color: black;height:100%;width: 100%;">
+												<img id="img1" src="${pageScope.rest.rest_profile }"
+													class="d-block w-100" alt="..." style="max-height:100%; max-width:80%;transform: translate(-50%, -50%); position:absolute; top:50%;left:50%;">
 											</div>
 											<c:forEach var="restPic"
 												items="${pageScope.rest.restPicList}">
-												<div class="carousel-item">
-													<img src="${restPic.rest_pic_src}" class="d-block w-100"
-														alt="...">
+												<div class="carousel-item"  style="background-color: black;height:100%;width: 100%;">
+													<img id="img2"src="${restPic.rest_pic_src}" class="d-block w-100"
+														alt="..." style="max-height:100%; max-width:80%;transform: translate(-50%, -50%); position:absolute; top:50%;left:50%;">
 												</div>
 											</c:forEach>
 										</div>
-										<button class="carousel-control-prev" type="button"
-											data-bs-target="#carouselExample" data-bs-slide="prev">
-											<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-											<span class="visually-hidden">Previous</span>
-										</button>
-										<button class="carousel-control-next" type="button"
-											data-bs-target="#carouselExample" data-bs-slide="next">
-											<span class="carousel-control-next-icon" aria-hidden="true"></span>
-											<span class="visually-hidden">Next</span>
-										</button>
+										<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev"> 
+										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+										<span class="sr-only">Previous</span>
+									</a> 
+									<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next"> 
+										<span class="carousel-control-next-icon" aria-hidden="true"></span>
+										<span class="sr-only">Next</span>
+									</a>
 									</div>
 									<!-- 여기까지 -->
 								</div>
