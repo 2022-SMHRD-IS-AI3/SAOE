@@ -4,7 +4,6 @@ import lombok.Getter;
 
 @Getter
 
-
 public class SearchReviewDTO {
 	
 	// 간단한 리뷰 데이터를 담음

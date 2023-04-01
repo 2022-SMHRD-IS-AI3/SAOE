@@ -1,5 +1,9 @@
 package com.saoe.model.search;
 
+import lombok.Getter;
+
+@Getter
+
 public class SearchRestDTO {
 	
 	private int rest_no;

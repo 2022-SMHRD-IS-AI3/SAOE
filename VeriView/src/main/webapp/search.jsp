@@ -261,13 +261,15 @@ a {
                             <div class="row">
                                 <div class="col-12">
                                     <ul class="list-group">
+                                    	<c:forEach var="searchMember" items="${pageScope.searchMemberList}">
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                            <a href="#" style="color: rgb(218, 0, 0);">${pageScope.searchMemberList}</a>
+                                                    src="${searchMember.profile}"></td>
+                                            <a href="./profile.jsp?id=${searchMember.id}" style="color: rgb(218, 0, 0);">${searchMember.nick}</a>
                                             <button class="btn btn-outline-danger" id="w1" onmouseover="w1_mouseover()"
                                                 onmouseout="w1_mouseout()">팔로우</button>
                                         </li>
+                                        </c:forEach>
                                     </ul>
 
                                     <hr>
@@ -282,18 +284,19 @@ a {
                                     
                                     <div class="container" style="margin-top: 10px;">
                                         <div class="row">
+                                        <c:forEach var="searchReview" items="${pageScope.searchReviewList}">
                                             <div class="card gedf-card" style="margin-right: 30px;">
                                                 <div class="box">
                                                     <div>
-                                                        <img src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
+                                                        <img src="${scrapReview.review_pic_src}"
                                                             class="aaa">
                                                     </div>
                                                     <div class="card-body">
                                                         <div class="box-title">
-                                                            <h4><a href="#" style="color: rgb(218, 0, 0);">식당이름</a></h4>
+                                                            <h4><a href="rest" style="color: rgb(218, 0, 0);">${fn:substring(searchReview.rest_name,0,5) }...</a></h4>
                                                         </div>
                                                         <div class="box-text">
-                                                            <span>간단한 리뷰 내용</span>
+                                                            <span>${fn:substring(searchReview.review_content,0,8)}...</span>
                                                         </div>
                                                         <div>
                                                             <a href="#" style="color: rgb(218, 0, 0);">더보기</a>
@@ -301,6 +304,7 @@ a {
                                                     </div>
                                                 </div>
                                             </div>
+                                            </c:forEach>
                                         </div>
                                     </div>
 
@@ -320,7 +324,7 @@ a {
                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                                     <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
                                                             src="https://picsum.photos/50/50"></td>
-                                                    <a href="#" style="color: rgb(218, 0, 0);">식당이름</a>
+                                                    <a href="#" style="color: rgb(218, 0, 0);">${pageScope.searchRestList}</a>
                                                     <button class="btn btn-outline-danger" id="w1" onmouseover="w1_mouseover()"
                                                         onmouseout="w1_mouseout()">팔로우</button>
                                                 </li>
