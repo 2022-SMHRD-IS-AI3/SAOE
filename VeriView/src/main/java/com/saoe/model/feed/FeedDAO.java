@@ -67,7 +67,7 @@ public class FeedDAO {
 		
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 		
-		List<FeedDTO> feedList = sqlSession.selectList("selectFeed");
+		List<FeedDTO> feedList = sqlSession.selectList("selectUserFeed", id);
 		
 		for(FeedDTO feed : feedList) {
 			int review_no = feed.getReview_no();

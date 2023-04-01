@@ -105,27 +105,20 @@
 	MemberMemberDAO memberMemberDAO = new MemberMemberDAO();
 	FeedDAO feedDAO = new FeedDAO();
 	
-	if(request.getParameter("code_no") != null){
-		int code_no = Integer.parseInt(request.getParameter("code_no"));
-		List<FeedDTO> feedList = feedDAO.selectCateFeed(code_no);
-		
-		pageContext.setAttribute("feedList", feedList);
-		
-	}else{
-		List<FeedDTO> feedList = feedDAO.selectFeed();
-		pageContext.setAttribute("feedList", feedList);
-	}
+
 	
 
-	if (session.getAttribute("member") != null) {
 		SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
 
 		int followerCnt = memberMemberDAO.selectFollowerCnt(member.getId());
 		int followingCnt = memberMemberDAO.selectFollowingCnt(member.getId());
 		pageContext.setAttribute("followerCnt", followerCnt);
 		pageContext.setAttribute("followingCnt", followingCnt);
+		
+		List<FeedDTO> feedList = feedDAO.selectUserFeed(member.getId());
+		
+		pageContext.setAttribute("feedList", feedList);
 
-	} 
 	%>
 
 	<div class="container-fluid gedf-wrapper">
@@ -205,7 +198,7 @@
 					style="height: 60px; display: flex; justify-content: center; align-items: center;">
 					<a href="#"
 						style="margin-right: 30px; color: rgb(218, 0, 0); font-size: 20px;">새글</a>
-					<a href="./userFeed.jsp" style="color: rgb(218, 0, 0); font-size: 20px;">추천</a>
+					<a href="#" style="color: rgb(218, 0, 0); font-size: 20px;">추천</a>
 				</div>
 
 
