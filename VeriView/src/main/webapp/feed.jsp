@@ -65,6 +65,18 @@
 	}
 }
 
+@media screen and (max-width: 900px) {
+  .col-md-3.member-info {
+    display: none;
+  }
+} 
+
+@media screen and (max-width: 1200px) {
+  .col-md-3.ad-info {
+    display: none;
+  }
+} 
+
 .fix-nav {
 	position: sticky;
 	top: 0;
@@ -72,7 +84,6 @@
 	left: 0;
 	right: 0;
 	z-index: 2;
-
 	/* 생략 */
 }
 
@@ -112,7 +123,7 @@
 
 	<div class="container-fluid gedf-wrapper">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-3 member-info">
 				<c:if test="${not empty sessionScope.member}">
 					<div class="card" style="position: fixed; width:25%;">
 						<div class="card-body">
@@ -181,7 +192,7 @@
 				</c:if>
 			</div>
 
-			<div class="col-md-6 gedf-main">
+			<div class="col-md-6 gedf-main" style="min-width: 600px;">
 
 				<div class="row"
 					style="height: 60px; display: flex; justify-content: center; align-items: center;">
@@ -533,7 +544,7 @@
 				</div>
 			</div>
 			<!-- 광고 배너 -->
-			<div class="col-md-3" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
+			<div class="col-md-3 ad-info" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
 				<div class="card gedf-card">
 					<div class="card-body">
 						<h5 class="card-title">
