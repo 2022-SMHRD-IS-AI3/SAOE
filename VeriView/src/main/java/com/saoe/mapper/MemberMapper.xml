@@ -54,7 +54,7 @@
 		member_follow_yn = #{member_follow_yn}, member_follow_date =
 		sysdate
 	</update>
-	
+
 	<update id="blockMember" parameterType="MemberMemberDTO">
 		MERGE INTO member_member
 		USING DUAL
@@ -93,6 +93,17 @@
 		sysdate
 	</update>
 
+	<insert id="insertInter" parameterType="InterestDTO">
+		insert all
+		<foreach collection="list" item="item" index="index" open=""
+			separator=" " close="SELECT * FROM DUAL">
+			into interests
+			(id, code_no)
+			VALUES
+			(#{item.id}, #{item.code_no})
+
+		</foreach>
+	</insert>
 
 
 

@@ -363,6 +363,8 @@ input[type="checkbox"]:checked::before {
 
 <body>
 	<%
+	String id = request.getParameter("id");
+	
 	List<CategoryDTO> cateList = new FeedDAO().selectCate();
 	pageContext.setAttribute("cateList", cateList);
 	%>
@@ -374,16 +376,15 @@ input[type="checkbox"]:checked::before {
 			</h1>
 			<div class="col-md-12 container-fluid">
 				<div class="container">
-					<form action="./feed.jsp" style="width: 100%;">
+					<form action="InsertInter" style="width: 100%;">
+						<input type="hidden" name="id" value="<%=id%>">
 						<div class="form-group row" style="text-align: center;">
 							<div class="col-sm-10">
 								<div>
 									<c:forEach var="main_cate" items="${pageScope.cateList}">
-										
 										<div class="cc">
-											<input class="form-check-input" type="checkbox"
-												value="${main_cate.main_cate}" id="movie"> <label
-												class="form-check-label" for="movie">${main_cate.main_cate}</label>
+											<input class="form-check-input" type="checkbox" value="${main_cate.code_no}" id="movie" name="inter">
+											<label class="form-check-label" for="movie">${main_cate.main_cate}</label>
 										</div>
 									</c:forEach>
 									<div style="margin-top: 50px;">
