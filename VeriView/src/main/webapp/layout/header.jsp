@@ -26,7 +26,7 @@
 			<form class="form-inline" style="float: right; height: 50px;">
 				<div class="input-group">
 					<input type="text" class="form-control">
-					<div class="input-group-append">
+					<div class="input-group-append" style="background-color: rgb(218, 0, 0);">
 						<button class="btn btn-outline-danger" type="button"
 							id="button-addon2" style="color: rgb(218, 0, 0);">
 							<i class="fa fa-search" style="color: white;"></i>
