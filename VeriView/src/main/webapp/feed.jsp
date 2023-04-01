@@ -104,6 +104,18 @@
 	<%
 	MemberMemberDAO memberMemberDAO = new MemberMemberDAO();
 	FeedDAO feedDAO = new FeedDAO();
+	
+	if(request.getParameter("code_no") != null){
+		int code_no = Integer.parseInt(request.getParameter("code_no"));
+		List<FeedDTO> feedList = feedDAO.selectCateFeed(code_no);
+		
+		pageContext.setAttribute("feedList", feedList);
+		
+	}else{
+		List<FeedDTO> feedList = feedDAO.selectFeed();
+		pageContext.setAttribute("feedList", feedList);
+	}
+	
 
 	if (session.getAttribute("member") != null) {
 		SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
@@ -113,12 +125,7 @@
 		pageContext.setAttribute("followerCnt", followerCnt);
 		pageContext.setAttribute("followingCnt", followingCnt);
 
-		List<FeedDTO> feedList = feedDAO.selectUserFeed(member.getId());
-		pageContext.setAttribute("feedList", feedList);
-	} else {
-		List<FeedDTO> feedList = feedDAO.selectFeed();
-		pageContext.setAttribute("feedList", feedList);
-	}
+	} 
 	%>
 
 	<div class="container-fluid gedf-wrapper">
@@ -254,12 +261,20 @@
 				pageContext.setAttribute("cateList", cateList);
 				%>
 
-				<div class="row my-3">
+				<div class="row my-3 mx-auto">
+					<a href="feed.jsp">
+						<button type="button" class="btn btn-outline-light mx-1"
+								style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
+								data-bs-toggle="tooltip" data-bs-placement="top"
+								data-bs-title="Tooltip on top">전체</button>
+					</a>
 					<c:forEach var="cate" items="${pageScope.cateList}">
+					<a href="feed.jsp?code_no=${cate.code_no}">
 						<button type="button" class="btn btn-outline-light mx-1"
 							style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
 							data-bs-toggle="tooltip" data-bs-placement="top"
 							data-bs-title="Tooltip on top">${cate.main_cate}</button>
+							</a>
 					</c:forEach>
 				</div>
 
