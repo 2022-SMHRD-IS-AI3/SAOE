@@ -6,10 +6,7 @@
 
 <mapper namespace="com.saoe.mapper.CateMapper">
 	<select id="selectCate" resultType="CategoryDTO">
-		select distinct(main_cate) as main_cate from category
-	</select>
-	<select id="selectSubCate" resultType="CategoryDTO" parameterType="CategoryDTO">
-		select * from category where main_cate = #{main_cate}
+		select * from category where sub_cate is null
 	</select>
 
 </mapper>

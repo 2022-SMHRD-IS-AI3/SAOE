@@ -16,6 +16,45 @@ select * from message;
 
 select * from user_sequences;
 
+select * from 
+		select m.id id, m.nick nick, m.profile profile,
+		r.review_no review_no,
+		r.review_content review_content, r.review_post_date review_post_date,
+		r.review_update_date review_update_date,
+		rest.rest_no rest_no,
+		rest.rest_name rest_name, rest.rest_addr rest_addr,
+		c.code_no code_no,
+		c.main_cate main_cate, c.sub_cate sub_cate
+		from (select * from( select * from review order by DBMS_RANDOM.RANDOM) <![CDATA[where rownum <= 10]]>) r, member m, restaurant rest, category c, member_member mm, review_member rm, interests i
+		where r.id = m.id
+		and
+		r.rest_no = rest.rest_no
+		and rest.code_no = c.code_no
+		and r.id = 
+
+select m.id id, m.nick nick, m.profile profile,
+		r.review_no review_no,
+		r.review_content review_content, r.review_post_date review_post_date,
+		r.review_update_date review_update_date,
+		rest.rest_no rest_no,
+		rest.rest_name rest_name, rest.rest_addr rest_addr,
+		c.code_no code_no,
+		c.main_cate main_cate, c.sub_cate sub_cate
+from review r, interests i, member m, restaurant rest, category c
+where m.id = i.id
+and m.id = '1'
+and rest.code_no in (select code_no from category where main_cate = (select main_cate from category where code_no = 1));
+ 
+select * from category where sub_cate is null
+
+;
+
+insert into interests values ('1', 1);
+		
+select * from interests		
+		
+select * from user_tables;		
+
 insert into category values (101, '카페', '도넛');
 insert into category values (102, '카페', '초콜릿전문점');
 insert into category values (103, '한식', '장어,먹장어요리');

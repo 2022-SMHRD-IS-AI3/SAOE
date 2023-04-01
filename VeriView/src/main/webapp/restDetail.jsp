@@ -439,7 +439,7 @@
 	        type: 'post',
 	        data: {
 	            rest_no: rest_no,
-	            state: state,
+	            state: state
 	        },
 	        success: function () {
 	        	alert("활동 성공");
@@ -488,7 +488,7 @@
 	        type: 'post',
 	        data: {
 	            rest_no: rest_no,
-	            state: state,
+	            state: state
 	        },
 	        success: function () {
 	        	alert("활동 성공");
@@ -508,7 +508,7 @@
 	        type: 'post',
 	        data: {
 	            rest_no: rest_no,
-	            state: state,
+	            state: state
 	        },
 	        success: function () {
 	        	alert("활동 성공");

@@ -88,6 +88,12 @@
 		<description></description>
 		<servlet-class>com.saoe.controllers.testCont.DatalistCon</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>CateFeedCon</servlet-name>
+		<display-name>CateFeedCon</display-name>
+		<description></description>
+		<servlet-class>com.saoe.controllers.reviewController.CateFeedCon</servlet-class>
+	</servlet>
 
 
 	<servlet-mapping>
@@ -145,6 +151,10 @@
 	<servlet-mapping>
 		<servlet-name>DatalistCon</servlet-name>
 		<url-pattern>/DatalistCon</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CateFeedCon</servlet-name>
+		<url-pattern>/CateFeedCon</url-pattern>
 	</servlet-mapping>
 
 </web-app>
