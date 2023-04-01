@@ -23,14 +23,13 @@
 				<a href="./messageMain.jsp"	style="color: white; font-size: 20px; float: left; margin-right: 50px;">쪽지</a>
 			</div>
 
-			<form class="form-inline" style="float: right; height: 50px;">
+			<form action="./search.jsp" class="form-inline" style="float: right; height: 50px;">
 				<div class="input-group">
-					<input type="text" class="form-control">
+					<input type="text" class="form-control" name="keyword">
 					<div class="input-group-append" style="background-color: rgb(218, 0, 0);">
-						<button class="btn btn-outline-danger" type="button"
+						<input type="submit" class="btn btn-outline-danger" type="button"
 							id="button-addon2" style="color: rgb(218, 0, 0);">
 							<i class="fa fa-search" style="color: white;"></i>
-						</button>
 					</div>
 				</div>
 			</form>

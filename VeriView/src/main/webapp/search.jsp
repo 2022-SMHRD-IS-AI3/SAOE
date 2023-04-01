@@ -264,7 +264,7 @@ a {
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
                                                     src="https://picsum.photos/50/50"></td>
-                                            <a href="#" style="color: rgb(218, 0, 0);">닉네임</a>
+                                            <a href="#" style="color: rgb(218, 0, 0);">${pageScope.searchMemberList}</a>
                                             <button class="btn btn-outline-danger" id="w1" onmouseover="w1_mouseover()"
                                                 onmouseout="w1_mouseout()">팔로우</button>
                                         </li>
