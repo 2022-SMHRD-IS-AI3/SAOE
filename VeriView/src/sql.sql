@@ -71,6 +71,160 @@ select m.id id, m.nick nick, m.profile profile,
 		r.rest_no = rest.rest_no
 		and rest.code_no = c.code_no
 
+select m.id id, m.nick nick, m.profile profile,
+		r.review_no review_no,
+		r.review_content review_content, r.review_post_date review_post_date,
+		r.review_update_date review_update_date,
+		rest.rest_no rest_no,
+		rest.rest_name rest_name, rest.rest_addr rest_addr,
+		c.code_no code_no,
+		c.main_cate main_cate, c.sub_cate sub_cate
+		from (select * from(
+		select *
+		from (select * from review where rest_no in (select rest_no from restaurant where code_no in (select code_no from category where main_cate = (select main_cate from category where code_no in (select code_no from interests where id = '1')))))
+		order by DBMS_RANDOM.RANDOM) 
+    		where rownum <= 10
+		) r, member m, restaurant rest, category c
+		where r.id = m.id
+		and
+		r.rest_no = rest.rest_no
+		and rest.code_no = c.code_no
+		
+select m.id id, m.nick nick, m.profile profile,
+		r.review_no review_no,
+		r.review_content review_content, r.review_post_date review_post_date,
+		r.review_update_date review_update_date,
+		rest.rest_no rest_no,
+		rest.rest_name rest_name, rest.rest_addr rest_addr,
+		c.code_no code_no,
+		c.main_cate main_cate, c.sub_cate sub_cate
+		from (select * from review where review_no in (select * from (select review_no from review where review_no in (select review_no from review 
+where rest_no in (select rest_no from rest_member where actor_id = '1' and (rest_follow_yn = 1 or rest_gb = 1))
+or review_no in (select review_no from review where id in (select id from member_member where actor_id = '1' and (member_follow_yn = 1)))) order by DBMS_RANDOM.RANDOM) where rownum <= 2)
+		) r, member m, restaurant rest, category c
+		where r.id = m.id
+		and
+		r.rest_no = rest.rest_no
+		and rest.code_no = c.code_no
+		union
+		select m.id id, m.nick nick, m.profile profile,
+		r.review_no review_no,
+		r.review_content review_content, r.review_post_date review_post_date,
+		r.review_update_date review_update_date,
+		rest.rest_no rest_no,
+		rest.rest_name rest_name, rest.rest_addr rest_addr,
+		c.code_no code_no,
+		c.main_cate main_cate, c.sub_cate sub_cate
+		from (select * from review where review_no in (select * from (select review_no from review 
+where review_no in (select review_no from review where rest_no in (select rest_no from restaurant where code_no in (select code_no from category where main_cate = (select main_cate from category where code_no in (select code_no from interests where id = '1'))))) 
+order by DBMS_RANDOM.RANDOM) where rownum <= 8)) r, member m, restaurant rest, category c
+		where r.id = m.id
+		and
+		r.rest_no = rest.rest_no
+		and rest.code_no = c.code_no
+		
+		
+		select m.id id, m.nick
+		nick, m.profile profile,
+		r.review_no review_no,
+		r.review_content
+		review_content, r.review_post_date review_post_date,
+		r.review_update_date review_update_date,
+		rest.rest_no rest_no,
+		rest.rest_name rest_name, rest.rest_addr rest_addr,
+		c.code_no code_no,
+		c.main_cate main_cate, c.sub_cate sub_cate
+		from (select * from review
+		where review_no in (select * from (select review_no from review where
+		review_no in (select review_no from review
+		where rest_no in (select rest_no from rest_member where actor_id = #{id} and
+		(rest_follow_yn = 1 or rest_gb = 1))
+		or review_no in (select review_no from review where id in (select id
+		from member_member where actor_id = #{id} and (member_follow_yn = 1))))
+		order by DBMS_RANDOM.RANDOM) where <![CDATA[where rownum <= 2]]>)
+		) r, member m,
+		restaurant rest, category c
+		where r.id = m.id
+		and
+		r.rest_no =	rest.rest_no
+		and rest.code_no = c.code_no
+		union
+		select m.id id, m.nick
+		nick, m.profile profile,
+		r.review_no review_no,
+		r.review_content
+		review_content, r.review_post_date review_post_date,
+		r.review_update_date review_update_date,
+		rest.rest_no rest_no,
+		rest.rest_name rest_name, rest.rest_addr rest_addr,
+		c.code_no code_no,
+		c.main_cate main_cate, c.sub_cate sub_cate
+		from (select * from review
+		where review_no in (select * from (select review_no from review
+		where review_no in (select review_no from review where rest_no in (select
+		rest_no from restaurant where code_no in (select code_no from category
+		where main_cate = (select main_cate from category where code_no in
+		(select code_no from interests where id = #{id})))))
+		order by DBMS_RANDOM.RANDOM) where <![CDATA[where rownum <= 8]]>)) r, member m, restaurant
+		rest, category c
+		where r.id = m.id
+		and
+		r.rest_no = rest.rest_no
+		and
+		rest.code_no = c.code_no
+		
+		
+		
+select * from review where review_no in 
+
+select review_no from review where review_no in (select review_no from review 
+where rest_no in (select rest_no from rest_member where actor_id = '1' and (rest_follow_yn = 1 or rest_gb = 1))
+or review_no in (select review_no from review where id in (select id from member_member where actor_id = '1' and (member_follow_yn = 1)))) order by DBMS_RANDOM.RANDOM
+
+select 
+
+select * from review where review_no in (select * from (select review_no from review where review_no in (select review_no from review 
+where rest_no in (select rest_no from rest_member where actor_id = '1' and (rest_follow_yn = 1 or rest_gb = 1))
+or review_no in (select review_no from review where id in (select id from member_member where actor_id = '1' and (member_follow_yn = 1)))) order by DBMS_RANDOM.RANDOM) where rownum <= 2)
+union
+select * from review where review_no in (select * from (select review_no from review 
+where review_no in (select review_no from review where rest_no in (select rest_no from restaurant where code_no in (select code_no from category where main_cate = (select main_cate from category where code_no in (select code_no from interests where id = '1'))))) 
+order by DBMS_RANDOM.RANDOM) where rownum <= 8)
+
+
+select * from review where review_no in (select * from (select review_no from review 
+where review_no in (select review_no from review where rest_no in (select rest_no from restaurant where code_no in (select code_no from category where main_cate = (select main_cate from category where code_no in (select code_no from interests where id = '1'))))) 
+order by DBMS_RANDOM.RANDOM) where rownum <= 8)
+
+select * from interests;
+select code_no from interests where id = '1'
+select * from category where code_no in (select code_no from interests where id = '1')
+select code_no from category where main_cate = (select main_cate from category where code_no in (select code_no from interests where id = '1'))
+
+
+
+select rest_no from review where review_no in (select review_no from review where id in (select id from member_member where actor_id = '1' and (member_follow_yn = 1)))
+
+
+select rest_no from review where rest_no in (select rest_no from restaurant where rest_no in(select rest_no from rest_member where actor_id = '1' and (rest_follow_yn = 1 or rest_gb = 1)))
+union
+select * from review where id in (select id from member_member where actor_id = '1' and (member_follow_yn = 1))
+union
+select * from review where rest_no in (select rest_no from restaurant where code_no in (select code_no from category where main_cate = (select main_cate from category where code_no in (select code_no from interests where id = '1'))));
+
+
+
+select * from member_member where acotr_id
+select * from review where rest_no in (select rest_no from restaurant where rest_no in(select rest_no from rest_member where actor_id = '1' and (rest_follow_yn = 1 or rest_gb = 1)));
+
+
+select rest_no from rest_member where actor_id = '1' and (rest_follow_yn = 1 or rest_gb = 1)
+
+
+		
+select code_no from interests where id = '1';		
+		
+		
 insert into interests values ('1', 1);
 		
 select * from interests		
