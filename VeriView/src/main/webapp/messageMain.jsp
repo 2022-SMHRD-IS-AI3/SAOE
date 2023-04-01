@@ -38,6 +38,18 @@
 	url("https://fonts.googleapis.com/css?family=Abril+Fatface|Open+Sans:400,700&display=swap")
 	;
 
+@media screen and (max-width: 900px) {
+  .col-md-3.member-info {
+    display: none;
+  }
+} 
+
+@media screen and (max-width: 1200px) {
+  .col-md-3.ad-info {
+    display: none;
+  }
+} 
+
 * {
 	box-sizing: border-box;
 }
@@ -115,9 +127,9 @@
 
 	<div class="container-fluid gedf-wrapper">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-3 member-info">
 				<c:if test="${not empty sessionScope.member}">
-					<div class="card">
+					<div class="card" style="position: fixed; width:25%;">
 						<div class="card-body">
 							<div class="row" height="80px">
 								<div class="media" style="text-align: center;">
@@ -165,7 +177,7 @@
 					</div>
 				</c:if>
 				<c:if test="${empty sessionScope.member}">
-					<div class="card">
+					<div class="card" style="position: fixed; width:25%;">
 						<div class="card-body">
 							<div class="h5" style="height: 30px; color: rgb(218, 0, 0);">게스트</div>
 							<div class="h7 text-muted" style="height: 40px;">로그인 후 이용해
@@ -258,7 +270,7 @@
 
 	<!-- 메시지 end-->
 	<!-- 광고 배너 -->
-	<div class="col-md-3">
+	<div class="col-md-3 ad-info" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
 		<div class="card gedf-card">
 			<div class="card-body">
 				<h5 class="card-title">
