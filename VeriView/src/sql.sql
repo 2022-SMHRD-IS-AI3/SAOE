@@ -14,6 +14,35 @@ select * from review order by review_post_date desc;
 
 select * from message;
 
+select * from user_sequences;
+
+insert into category values (101, '카페', '도넛');
+insert into category values (102, '카페', '초콜릿전문점');
+insert into category values (103, '한식', '장어,먹장어요리');
+insert into category values (104, '한식', '백숙, 삼계탕');
+insert into category values (105, '한식', '닭요리');
+
+update restaurant set code_no = 101 where code_no = 1;
+update restaurant set code_no = 102 where code_no = 2;
+update restaurant set code_no = 103 where code_no = 3;
+update restaurant set code_no = 104 where code_no = 4;
+update restaurant set code_no = 105 where code_no = 5;
+
+update category set main_cate='한식', sub_cate= null where code_no = 1;
+update category set main_cate='중식', sub_cate= null where code_no = 2;
+update category set main_cate='일식', sub_cate= null where code_no = 3;
+update category set main_cate='양식', sub_cate= null where code_no = 4;
+update category set main_cate='카페', sub_cate= null where code_no = 5;
+
+select * from category;
+
+select code_no.nextval from dual;
+
+select * from category;
+
+select * from category;
+
+
 select rest.rest_no rest_no, rest.rest_name rest_name, rest.rest_profile
 		rest_profile from restaurant rest, rest_member rest_m where
 		rest_m.actor_id = '1' and rest_m.rest_follow_yn = 1 and rest.rest_no = rest_m.rest_no
