@@ -25,7 +25,7 @@
 	rel="stylesheet" id="bootstrap-css">
 <link
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-	rel="stylesheet"">
+	rel="stylesheet">
 <style>
 @import
 	url("https://fonts.googleapis.com/css?family=Abril+Fatface|Open+Sans:400,700&display=swap")
@@ -53,6 +53,18 @@
 		margin-bottom: 2.77rem;
 	}
 }
+
+@media screen and (max-width: 900px) {
+  .col-md-3.member-info {
+    display: none;
+  }
+} 
+
+@media screen and (max-width: 1200px) {
+  .col-md-3.ad-info {
+    display: none;
+  }
+} 
 
 .fix-nav {
 	position: sticky;
@@ -100,9 +112,9 @@
 
 	<div class="container-fluid gedf-wrapper">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-3 member-info">
 				<c:if test="${not empty sessionScope.member}">
-					<div class="card">
+					<div class="card" style="position: fixed; width:25%;">
 						<div class="card-body">
 							<div class="row" height="80px">
 								<div class="media" style="text-align: center;">
@@ -115,18 +127,17 @@
 							</div>
 							<div class="row-fluid">
 								<div class="h4" style="height: 40px;">
-									<a href="profile.jsp?id=${sessionScope.member.id}"
-										style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">@${sessionScope.member.getNick()}</a>
+									<a href="profile.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">
+										@${sessionScope.member.getNick()}
+									</a>
 								</div>
 								<div class="h7 text-muted" style="height: 40px;">
 									<c:if test="${empty sessionScope.member.profile_message}">@회원 코멘트가 없습니다.</c:if>
 									<c:if test="${not empty sessionScope.member.profile_message}">@${sessionScope.member.profile_message}</c:if>
 								</div>
 								<div class="h7">
-									<a href="updateMember.jsp" style="color: rgb(218, 0, 0);">프로필
-										수정</a> <br> <a
-										href="profile.jsp?id=${sessionScope.member.id}"
-										style="color: rgb(218, 0, 0);">My 목록</a> <br>
+									<a href="updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br> 
+									<a href="profile.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0);">My 목록</a> <br>
 								</div>
 							</div>
 						</div>
@@ -149,11 +160,10 @@
 					</div>
 				</c:if>
 				<c:if test="${empty sessionScope.member}">
-					<div class="card">
+					<div class="card" style="position: fixed; width:25%;">
 						<div class="card-body">
 							<div class="h5" style="height: 30px; color: rgb(218, 0, 0);">게스트</div>
-							<div class="h7 text-muted" style="height: 40px;">로그인 후 이용해
-								주세요!</div>
+							<div class="h7 text-muted" style="height: 40px;">로그인 후 이용해 주세요!</div>
 						</div>
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item">
@@ -378,7 +388,7 @@
 
             </div>
 			<!-- 광고 배너 -->
-			<div class="col-md-3">
+			<div class="col-md-3 ad-info" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
 				<div class="card gedf-card">
 					<div class="card-body">
 						<h5 class="card-title">
