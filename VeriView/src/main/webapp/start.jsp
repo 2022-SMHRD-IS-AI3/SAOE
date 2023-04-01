@@ -1,4 +1,4 @@
-<%@page import="com.saoe.model.member.MemberDTO"%>
+<%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -328,7 +328,7 @@ font-family: 'Open Sans', sans-serif; */
 
 <body>
 <%
-   MemberDTO member = (MemberDTO)session.getAttribute("member");
+   SessionUserDTO member = (SessionUserDTO)session.getAttribute("member");
    
    if(member != null){
       response.sendRedirect("main.jsp");

@@ -20,11 +20,8 @@ public class MemberMemberDTO {
 	private int member_follow_yn;
 	private int member_block_yn;
 	private int member_rep_yn;
-	private String member_rep_content;
 	private String member_follow_date;
 	private String member_block_date;
-	private String member_rep_date;
-	
-	
+	private String member_rep_date;	
 
 }

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.saoe.model.member.MemberDTO;
 import com.saoe.model.member.SessionUserDTO;
 import com.saoe.model.review.ReviewDAO;
-import com.saoe.model.review.ReviewMemberDTO;
+import com.saoe.model.member.ReviewMemberDTO;
 
 @WebServlet("/GBReviewCon")
 public class GBReviewCon extends HttpServlet {

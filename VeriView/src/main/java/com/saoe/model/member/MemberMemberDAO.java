@@ -1,5 +1,7 @@
 package com.saoe.model.member;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -29,5 +31,15 @@ public class MemberMemberDAO {
 		sqlSession.close();
 		
 		return cnt;
+	}
+	
+	public List<MemberMemberDTO> selectMemberMember(String id) {
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		List<MemberMemberDTO> memberMemberList = sqlSession.selectList("selectMemberMember", id);
+		
+		sqlSession.close();
+		
+		return memberMemberList;
 	}
 }

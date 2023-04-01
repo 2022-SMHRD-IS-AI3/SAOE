@@ -8,6 +8,79 @@ and r.rest_no = rest.rest_no
 and rest.code_no = c.code_no
 and r.id = '1';
 
+select rest_no, rest_name from restaurant where rest_name like '%피자%';
+
+select * from member_member;
+
+		select id, nick,
+		profile from member where id in (select actor_id from member_member where
+		id = '1' and member_follow_yn = 1)
+
+select id, nick,
+		profile from member where id in (select id from member_member where
+		id = '1' and member_follow_yn = 1)
+		
+select id from member_member where actor_id = '1' and member_follow_yn = 1;
+select review_no from review_member where actor_id = '1' and review_gb = 1;
+
+
+select distinct(r.review_no)
+		review_no,
+		r.review_content review_content,
+		r.review_post_date review_post_date,
+		rp.review_pic_src
+		review_pic_src,
+		rest.rest_no rest_no,
+		rest.rest_name rest_name
+		from (select * from review where rest_no in (select rest_no
+		from restaurant where code_no in
+		((select code_no from category where sub_cate like '%면%')
+		union (select code_no from category where main_cate like '%면%')))) r,
+		review_pic rp,
+		restaurant rest
+		where r.review_no = rp.review_no
+		and
+		r.rest_no = rest.rest_no
+
+
+		select
+		r.review_no
+		review_no, r.review_content review_content,
+		r.review_post_date
+		review_post_date,
+		rp.review_pic_src review_pic_src,
+		rest.rest_no
+		rest_no, rest.rest_name rest_name
+		from review r, review_pic
+		rp,
+		restaurant rest, review_member rm
+		where r.review_no = rp.review_no
+		and r.rest_no = rest.rest_no
+		and rm.actor_id = '1'
+		and r.review_no =
+		rm.review_no
+		and rm.review_scrap_yn = 1
+
+
+select * from review_member;
+
+		select distinct(r.review_no) review_no,
+		r.review_content review_content,
+		r.review_post_date review_post_date,
+		rp.review_pic_src
+		review_pic_src,
+		rest.rest_no rest_no,
+		rest.rest_name rest_name
+		from (select * from review where rest_no in (select rest_no
+		from restaurant where code_no in
+		((select code_no from category where sub_cate like '%한식%')
+		union (select code_no from category where main_cate like '%한식%')))) r,
+		review_pic rp,
+		restaurant rest
+		where r.review_no = rp.review_no
+		and
+		r.rest_no = rest.rest_no
+
 select distinct(r.review_no) review_no, 
 		r.review_content review_content,
 		r.review_post_date review_post_date,

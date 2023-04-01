@@ -36,6 +36,22 @@
 		select * from member
 		where id = #{id}
 	</select>
+	<select id="loginMember" parameterType="MemberDTO"
+		resultType="MemberMemberDTO">
+		select * from member_member where actor_id = #{id}
+	</select>
+
+	<select id="loginReview" parameterType="MemberDTO"
+		resultType="ReviewMemberDTO">
+		select * from review_member where actor_id = #{id}
+	</select>
+
+	<select id="loginRest" parameterType="MemberDTO"
+		resultType="RestMemberDTO">
+		select * from rest_member where actor_id = #{id}
+	</select>
+	
+	
 
 	<update id="followMember" parameterType="MemberMemberDTO">
 		MERGE INTO member_member

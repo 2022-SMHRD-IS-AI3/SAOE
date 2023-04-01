@@ -1,4 +1,4 @@
-package com.saoe.model.restaurant;
+package com.saoe.model.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,8 +20,5 @@ public class RestMemberDTO {
 	private int rest_follow_yn;
 	private int rest_gb;
 	private int rest_block_yn;
-	private String rest_follow_date;
-	private String rest_gb_date;
-	private String rest_block_date;
 
 }

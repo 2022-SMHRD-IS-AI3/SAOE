@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.saoe.model.member.MemberDAO;
-import com.saoe.model.member.MemberDTO;
 import com.saoe.model.member.MemberMemberDTO;
 import com.saoe.model.member.SessionUserDTO;
 

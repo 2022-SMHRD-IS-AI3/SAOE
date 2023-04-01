@@ -28,15 +28,15 @@
 
 	<select id="selectProfileFollower" resultType="ProfileFollowDTO">
 		select id, nick,
-		profile from member where id in (select id from member_member where
-		actor_id = #{id} and member_follow_yn = 1)
+		profile from member where id in (select actor_id from member_member where
+		id = #{id} and member_follow_yn = 1)
 	</select>
 
 	<select id="selectProfileFollowing"
 		resultType="ProfileFollowDTO">
 		select id, nick, profile from member where id in (select
-		actor_id from
-		member_member where id = #{id} and member_follow_yn = 1)
+		id from
+		member_member where actor_id = #{id} and member_follow_yn = 1)
 	</select>
 
 	<select id="selectProfileBlock" resultType="ProfileFollowDTO">
@@ -54,29 +54,31 @@
 		member_rep_yn = 1) mm
 		where m.id = mm.id
 	</select>
+	
+	
 
-	<select id="selectProfileScrapReview"
-		resultType="ProfileFeedDTO">
-		select distinct(r.review_no) review_no,
-		r.review_content review_content,
-		r.review_post_date review_post_date,
-		rp.review_pic_src
-		review_pic_src,
-		rest.rest_no rest_no,
-		rest.rest_name rest_name
-		from (select * from review where rest_no in (select rest_no
-		from restaurant where code_no in
-		((select code_no from category where sub_cate like '%한식%')
-		union (select code_no from category where main_cate like '%한식%')))) r,
-		review_pic rp,
-		restaurant rest
+	<select id="selectProfileScrapReview" resultType="ProfileFeedDTO">
+		select
+		r.review_no
+		review_no, r.review_content review_content,
+		r.review_post_date
+		review_post_date,
+		rp.review_pic_src review_pic_src,
+		rest.rest_no
+		rest_no, rest.rest_name rest_name
+		from review r, review_pic
+		rp,
+		restaurant rest, review_member rm
 		where r.review_no = rp.review_no
-		and
-		r.rest_no = rest.rest_no
+		and r.rest_no = rest.rest_no
+		and rm.actor_id = #{id}
+		and r.review_no =
+		rm.review_no
+		and rm.review_scrap_yn = 1
 	</select>
 	<select id="selectProfileGoodReview" resultType="ProfileFeedDTO">
 		select
-		r.review_no
+		distinct(r.review_no)
 		review_no, r.review_content review_content,
 		r.review_post_date
 		review_post_date,
@@ -95,16 +97,10 @@
 	</select>
 	<select id="selectProfileBadReview" resultType="ProfileFeedDTO">
 		select
-		r.review_no
-		review_no, r.review_content review_content,
-		r.review_post_date
-		review_post_date,
-		rp.review_pic_src review_pic_src,
-		rest.rest_no
-		rest_no, rest.rest_name rest_name
-		from review r, review_pic
-		rp,
-		restaurant rest, review_member rm
+		distinct(r.review_no) review_no, r.review_content review_content,
+		r.review_post_date	review_post_date, rp.review_pic_src review_pic_src, 
+		rest.rest_no rest_no, rest.rest_name rest_name	
+		from review r, review_pic rp, restaurant rest, review_member rm
 		where r.review_no = rp.review_no
 		and r.rest_no = rest.rest_no
 		and rm.actor_id = #{id}
@@ -114,7 +110,8 @@
 	</select>
 	<select id="selectProfileBlockReview"
 		resultType="ProfileFeedDTO">
-		select r.review_no
+		select 
+		distinct(r.review_no)
 		review_no, r.review_content
 		review_content,
 		r.review_post_date
@@ -135,7 +132,7 @@
 	</select>
 	<select id="selectProfileReportReview"
 		resultType="ProfileFeedDTO">
-		select r.review_no
+		select distinct(r.review_no)
 		review_no, r.review_content
 		review_content,
 		r.review_post_date

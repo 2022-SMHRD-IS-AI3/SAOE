@@ -6,7 +6,7 @@ import lombok.Getter;
 
 public class SearchDTO {
 	
-	private String rest_no;
+	private int rest_no;
 	private String rest_name;
 
 }

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.saoe.model.category.CategoryDTO;
+import com.saoe.model.member.RestMemberDTO;
 import com.saoe.mybatis.SqlSessionManager;
 
 public class RestaurantDAO {

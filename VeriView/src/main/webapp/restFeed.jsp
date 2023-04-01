@@ -1,3 +1,7 @@
+<%@page import="com.saoe.model.member.MemberDAO"%>
+<%@page import="com.saoe.model.member.ReviewMemberDTO"%>
+<%@page import="com.saoe.model.member.RestMemberDTO"%>
+<%@page import="com.saoe.model.member.MemberMemberDTO"%>
 <%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.member.MemberMemberDAO"%>
 <%@page import="com.saoe.model.category.CategoryDTO"%>
@@ -92,10 +96,19 @@
 	
 	
 	MemberMemberDAO memberMemberDAO = new MemberMemberDAO();
+	MemberDAO memberDAO = new MemberDAO();
 	FeedDAO feedDAO = new FeedDAO();
 
 	if (session.getAttribute("member") != null) {
 		SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
+		
+		List<MemberMemberDTO> memberMemberList = memberDAO.selectMemberMemberList(member.getId());
+		List<RestMemberDTO> restMemberList = memberDAO.selectRestMemberList(member.getId());
+		List<ReviewMemberDTO> reviewMemberList = memberDAO.selectReviewMemberList(member.getId());
+		
+		pageContext.setAttribute("memberMemberList", memberMemberList);
+		pageContext.setAttribute("restMemberList", restMemberList);
+		pageContext.setAttribute("reviewMemberList", reviewMemberList);
 
 		int followerCnt = memberMemberDAO.selectFollowerCnt(member.getId());
 		int followingCnt = memberMemberDAO.selectFollowingCnt(member.getId());
@@ -114,7 +127,7 @@
 		<div class="row">
 			<div class="col-md-3">
 				<c:if test="${not empty sessionScope.member}">
-					<div class="card">
+					<div class="card" style="position: fixed; width:25%;">
 						<div class="card-body">
 							<div class="row" height="80px">
 								<div class="media" style="text-align: center;">
@@ -182,9 +195,21 @@
 			</div>
 
 			<div class="col-md-6 gedf-main">
-
 				<div class="row-fluid">
 					<c:forEach var="feed" items="${pageScope.feedList}">
+						<c:set var="followstate" value="0"/>
+						<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+							<c:if test="${memberMember.id eq feed.id}">
+								<c:set var="followstate" value="${memberMember.member_follow_yn}"/>
+							</c:if>
+						</c:forEach>
+					
+						<c:set var="gbstate" value="0"/>
+						<c:forEach var="reviewMember" items="${pageScope.reviewMemberList}">
+							<c:if test="${reviewMember.review_no eq feed.review_no}">
+								<c:set var="gbstate" value="${reviewMember.review_gb }"/>
+							</c:if>
+						</c:forEach>
 						<!--- \\\\\\\Post1111111111111-->
 						<div class="card gedf-card">
 							<div class="card-header">
@@ -201,7 +226,16 @@
 											</c:if>
 												${feed.nick}</a> 
 												<a href="javascript:void(0);" onclick="followMember('${feed.id}', this)" style="color: rgb(218, 0, 0);">
-												<i class="fa fa-regular fa-heart card-link actionBtn"></i></a>
+												<c:choose>
+												<c:when test="${followstate eq 1}">
+												<i class="fa fa-heart card-link actionBtn"></i>
+												</c:when>
+												<c:otherwise>
+												<i class="fa fa-regular fa-heart card-link actionBtn"></i>
+												</c:otherwise>
+												</c:choose>
+												
+												</a>
 											</div>
 										</div>
 									</div>
@@ -229,7 +263,7 @@
 							</div>
 							<div class="card-body">
 								<div class="text-muted h7 mb-2">
-									<i class="fa fa-clock-o"></i> ${feed.review_post_date} /
+									<i class="fa fa-clock-o"></i> ${feed.review_post_date} |
 									${feed.review_update_date }
 								</div>
 								<a class="card-link" href="./restDetail.jsp?rest_no=${feed.rest_no}" style="color: rgb(218, 0, 0);">
@@ -288,10 +322,24 @@
 							</div>
 							<div class="card-footer">
 								<a href="javascript:void(0);" onclick="like(${feed.review_no}, this)" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-									<i class="fa fa-regular fa-thumbs-up" style="color: rgb(218, 0, 0);">좋아요</i> 
+									<c:choose>
+										<c:when test="${gbstate eq 1}">
+											<i class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);">취소</i> 
+										</c:when>
+										<c:otherwise>
+											<i class="fa fa-regular fa-thumbs-up" style="color: rgb(218, 0, 0);">좋아요</i> 
+										</c:otherwise>
+									</c:choose>
 								</a>
 								<a href="javascript:void(0);" onclick="hate(${feed.review_no}, this)" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+									<c:choose>
+									<c:when test="${gbstate eq -1}">
+									<i class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);">취소</i>
+									</c:when>
+									<c:otherwise>
 									<i class="fa fa-regular fa-thumbs-down" style="color: rgb(218, 0, 0);">싫어요</i>
+									</c:otherwise>
+									</c:choose>
 								</a>
 								<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
 									<i class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유
@@ -364,7 +412,7 @@
 				</div>
 			</div>
 			<!-- 광고 배너 -->
-			<div class="col-md-3">
+			<div class="col-md-3" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
 				<div class="card gedf-card">
 					<div class="card-body">
 						<h5 class="card-title">

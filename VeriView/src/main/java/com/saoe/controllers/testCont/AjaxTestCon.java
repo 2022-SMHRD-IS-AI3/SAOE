@@ -33,6 +33,10 @@ public class AjaxTestCon extends HttpServlet {
 
 			List<SearchDTO> searchList = dao.search("%" + searchWord + "%");
 			
+			for(SearchDTO search : searchList) {
+				System.out.println(search.getRest_no() + search.getRest_name());
+			}
+			
 			
 
 			if (searchList.size() > 0) {

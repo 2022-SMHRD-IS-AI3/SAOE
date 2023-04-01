@@ -5,8 +5,14 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.saoe.mapper.SearchMapper">
+	<select id="search" resultType="SearchDTO">
+		select rest_no, rest_name from
+		restaurant where rest_name like #{searchWord}
+	</select>
+
 	<select id="searchReview" resultType="SearchReviewDTO">
-		select r.review_no
+		select
+		distinct(r.review_no)
 		review_no,
 		r.review_content review_content,
 		r.review_post_date review_post_date,
@@ -14,10 +20,13 @@
 		review_pic_src,
 		rest.rest_no rest_no,
 		rest.rest_name rest_name
-		from (select * from review where rest_no in (select rest_no
-		from restaurant where code_no in
+		from (select * from
+		review where rest_no in (select rest_no
+		from restaurant where code_no
+		in
 		((select code_no from category where sub_cate like #{keyword})
-		union (select code_no from category where main_cate like #{keyword})))) r,
+		union
+		(select code_no from category where main_cate like #{keyword})))) r,
 		review_pic rp,
 		restaurant rest
 		where r.review_no = rp.review_no

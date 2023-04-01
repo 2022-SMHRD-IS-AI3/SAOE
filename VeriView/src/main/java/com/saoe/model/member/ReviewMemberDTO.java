@@ -1,4 +1,4 @@
-package com.saoe.model.review;
+package com.saoe.model.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,9 +22,5 @@ public class ReviewMemberDTO {
 	private int review_block_yn;
 	private int review_rep_yn;
 	private String review_rep_content;
-	private String review_gb_date;
-	private String review_scrap_date;
-	private String review_block_date;
-	private String review_rep_date;
 
 }

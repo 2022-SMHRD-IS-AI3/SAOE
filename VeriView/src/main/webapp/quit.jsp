@@ -144,7 +144,7 @@
     <div class="container-fluid gedf-wrapper">
         <div class="row">
             <div class="col-md-3">
-                <div class="card">
+                <div class="card" style="position: fixed; width:25%;">
                     <div class="card-body">
                         <div class="media" style="text-align: center;">
                             <a class="thumbnail pull-left" href="./profile.jsp?id=${pageScope.profile.id}">

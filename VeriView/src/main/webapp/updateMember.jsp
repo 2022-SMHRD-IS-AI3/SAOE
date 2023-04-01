@@ -1,3 +1,4 @@
+<%@page import="com.saoe.model.member.MemberDTO"%>
 <%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.profile.ProfileReportDTO"%>
 <%@page import="com.saoe.model.profile.ProfileBlockDTO"%>
@@ -10,7 +11,6 @@
 <%@page import="com.saoe.model.member.MemberDAO"%>
 <%@page import="com.saoe.model.feed.FeedDAO"%>
 <%@page import="com.saoe.model.feed.FeedDTO"%>
-<%@page import="com.saoe.model.member.MemberDTO"%>
 <%@page import="java.net.URLDecoder"%>
 <%@page import="com.saoe.model.reply.ReplyDTO"%>
 <%@page import="com.saoe.model.review.ReviewPicDTO"%>

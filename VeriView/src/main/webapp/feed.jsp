@@ -1,3 +1,7 @@
+<%@page import="com.saoe.model.member.MemberDAO"%>
+<%@page import="com.saoe.model.member.ReviewMemberDTO"%>
+<%@page import="com.saoe.model.member.RestMemberDTO"%>
+<%@page import="com.saoe.model.member.MemberMemberDTO"%>
 <%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.member.MemberMemberDAO"%>
 <%@page import="com.saoe.model.category.CategoryDTO"%>
@@ -103,6 +107,7 @@
 	<c:import url="./layout/header.jsp"></c:import>
 	<%
 	MemberMemberDAO memberMemberDAO = new MemberMemberDAO();
+	MemberDAO memberDAO = new MemberDAO();
 	FeedDAO feedDAO = new FeedDAO();
 	
 	if(request.getParameter("code_no") != null){
@@ -119,6 +124,15 @@
 
 	if (session.getAttribute("member") != null) {
 		SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
+		
+		List<MemberMemberDTO> memberMemberList = memberDAO.selectMemberMemberList(member.getId());
+		List<RestMemberDTO> restMemberList = memberDAO.selectRestMemberList(member.getId());
+		List<ReviewMemberDTO> reviewMemberList = memberDAO.selectReviewMemberList(member.getId());
+		
+		pageContext.setAttribute("memberMemberList", memberMemberList);
+		pageContext.setAttribute("restMemberList", restMemberList);
+		pageContext.setAttribute("reviewMemberList", reviewMemberList);
+				
 
 		int followerCnt = memberMemberDAO.selectFollowerCnt(member.getId());
 		int followingCnt = memberMemberDAO.selectFollowingCnt(member.getId());
@@ -183,7 +197,7 @@
 				<c:if test="${empty sessionScope.member}">
 					<div class="card" style="position: fixed; width:25%;">
 						<div class="card-body">
-							<div class="h5" style="height: 30px; color: rgb(218, 0, 0);">게스트</div>
+							<div class="h5" style="height: 30px; color: rgb(218, 0, 0);"></div>
 							<div class="h7 text-muted" style="height: 40px;">로그인 후 이용해 주세요!</div>
 						</div>
 						<ul class="list-group list-group-flush">
@@ -224,7 +238,7 @@
 				<c:if test="${not empty sessionScope.member}">
 				<div class="row"
 					style="height: 60px; display: flex; justify-content: center; align-items: center; margin-top:70px;">
-					<a href="#"
+					<a href="./feed.jsp"
 						style="margin-right: 30px; color: rgb(218, 0, 0); font-size: 20px;">새글</a>
 					<a href="./userFeed.jsp" style="color: rgb(218, 0, 0); font-size: 20px;">추천</a>
 				</div>
@@ -282,6 +296,18 @@
 
 				<div class="row-fluid">
 					<c:forEach var="feed" items="${pageScope.feedList}">
+						<c:set var="followstate" value="0"/>
+						<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+							<c:if test="${memberMember.id eq feed.id}">
+								<c:set var="followstate" value="${memberMember.member_follow_yn}"/>
+							</c:if>
+						</c:forEach>
+						<c:set var="gbstate" value="0"/>
+						<c:forEach var="reviewMember" items="${pageScope.reviewMemberList}">
+							<c:if test="${reviewMember.review_no eq feed.review_no}">
+								<c:set var="gbstate" value="${reviewMember.review_gb }"/>
+							</c:if>
+						</c:forEach>
 						<!--- \\\\\\\Post1111111111111-->
 						<div class="card gedf-card">
 							<div class="card-header">
@@ -298,7 +324,15 @@
 											</c:if>
 												${feed.nick}</a> 
 												<a href="javascript:void(0);" onclick="followMember('${feed.id}', this)" style="color: rgb(218, 0, 0);">
-												<i class="fa fa-regular fa-heart card-link actionBtn"></i></a>
+												<c:choose>
+												<c:when test="${followstate eq 1}">
+												<i class="fa fa-heart card-link actionBtn"></i>
+												</c:when>
+												<c:otherwise>
+												<i class="fa fa-regular fa-heart card-link actionBtn"></i>
+												</c:otherwise>
+												</c:choose>
+												</a>
 											</div>
 										</div>
 									</div>
@@ -326,7 +360,7 @@
 							</div>
 							<div class="card-body">
 								<div class="text-muted h7 mb-2">
-									<i class="fa fa-clock-o"></i> ${feed.review_post_date} /
+									<i class="fa fa-clock-o"></i> ${feed.review_post_date} |
 									${feed.review_update_date }
 								</div>
 								<a class="card-link" href="./restDetail.jsp?rest_no=${feed.rest_no}" style="color: rgb(218, 0, 0);">
@@ -335,13 +369,13 @@
 
 								<p class="card-text">
                               <c:if test="${not empty feed.reviewPicList }">
-								<div id="carouselExampleIndicators" class="carousel slide"
+								<div id="carouselExampleIndicators${feed.review_no}" class="carousel slide"
 									data-ride="carousel">
 									
 									<ol class="carousel-indicators">
-										<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-										<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-										<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+										<li data-target="#carouselExampleIndicators${feed.review_no}" data-slide-to="0" class="active"></li>
+										<li data-target="#carouselExampleIndicators${feed.review_no}" data-slide-to="1"></li>
+										<li data-target="#carouselExampleIndicators${feed.review_no}" data-slide-to="2"></li>
 									</ol>
 									
 									<div class="carousel-inner" style="height: 600px">
@@ -366,11 +400,11 @@
                                  </c:choose>
                               </c:forEach>
                            </div>
-									<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev"> 
+									<a class="carousel-control-prev" href="#carouselExampleIndicators${feed.review_no}" role="button" data-slide="prev"> 
 										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 										<span class="sr-only">Previous</span>
 									</a> 
-									<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next"> 
+									<a class="carousel-control-next" href="#carouselExampleIndicators${feed.review_no}" role="button" data-slide="next"> 
 										<span class="carousel-control-next-icon" aria-hidden="true"></span>
 										<span class="sr-only">Next</span>
 									</a>
@@ -385,10 +419,24 @@
 							</div>
 							<div class="card-footer">
 								<a href="javascript:void(0);" onclick="like(${feed.review_no}, this)" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-									<i class="fa fa-regular fa-thumbs-up" style="color: rgb(218, 0, 0);">좋아요</i> 
+									<c:choose>
+										<c:when test="${gbstate eq 1}">
+											<i class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);">취소</i> 
+										</c:when>
+										<c:otherwise>
+											<i class="fa fa-regular fa-thumbs-up" style="color: rgb(218, 0, 0);">좋아요</i> 
+										</c:otherwise>
+									</c:choose>
 								</a>
 								<a href="javascript:void(0);" onclick="hate(${feed.review_no}, this)" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+									<c:choose>
+									<c:when test="${gbstate eq -1}">
+									<i class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);">취소</i>
+									</c:when>
+									<c:otherwise>
 									<i class="fa fa-regular fa-thumbs-down" style="color: rgb(218, 0, 0);">싫어요</i>
+									</c:otherwise>
+									</c:choose>
 								</a>
 								<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
 									<i class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유
@@ -458,106 +506,6 @@
 						</div>
 						<!-- Post /////-->
 					</c:forEach>
-
-					<!--- \\\\\\\Post2222222222222222222222-->
-					<div class="card gedf-card">
-						<div class="card-header">
-							<div class="d-flex justify-content-between align-items-center">
-								<div class="d-flex justify-content-between align-items-center">
-									<div class="mr-2">
-										<img class="rounded-circle" width="45"
-											src="https://picsum.photos/50/50" alt="">
-									</div>
-									<div class="ml-2">
-										<div class="h5 m-0">
-											<a href="" style="color: rgb(0, 0, 0);">식당</a> 
-											<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-												<i class="fa fa-regular fa-heart"></i>
-											</a>
-										</div>
-										<!-- <div class="h7 text-muted">Miracles Lee Cross</div> -->
-									</div>
-								</div>
-								<div>
-									<div class="dropdown">
-										<button class="btn btn-link dropdown-toggle" type="button"
-											id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
-											aria-expanded="false" style="color: rgb(218, 0, 0);">
-											<i class="fa fa-ellipsis-h" style="color: rgb(218, 0, 0);"></i>
-										</button>
-										<div class="dropdown-menu dropdown-menu-right"
-											aria-labelledby="gedf-drop1">
-											<a class="dropdown-item actionBtn" href="#" style="color: rgb(218, 0, 0);">스크랩</a> 
-											<a class="dropdown-item actionBtn" href="#" style="color: rgb(218, 0, 0);">식당 차단</a>
-										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-						<div class="card-body">
-							<div class="text-muted h7 mb-2">
-								<i class="fa fa-clock-o"></i>10 min ago
-							</div>
-							<p class="card-text">
-							<div id="carouselExampleIndicators2" class="carousel slide"
-								data-ride="carousel">
-								<ol class="carousel-indicators">
-									<li data-target="#carouselExampleIndicators2" data-slide-to="0"
-										class="active"></li>
-									<li data-target="#carouselExampleIndicators2" data-slide-to="1"></li>
-									<li data-target="#carouselExampleIndicators2" data-slide-to="2"></li>
-								</ol>
-								<div class="carousel-inner">
-									<div class="carousel-item active">
-										<img class="d-block w-100"
-											src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-											alt="First slide">
-									</div>
-									<div class="carousel-item">
-										<img class="d-block w-100"
-											src="https://www.nongmin.com/-/raw/srv-nongmin/data2/content/image/2022/02/13/.cache/512/2022021301068644.jpg"
-											alt="Second slide">
-									</div>
-									<div class="carousel-item">
-										<img class="d-block w-100"
-											src="https://cdn.mindgil.com/news/photo/202007/69545_3802_1558.jpg"
-											alt="Third slide">
-									</div>
-								</div>
-								<a class="carousel-control-prev"
-									href="#carouselExampleIndicators2" role="button"
-									data-slide="prev"> <span class="carousel-control-prev-icon"
-									aria-hidden="true"></span> <span class="sr-only">Previous</span>
-								</a> <a class="carousel-control-next"
-									href="#carouselExampleIndicators2" role="button"
-									data-slide="next"> <span class="carousel-control-next-icon"
-									aria-hidden="true"></span> <span class="sr-only">Next</span>
-								</a>
-							</div>
-							리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용
-							블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라
-							</p>
-							<div>
-								<span class="badge badge-danger">한식</span> <span
-									class="badge badge-danger">중식</span> <span
-									class="badge badge-danger">일식</span> <span
-									class="badge badge-danger">양식</span> <span
-									class="badge badge-danger">카페</span>
-							</div>
-						</div>
-						<div class="card-footer">
-							<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-								<i class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요
-							</a>
-							<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-								<i class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i> 싫어요
-							</a>
-							<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-								<i class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i> 공유
-							</a>
-						</div>
-					</div>
 				</div>
 			</div>
 			<!-- 광고 배너 -->
@@ -568,7 +516,8 @@
 							<a href="#">광고 배너</a>
 						</h5>
 						<h6 class="card-subtitle mb-2 text-muted">게시자</h6>
-						<p class="card-text">광고 내용</p>
+						<p class="card-text">
+						광고 내용</p>
 					</div>
 				</div>
 				<div class="card gedf-card">
@@ -596,6 +545,8 @@ function like(review_no, elem) {
     } else if (($(elem).children().text() == '좋아요')) {
         $(elem).children().attr('class', 'fa-solid fa-thumbs-up');
         $(elem).children().text('취소');
+        $(elem).next().children().attr('class', 'fa fa-regular fa-thumbs-down');
+        $(elem).next().children().text('싫어요');
         updateLikeReview(review_no, 1);
     }
 }
@@ -608,6 +559,8 @@ function hate(review_no, elem){
     } else if (($(elem).children().text() == '싫어요')) {
         $(elem).children().attr('class', 'fa-solid fa-thumbs-down');
         $(elem).children().text('취소');
+        $(elem).prev().children().attr('class', 'fa fa-regular fa-thumbs-up');
+        $(elem).prev().children().text('좋아요');
         updateLikeReview(review_no, -1);
     }
 }
@@ -659,12 +612,14 @@ function updateLikeReview(review_no, state) {
 	function reportReview(review_no, elem){
 		
 		var review_rep_content = prompt('신고 사유를 입력해주세요');
-		
-		updateReportReview(review_no, review_rep_content);
-		
-		$(elem).parent().parent().parent().parent().parent().parent().remove();
+		if(review_rep_content != null){
+			updateReportReview(review_no, review_rep_content);
+			
+			$(elem).parent().parent().parent().parent().parent().parent().remove();
+		}
 	}
 	function updateReportReview(review_no, review_rep_content){
+		
 		$.ajax({
 	        url: 'ReportReviewCon',
 	        type: 'post',

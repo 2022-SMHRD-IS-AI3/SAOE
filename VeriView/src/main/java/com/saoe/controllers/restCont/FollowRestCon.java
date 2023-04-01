@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import com.saoe.model.member.MemberDTO;
 import com.saoe.model.member.SessionUserDTO;
-import com.saoe.model.restaurant.RestMemberDTO;
+import com.saoe.model.member.RestMemberDTO;
 import com.saoe.model.restaurant.RestaurantDAO;
 
 public class FollowRestCon extends HttpServlet {

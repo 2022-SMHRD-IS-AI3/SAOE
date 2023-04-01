@@ -1,3 +1,4 @@
+<%@page import="com.saoe.model.member.MemberMemberDTO"%>
 <%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.profile.ProfileReportDTO"%>
 <%@page import="com.saoe.model.profile.ProfileBlockDTO"%>
@@ -134,9 +135,14 @@ a {
 	SessionUserDTO member = (SessionUserDTO)session.getAttribute("member");
 	String id = member.getId();
 	pageContext.setAttribute("id", id);
+	
+	MemberDAO memberDAO = new MemberDAO();
+	List<MemberMemberDTO> memberMemberList = new MemberDAO().selectMemberMemberList(member.getId());
+	pageContext.setAttribute("memberMemberList", memberMemberList);
 
 	ProfileDAO profileDAO = new ProfileDAO();
 	ProfileDTO profile = profileDAO.selectProfile(id);
+	List<ProfileFeedDTO> profileFeedList = profileDAO.selectProfileFeed(id);
 	List<ProfileFollowDTO> profileFollowerList = profileDAO.selectProfileFollower(id);
 	List<ProfileFollowDTO> profileFollowingList = profileDAO.selectProfileFollowing(id);
 
@@ -147,6 +153,7 @@ a {
 	List<ProfileFeedDTO> profileReportReviewList = profileDAO.selectProfileReportReview(id);
 
 	pageContext.setAttribute("profile", profile);
+	pageContext.setAttribute("profileFeedList", profileFeedList);
 	pageContext.setAttribute("profileFollowerList", profileFollowerList);
 	pageContext.setAttribute("profileFollowingList", profileFollowingList);
 
@@ -161,7 +168,7 @@ a {
 	<div class="container-fluid gedf-wrapper">
 		<div class="row">
 			<div class="col-md-3">
-				<div class="card">
+				<div class="card" style="position: fixed; width:25%;">
 					<div class="card-body">
 						<div class="media" style="text-align: center;">
 							<a class="thumbnail pull-left" href="./profile.jsp?id=${pageScope.profile.id}"> <img
@@ -236,7 +243,7 @@ a {
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="#" style="color: rgb(218, 0, 0);">${fn:substring(scrapReview.rest_name,0,5) }...</a>
+													<a href="./restDetail.jsp?rest_no=${scrapReview.rest_no}" style="color: rgb(218, 0, 0);">${fn:substring(scrapReview.rest_name,0,5) }...</a>
 												</h4>
 											</div>
 											<div class="box-text">
@@ -273,7 +280,7 @@ a {
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="#" style="color: rgb(218, 0, 0);">${fn:substring(goodReview.rest_name,0,5) }...</a>
+													<a href="./restDetail.jsp?rest_no=${goodReview.rest_no}" style="color: rgb(218, 0, 0);">${fn:substring(goodReview.rest_name,0,5) }...</a>
 												</h4>
 											</div>
 											<div class="box-text">
@@ -309,7 +316,7 @@ a {
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="#" style="color: rgb(218, 0, 0);">${fn:substring(badReview.rest_name,0,5) }...</a>
+													<a href="./restDetail.jsp?rest_no=${badReview.rest_no}" style="color: rgb(218, 0, 0);">${fn:substring(badReview.rest_name,0,5) }...</a>
 												</h4>
 											</div>
 											<div class="box-text">
@@ -345,7 +352,7 @@ a {
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="#" style="color: rgb(218, 0, 0);">${fn:substring(blockReview.rest_name,0,5) }...</a>
+													<a href="./restDetail.jsp?rest_no=${blockReview.rest_no}" style="color: rgb(218, 0, 0);">${fn:substring(blockReview.rest_name,0,5) }...</a>
 												</h4>
 											</div>
 											<div class="box-text">
@@ -382,7 +389,7 @@ a {
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="#" style="color: rgb(218, 0, 0);">${fn:substring(reportReview.rest_name,0,7) }...</a>
+													<a href="./restDetail.jsp?rest_no=${reportReview.rest_no}" style="color: rgb(218, 0, 0);">${fn:substring(reportReview.rest_name,0,7) }...</a>
 												</h4>
 											</div>
 											<div class="box-text">
@@ -392,7 +399,7 @@ a {
 												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
 											</div>
 											<div class="box-text" style="margin-top: 5px;">
-												<p>신고사유</p>
+												<p>${reportReview.member_rep_content}</p>
 											</div>
 										</div>
 									</div>
@@ -407,8 +414,8 @@ a {
 
 
 
-			<!-- 팔로잉 팔로워 -->
-            <div class="col-md-3">
+			            <!-- 팔로우 팔로워 -->
+            <div class="col-md-3" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
                 <div class="card gedf-card">
                     <div class="card-body">
                         <div>
@@ -424,7 +431,19 @@ a {
                                             src="https://picsum.photos/50/50"></a></td>
                                     <td id="modal_userID"><a href="./profile.jsp?id=${follower.id}">${follower.nick}</a></td>
                                     <td id="modal_userFollow">
-                                        <buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                    	<c:set var="state" value="0" />
+										<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+											<c:if test="${memberMember.id eq follower.id && memberMember.member_follow_yn eq 1 }">
+												<c:set var="state" value="1"/>
+											</c:if>
+										</c:forEach>
+										
+										<c:if test="${state eq 1}">
+											<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+										</c:if>
+										<c:if test="${state eq 0}">	
+                                        	<buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -447,7 +466,19 @@ a {
                                             src="https://picsum.photos/50/50"></a></td>
                                     <td id="modal_userID"><a href="./profile.jsp?id=${following.id}">${following.nick}</a></td>
                                     <td id="modal_userFollow">
-                                        <buttton class="btn btn-danger" style="margin-left: 20px;">언팔로우</button>
+                                        <c:set var="state" value="0" />
+										<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+											<c:if test="${memberMember.id eq following.id && memberMember.member_follow_yn eq 1 }">
+												<c:set var="state" value="1"/>
+											</c:if>
+										</c:forEach>
+										
+										<c:if test="${state eq 1}">
+											<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+										</c:if>
+										<c:if test="${state eq 0}">	
+                                        	<buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                        </c:if>
                                     </td>
                                 </tr>
 							</c:forEach>
@@ -456,23 +487,6 @@ a {
                     </div>
                 </div>
             </div>
-			<div class="container">
-				<footer class="py-3 my-4">
-					<ul class="nav justify-content-center border-bottom pb-3 mb-3">
-						<li class="nav-item"><a href="#"
-							class="nav-link px-2 text-body-secondary">Home</a></li>
-						<li class="nav-item"><a href="#"
-							class="nav-link px-2 text-body-secondary">Features</a></li>
-						<li class="nav-item"><a href="#"
-							class="nav-link px-2 text-body-secondary">Pricing</a></li>
-						<li class="nav-item"><a href="#"
-							class="nav-link px-2 text-body-secondary">FAQs</a></li>
-						<li class="nav-item"><a href="#"
-							class="nav-link px-2 text-body-secondary">About</a></li>
-					</ul>
-					<p class="text-center text-body-secondary">© 2023 Company, Inc</p>
-				</footer>
-			</div>
 			<!-- 마우스 오버 스크립트 -->
 			<script>
 				function w1_mouseover() {

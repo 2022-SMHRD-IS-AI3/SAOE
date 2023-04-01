@@ -17,5 +17,7 @@ public class ProfileFeedDTO {
 	// 리뷰한 식당의 이름을 담음
 	private int rest_no;
 	private String rest_name;
+	
+	private String member_rep_content;
 
 }

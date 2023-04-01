@@ -196,9 +196,9 @@
 				<c:if test="${not empty sessionScope.member}">
 				<div class="row"
 					style="height: 60px; display: flex; justify-content: center; align-items: center;">
-					<a href="#"
+					<a href="./feed.jsp"
 						style="margin-right: 30px; color: rgb(218, 0, 0); font-size: 20px;">새글</a>
-					<a href="#" style="color: rgb(218, 0, 0); font-size: 20px;">추천</a>
+					<a href="./userFeed.jsp" style="color: rgb(218, 0, 0); font-size: 20px;">추천</a>
 				</div>
 
 
@@ -487,57 +487,6 @@
 							</div>
 
 						</div>
-						<div class="card-body">
-							<div class="text-muted h7 mb-2">
-								<i class="fa fa-clock-o"></i>10 min ago
-							</div>
-							<p class="card-text">
-							<div id="carouselExampleIndicators2" class="carousel slide"
-								data-ride="carousel">
-								<ol class="carousel-indicators">
-									<li data-target="#carouselExampleIndicators2" data-slide-to="0"
-										class="active"></li>
-									<li data-target="#carouselExampleIndicators2" data-slide-to="1"></li>
-									<li data-target="#carouselExampleIndicators2" data-slide-to="2"></li>
-								</ol>
-								<div class="carousel-inner">
-									<div class="carousel-item active">
-										<img class="d-block w-100"
-											src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-											alt="First slide">
-									</div>
-									<div class="carousel-item">
-										<img class="d-block w-100"
-											src="https://www.nongmin.com/-/raw/srv-nongmin/data2/content/image/2022/02/13/.cache/512/2022021301068644.jpg"
-											alt="Second slide">
-									</div>
-									<div class="carousel-item">
-										<img class="d-block w-100"
-											src="https://cdn.mindgil.com/news/photo/202007/69545_3802_1558.jpg"
-											alt="Third slide">
-									</div>
-								</div>
-								<a class="carousel-control-prev"
-									href="#carouselExampleIndicators2" role="button"
-									data-slide="prev"> <span class="carousel-control-prev-icon"
-									aria-hidden="true"></span> <span class="sr-only">Previous</span>
-								</a> <a class="carousel-control-next"
-									href="#carouselExampleIndicators2" role="button"
-									data-slide="next"> <span class="carousel-control-next-icon"
-									aria-hidden="true"></span> <span class="sr-only">Next</span>
-								</a>
-							</div>
-							리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용
-							블라블라 리뷰내용 블라블라 리뷰내용 블라블라 리뷰내용 블라블라
-							</p>
-							<div>
-								<span class="badge badge-danger">한식</span> <span
-									class="badge badge-danger">중식</span> <span
-									class="badge badge-danger">일식</span> <span
-									class="badge badge-danger">양식</span> <span
-									class="badge badge-danger">카페</span>
-							</div>
-						</div>
 						<div class="card-footer">
 							<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
 								<i class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요
@@ -588,6 +537,8 @@ function like(review_no, elem) {
     } else if (($(elem).children().text() == '좋아요')) {
         $(elem).children().attr('class', 'fa-solid fa-thumbs-up');
         $(elem).children().text('취소');
+        $(elem).next().children().attr('class', 'fa fa-regular fa-thumbs-down');
+        $(elem).next().children().text('싫어요');
         updateLikeReview(review_no, 1);
     }
 }
@@ -600,6 +551,8 @@ function hate(review_no, elem){
     } else if (($(elem).children().text() == '싫어요')) {
         $(elem).children().attr('class', 'fa-solid fa-thumbs-down');
         $(elem).children().text('취소');
+        $(elem).prev().children().attr('class', 'fa fa-regular fa-thumbs-up');
+        $(elem).prev().children().text('좋아요');
         updateLikeReview(review_no, -1);
     }
 }
@@ -651,10 +604,11 @@ function updateLikeReview(review_no, state) {
 	function reportReview(review_no, elem){
 		
 		var review_rep_content = prompt('신고 사유를 입력해주세요');
-		
-		updateReportReview(review_no, review_rep_content);
-		
-		$(elem).parent().parent().parent().parent().parent().parent().remove();
+		if(review_rep_content != null){
+			updateReportReview(review_no, review_rep_content);
+			
+			$(elem).parent().parent().parent().parent().parent().parent().remove();
+		}
 	}
 	function updateReportReview(review_no, review_rep_content){
 		$.ajax({

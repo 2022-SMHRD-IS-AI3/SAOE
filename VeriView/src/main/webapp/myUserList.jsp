@@ -1,3 +1,4 @@
+<%@page import="com.saoe.model.member.MemberMemberDTO"%>
 <%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.profile.ProfileReportDTO"%>
 <%@page import="com.saoe.model.profile.ProfileBlockDTO"%>
@@ -130,6 +131,10 @@
 		SessionUserDTO member = (SessionUserDTO)session.getAttribute("member");
 		String id = member.getId();
 		pageContext.setAttribute("id", id);
+		
+		MemberDAO memberDAO = new MemberDAO();
+		List<MemberMemberDTO> memberMemberList = new MemberDAO().selectMemberMemberList(member.getId());
+		pageContext.setAttribute("memberMemberList", memberMemberList);
 
 		ProfileDAO profileDAO = new ProfileDAO();
 		ProfileDTO profile = profileDAO.selectProfile(id);
@@ -152,7 +157,7 @@
     <div class="container-fluid gedf-wrapper">
         <div class="row">
             <div class="col-md-3">
-                <div class="card">
+                <div class="card" style="position: fixed; width:25%;">
                     <div class="card-body">
                         <div class="media" style="text-align: center;">
                             <a class="thumbnail pull-left" href="./profile.jsp?id=${pageScope.profile.id}">
@@ -221,9 +226,20 @@
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
                                                     src="https://picsum.photos/50/50"></td>
-                                            ${followings.nick}
-                                            <button class="btn btn-danger" id="w1" onmouseover="w1_mouseover()"
+                                            <a href="./profile.jsp?id=${followings.id}">${followings.nick}</a>
+                                            <c:set var="state" value="0" />
+												<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+													<c:if test="${memberMember.id eq followings.id && memberMember.member_follow_yn eq 1 }">
+															<c:set var="state" value="1"/>
+													</c:if>
+												</c:forEach>
+												<c:if test="${state eq 1}">
+	                                            	<button class="btn btn-outline-danger">팔로잉</button>
+	                                            </c:if>
+	                                            <c:if test="${state eq 0}">
+	                                            	<button class="btn btn-danger" id="w1" onmouseover="w1_mouseover()"
                                                 onmouseout="w1_mouseout()">팔로우</button>
+	                                            </c:if>
                                         </li>
                                         </c:forEach>
                                     </ul>
@@ -243,23 +259,21 @@
 	                                        <li class="list-group-item d-flex justify-content-between align-items-center">
 	                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
 	                                                    src="https://picsum.photos/50/50"></td>
-	                                            ${followers.nick }
-	                                            <button class="btn btn-outline-danger">팔로우</button>
+	                                            <a href="./profile.jsp?id=${followers.id}">${followers.nick }</a>
+	                                            <c:set var="state" value="0" />
+												<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+													<c:if test="${memberMember.id eq followers.id && memberMember.member_follow_yn eq 1 }">
+														<c:set var="state" value="1"/>
+													</c:if>
+												</c:forEach>
+												<c:if test="${state eq 1}">
+	                                            	<button class="btn btn-outline-danger">팔로잉</button>
+	                                            </c:if>
+	                                            <c:if test="${state eq 0}">
+	                                            	<button class="btn btn-outline-danger">팔로우</button>
+	                                            </c:if>
 	                                        </li>
                                         </c:forEach>
-                                        	                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-	                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-	                                                    src="https://picsum.photos/50/50"></td>
-	                                            닉네임 1
-	                                            <button class="btn btn-outline-danger">팔로우</button>
-	                                        </li>
-	                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-	                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-	                                                    src="https://picsum.photos/50/50"></td>
-	                                            닉네임 2
-	                                            <button class="btn btn-danger" id="w2" onmouseover="w2_mouseover()"
-	                                                onmouseout="w2_mouseout()">팔로우</button>
-	                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -276,18 +290,11 @@
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
                                                     src="https://picsum.photos/50/50"></td>
-                                            ${blocks.nick}
+                                           <a href="./profile.jsp?id=${blocks.id}">${blocks.nick}</a>
                                             <button class="btn btn-danger" id="w3" onmouseover="w3_mouseover()"
                                             onmouseout="w3_mouseout()">차단</button>
                                         </li>
                                         </c:forEach>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                            닉네임 1
-                                            <button class="btn btn-danger" id="w3" onmouseover="w3_mouseover()"
-                                            onmouseout="w3_mouseout()">차단</button>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -303,36 +310,12 @@
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
                                                     src="https://picsum.photos/50/50"></td>
-                                            ${report.nick}
+                                            <a href="./profile.jsp?id=${report.id}">${report.nick}</a>
                                             <div>
-                                                <span>${report.member_rep_content }</span>
+                                                <span>${report.member_rep_content}</span>
                                             </div>
                                         </li>
                                         </c:forEach>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                            닉네임 1
-                                            <div>
-                                                <span>신고사유</span>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                            닉네임 2
-                                            <div>
-                                                <span>신고사유</span>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                            닉네임 3
-                                            <div>
-                                                <span>신고사유</span>
-                                            </div>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -345,7 +328,8 @@
             </div>
             
                         <!-- 광고 배너 -->
-            <div class="col-md-3">
+                        <!-- 팔로우 팔로워 -->
+            <div class="col-md-3" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
                 <div class="card gedf-card">
                     <div class="card-body">
                         <div>
@@ -361,7 +345,19 @@
                                             src="https://picsum.photos/50/50"></a></td>
                                     <td id="modal_userID"><a href="./profile.jsp?id=${follower.id}">${follower.nick}</a></td>
                                     <td id="modal_userFollow">
-                                        <buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                    	<c:set var="state" value="0" />
+										<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+											<c:if test="${memberMember.id eq follower.id && memberMember.member_follow_yn eq 1 }">
+												<c:set var="state" value="1"/>
+											</c:if>
+										</c:forEach>
+										
+										<c:if test="${state eq 1}">
+											<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+										</c:if>
+										<c:if test="${state eq 0}">	
+                                        	<buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -384,7 +380,19 @@
                                             src="https://picsum.photos/50/50"></a></td>
                                     <td id="modal_userID"><a href="./profile.jsp?id=${following.id}">${following.nick}</a></td>
                                     <td id="modal_userFollow">
-                                        <buttton class="btn btn-danger" style="margin-left: 20px;">언팔로우</button>
+                                        <c:set var="state" value="0" />
+										<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+											<c:if test="${memberMember.id eq following.id && memberMember.member_follow_yn eq 1 }">
+												<c:set var="state" value="1"/>
+											</c:if>
+										</c:forEach>
+										
+										<c:if test="${state eq 1}">
+											<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+										</c:if>
+										<c:if test="${state eq 0}">	
+                                        	<buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                        </c:if>
                                     </td>
                                 </tr>
 							</c:forEach>
@@ -393,18 +401,7 @@
                     </div>
                 </div>
             </div>
-    <div class="container">
-  <footer class="py-3 my-4">
-    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
-    </ul>
-    <p class="text-center text-body-secondary">© 2023 Company, Inc</p>
-  </footer>
-</div>
+ 
 <!-- 마우스 오버 스크립트 -->
     <script>
         function w1_mouseover() {

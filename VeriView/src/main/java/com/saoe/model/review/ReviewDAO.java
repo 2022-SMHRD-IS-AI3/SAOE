@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import com.saoe.model.member.ReviewMemberDTO;
 import com.saoe.model.reply.ReplyDTO;
 import com.saoe.mybatis.SqlSessionManager;
 

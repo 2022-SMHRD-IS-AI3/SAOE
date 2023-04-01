@@ -119,7 +119,7 @@
 		<div class="row">
 			<div class="col-md-3">
 				<c:if test="${not empty sessionScope.member}">
-					<div class="card">
+					<div class="card" style="position: fixed; width:25%;">
 						<div class="card-body">
 							<div class="row" height="80px">
 								<div class="media" style="text-align: center;">
@@ -385,7 +385,7 @@
 			</div>
 
 			<!-- 광고 배너 -->
-			<div class="col-md-3">
+			<div class="col-md-3" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
 				<div class="card gedf-card">
 					<div class="card-body">
 						<h5 class="card-title">
@@ -454,6 +454,7 @@
 		
 		if($(elem).text() == '좋아요'){
 			$(elem).text('좋아요 취소');
+			$(elem).next().text('싫어요');
 			updateGBRest(rest_no, 1);
 		}else if($(elem).text() == '좋아요 취소'){
 			$(elem).text('좋아요');
@@ -465,6 +466,7 @@
 		
 		if($(elem).text() == '싫어요'){
 			$(elem).text('싫어요 취소');
+			$(elem).prev().text('좋아요');
 			updateGBRest(rest_no, -1);
 		}else if($(elem).text() == '싫어요 취소'){
 			$(elem).text('싫어요');

@@ -1,3 +1,5 @@
+<%@page import="com.saoe.model.member.RestMemberDTO"%>
+<%@page import="com.saoe.model.member.MemberMemberDTO"%>
 <%@page import="com.saoe.model.member.MemberMemberDAO"%>
 <%@page import="com.saoe.model.search.SearchDAO"%>
 <%@page import="com.saoe.model.member.SessionUserDTO"%>
@@ -132,8 +134,18 @@ a {
 	<c:import url="./layout/header.jsp"></c:import>
 
 	<%
-	MemberMemberDAO memberMemberDAO = new MemberMemberDAO();
+	if(session.getAttribute("member") != null){
+		SessionUserDTO member = (SessionUserDTO)session.getAttribute("member");
+		List<MemberMemberDTO> memberMemberList = new MemberDAO().selectMemberMemberList(member.getId());
+		List<RestMemberDTO> restMemberList = new MemberDAO().selectRestMemberList(member.getId());
+		
+		pageContext.setAttribute("memberMemberList", memberMemberList);
+		pageContext.setAttribute("restMemberList", restMemberList);
+	}
 	
+	
+	MemberMemberDAO memberMemberDAO = new MemberMemberDAO();
+
 	if (session.getAttribute("member") != null) {
 		SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
 
@@ -142,17 +154,15 @@ a {
 		pageContext.setAttribute("followerCnt", followerCnt);
 		pageContext.setAttribute("followingCnt", followingCnt);
 
-	} 
-	
-	String keyword = request.getParameter("keyword");
+	}
+
+	String keyword = "%" + request.getParameter("keyword") + "%";
 
 	SearchDAO searchDAO = new SearchDAO();
-	
+
 	List<SearchReviewDTO> searchReviewList = searchDAO.searchReview(keyword);
 	List<SearchMemberDTO> searchMemberList = searchDAO.searchMember(keyword);
 	List<SearchRestDTO> searchRestList = searchDAO.searchRest(keyword);
-	
-	
 
 	pageContext.setAttribute("searchReviewList", searchReviewList);
 	pageContext.setAttribute("searchMemberList", searchMemberList);
@@ -164,7 +174,7 @@ a {
 		<div class="row">
 			<div class="col-md-3 member-info">
 				<c:if test="${not empty sessionScope.member}">
-					<div class="card" style="position: fixed; width:25%;">
+					<div class="card" style="position: fixed; width: 25%;">
 						<div class="card-body">
 							<div class="row" height="80px">
 								<div class="media" style="text-align: center;">
@@ -177,17 +187,19 @@ a {
 							</div>
 							<div class="row-fluid">
 								<div class="h4" style="height: 40px;">
-									<a href="profile.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">
-										@${sessionScope.member.getNick()}
-									</a>
+									<a href="profile.jsp?id=${sessionScope.member.id}"
+										style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">
+										@${sessionScope.member.getNick()} </a>
 								</div>
 								<div class="h7 text-muted" style="height: 40px;">
 									<c:if test="${empty sessionScope.member.profile_message}">@회원 코멘트가 없습니다.</c:if>
 									<c:if test="${not empty sessionScope.member.profile_message}">@${sessionScope.member.profile_message}</c:if>
 								</div>
 								<div class="h7">
-									<a href="updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br> 
-									<a href="profile.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0);">My 목록</a> <br>
+									<a href="updateMember.jsp" style="color: rgb(218, 0, 0);">프로필
+										수정</a> <br> <a
+										href="profile.jsp?id=${sessionScope.member.id}"
+										style="color: rgb(218, 0, 0);">My 목록</a> <br>
 								</div>
 							</div>
 						</div>
@@ -210,10 +222,11 @@ a {
 					</div>
 				</c:if>
 				<c:if test="${empty sessionScope.member}">
-					<div class="card" style="position: fixed; width:25%;">
+					<div class="card" style="position: fixed; width: 25%;">
 						<div class="card-body">
 							<div class="h5" style="height: 30px; color: rgb(218, 0, 0);">게스트</div>
-							<div class="h7 text-muted" style="height: 40px;">로그인 후 이용해 주세요!</div>
+							<div class="h7 text-muted" style="height: 40px;">로그인 후 이용해
+								주세요!</div>
 						</div>
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item">
@@ -231,192 +244,255 @@ a {
 				</c:if>
 			</div>
 
-			            <div class="col-md-6 gedf-main">
+			<div class="col-md-6 gedf-main">
 
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#a">전체</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#b">회원</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#c">리뷰</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#d">음식점</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="a">
+				<ul class="nav nav-tabs">
+					<li class="nav-item"><a class="nav-link active"
+						data-toggle="tab" href="#a">전체</a></li>
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#b">회원</a></li>
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#c">리뷰</a></li>
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#d">음식점</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane fade show active" id="a">
 
-                        <div class="container" style="margin-top: 20px;">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="mr-2">
-                                        <div class="h5 m-0">회원</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <ul class="list-group">
-                                    	<c:forEach var="searchMember" items="${pageScope.searchMemberList}">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="${searchMember.profile}"></td>
-                                            <a href="./profile.jsp?id=${searchMember.id}" style="color: rgb(218, 0, 0);">${searchMember.nick}</a>
-                                            <button class="btn btn-outline-danger" id="w1" onmouseover="w1_mouseover()"
-                                                onmouseout="w1_mouseout()">팔로우</button>
-                                        </li>
-                                        </c:forEach>
-                                    </ul>
+						<div class="container" style="margin-top: 20px;">
+							<div class="card-header">
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="mr-2">
+										<div class="h5 m-0">회원</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<ul class="list-group">
+										<c:forEach var="searchMember"
+											items="${pageScope.searchMemberList}" end="4">
+											<li
+												class="list-group-item d-flex justify-content-between align-items-center">
+												<td style="width: 70px;"><img class="rounded-circle"
+													id="modal_userImg" src="${searchMember.profile}"></td> <a
+												href="./profile.jsp?id=${searchMember.id}"
+												style="color: rgb(218, 0, 0);">${searchMember.nick}</a>
+												<c:set var="state" value="0" />
+												<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+													<c:if test="${memberMember.id eq searchMember.id && memberMember.member_follow_yn eq 1 }">
+														<c:set var="state" value="1"/>
+													</c:if>
+												</c:forEach>
+										
+												<c:if test="${state eq 1}">
+													<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+												</c:if>
+												<c:if test="${state eq 0}">	
+		                                        	<button class="btn btn-outline-danger" id="w1"
+															onmouseover="w1_mouseover()" onmouseout="w1_mouseout()">팔로우</button>
+		                                        </c:if>
+												
+											</li>
+										</c:forEach>
+									</ul>
 
-                                    <hr>
+									<hr>
 
-                                    <div class="card-header">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="mr-2">
-                                                <div class="h5 m-0">리뷰</div>
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    
-                                    <div class="container" style="margin-top: 10px;">
-                                        <div class="row">
-                                        <c:forEach var="searchReview" items="${pageScope.searchReviewList}">
-                                            <div class="card gedf-card" style="margin-right: 30px;">
-                                                <div class="box">
-                                                    <div>
-                                                        <img src="${scrapReview.review_pic_src}"
-                                                            class="aaa">
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="box-title">
-                                                            <h4><a href="rest" style="color: rgb(218, 0, 0);">${fn:substring(searchReview.rest_name,0,5) }...</a></h4>
-                                                        </div>
-                                                        <div class="box-text">
-                                                            <span>${fn:substring(searchReview.review_content,0,8)}...</span>
-                                                        </div>
-                                                        <div>
-                                                            <a href="#" style="color: rgb(218, 0, 0);">더보기</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            </c:forEach>
-                                        </div>
-                                    </div>
+									<div class="card-header">
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="mr-2">
+												<div class="h5 m-0">리뷰</div>
+											</div>
+										</div>
+									</div>
 
-                                    <hr>
+									<div class="container" style="margin-top: 10px;">
+										<div class="row">
+											<c:forEach var="searchReview"
+												items="${pageScope.searchReviewList}" end="5">
+												<div class="card gedf-card" style="margin-right: 30px;">
+													<div class="box">
+														<div>
+															<img src="${searchReview.review_pic_src}" class="aaa">
+														</div>
+														<div class="card-body">
+															<div class="box-title">
+																<h4>
+																	<a
+																		href="restDetail.jsp?rest_no=${searchReview.rest_no}"
+																		style="color: rgb(218, 0, 0);">${fn:substring(searchReview.rest_name,0,5) }...</a>
+																</h4>
+															</div>
+															<div class="box-text">
+																<span>${fn:substring(searchReview.review_content,0,8)}...</span>
+															</div>
+															<div>
+																<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</c:forEach>
+										</div>
+									</div>
 
-                                    <div class="card-header">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="mr-2">
-                                                <div class="h5 m-0">음식점</div>
-                                            </div>
-                                        </div>
-                                    </div>
+									<hr>
 
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <ul class="list-group">
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                            src="https://picsum.photos/50/50"></td>
-                                                    <a href="#" style="color: rgb(218, 0, 0);">${pageScope.searchRestList}</a>
-                                                    <button class="btn btn-outline-danger" id="w1" onmouseover="w1_mouseover()"
-                                                        onmouseout="w1_mouseout()">팔로우</button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
+									<div class="card-header">
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="mr-2">
+												<div class="h5 m-0">음식점</div>
+											</div>
+										</div>
+									</div>
 
-                                </div>
-                            </div>
-                        </div>
+									<div class="row">
+										<div class="col-12">
+											<ul class="list-group">
+											<c:forEach var="searchRest" items="${pageScope.searchRestList}" end="2">
+												<li
+													class="list-group-item d-flex justify-content-between align-items-center">
+													<td style="width: 70px;"><img class="rounded-circle" width="45" height="45"
+														id="modal_userImg" src="${searchRest.rest_profile}"></td>
+													<a href="./restDetail.jsp?rest_no=${searchRest.rest_no}" style="color: rgb(218, 0, 0);">${searchRest.rest_name }</a>
+												<c:set var="state" value="0"/>
+												<c:forEach var="restMember" items="${pageScope.restMemberList}">
+													<c:if test="${restMember.rest_no eq searchRest.rest_no && restMember.rest_follow_yn eq 1 }">
+														<c:set var="state" value="1"/>
+													</c:if>
+												</c:forEach>
+										
+												<c:if test="${state eq 1}">
+													<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+												</c:if>
+												<c:if test="${state eq 0}">	
+		                                        	<button class="btn btn-outline-danger" id="w1"
+														onmouseover="w1_mouseover()" onmouseout="w1_mouseout()">팔로우</button>
+		                                        </c:if>
+													
+												</li>
+												</c:forEach>
+											</ul>
+										</div>
+									</div>
 
-                    </div>
+								</div>
+							</div>
+						</div>
 
-
-
-                    <div class="tab-pane fade" id="b">
-
-                        <div class="container" style="margin-top: 20px;">
-                            <div class="row">
-                                <div class="col-12">
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                                    <a href="#" style="color: rgb(218, 0, 0);">닉네임</a>
-                                            <button class="btn btn-outline-danger">팔로우</button>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                                    <a href="#" style="color: rgb(218, 0, 0);">닉네임</a>
-                                            <button class="btn btn-danger" id="w2" onmouseover="w2_mouseover()"
-                                                onmouseout="w2_mouseout()">팔로우</button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="tab-pane fade" id="c">
-
-                        <div class="container" style="margin-top: 10px;">
-                            <div class="row">
-                                <div class="card gedf-card" style="margin-right: 30px;">
-                                    <div class="box">
-                                        <div>
-                                            <img src="https://images.mypetlife.co.kr/content/uploads/2019/08/09153147/thomas-q-INprSEBbfG4-unsplash.jpg"
-                                                class="aaa">
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="box-title">
-                                                <h4><a href="#" style="color: rgb(218, 0, 0);">식당이름</a></h4>
-                                            </div>
-                                            <div class="box-text">
-                                                <span>간단한 리뷰 내용</span>
-                                            </div>
-                                            <div>
-                                                <a href="#" style="color: rgb(218, 0, 0);">더보기</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    <div class="tab-pane fade" id="d">
-                        <div class="container" style="margin-top: 20px;">
-                            <div class="row">
-                                <div class="col-12">
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <td style="width:70px;"><img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50"></td>
-                                            <a href="#" style="color: rgb(218, 0, 0);">식당이름</a>
-                                            <button class="btn btn-outline-danger" id="w3" onmouseover="w3_mouseover()"
-                                                onmouseout="w3_mouseout()">팔로우</button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+					</div>
 
 
-<!-- 광고 배너 -->
-			<div class="col-md-3 ad-info" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
+
+					<div class="tab-pane fade" id="b">
+
+						<div class="container" style="margin-top: 20px;">
+							<div class="row">
+								<div class="col-12">
+									<ul class="list-group">
+										<c:forEach var="searchMember"
+											items="${pageScope.searchMemberList}">
+											<li
+												class="list-group-item d-flex justify-content-between align-items-center">
+												<td style="width: 70px;"><img class="rounded-circle"
+													id="modal_userImg" src="${searchMember.profile}"></td> <a
+												href="./profile.jsp?id=${searchMember.id}"
+												style="color: rgb(218, 0, 0);">${searchMember.nick}</a>
+												<c:set var="state" value="0" />
+												<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+													<c:if test="${memberMember.id eq searchMember.id && memberMember.member_follow_yn eq 1 }">
+														<c:set var="state" value="1"/>
+													</c:if>
+												</c:forEach>
+										
+												<c:if test="${state eq 1}">
+													<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+												</c:if>
+												<c:if test="${state eq 0}">	
+		                                        	<button class="btn btn-outline-danger" id="w1"
+															onmouseover="w1_mouseover()" onmouseout="w1_mouseout()">팔로우</button>
+		                                        </c:if>
+											</li>
+										</c:forEach>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="tab-pane fade" id="c">
+
+						<div class="container" style="margin-top: 10px;">
+							<div class="row">
+								<c:forEach var="searchReview"
+									items="${pageScope.searchReviewList}">
+									<div class="card gedf-card" style="margin-right: 30px;">
+										<div class="box">
+											<div>
+												<img src="${searchReview.review_pic_src}" class="aaa">
+											</div>
+											<div class="card-body">
+												<div class="box-title">
+													<h4>
+														<a href="restDetail.jsp?rest_no=${searchReview.rest_no}"
+															style="color: rgb(218, 0, 0);">${fn:substring(searchReview.rest_name,0,5) }...</a>
+													</h4>
+												</div>
+												<div class="box-text">
+													<span>${fn:substring(searchReview.review_content,0,8)}...</span>
+												</div>
+												<div>
+													<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</c:forEach>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="tab-pane fade" id="d">
+						<div class="container" style="margin-top: 20px;">
+							<div class="row">
+								<div class="col-12">
+									<ul class="list-group">
+										<c:forEach var="searchRest" items="${pageScope.searchRestList}">
+												<li
+													class="list-group-item d-flex justify-content-between align-items-center">
+													<td style="width: 70px;"><img class="rounded-circle" width="45" height="45"
+														id="modal_userImg" src="${searchRest.rest_profile}"></td>
+														<a href="./restDetail.jsp?rest_no=${searchRest.rest_no}" style="color: rgb(218, 0, 0);">${searchRest.rest_name }</a>
+													<c:set var="state" value="0"/>
+												<c:forEach var="restMember" items="${pageScope.restMemberList}">
+													<c:if test="${restMember.rest_no eq searchRest.rest_no && restMember.rest_follow_yn eq 1 }">
+														<c:set var="state" value="1"/>
+													</c:if>
+												</c:forEach>
+										
+												<c:if test="${state eq 1}">
+													<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+												</c:if>
+												<c:if test="${state eq 0}">	
+		                                        	<button class="btn btn-outline-danger" id="w1"
+														onmouseover="w1_mouseover()" onmouseout="w1_mouseout()">팔로우</button>
+		                                        </c:if>
+										</c:forEach>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- 광고 배너 -->
+			<div class="col-md-3 ad-info"
+				style="position: fixed; width: 25%; left: 100%; transform: translateX(-100%);">
 				<div class="card gedf-card">
 					<div class="card-body">
 						<h5 class="card-title">
@@ -437,23 +513,7 @@ a {
 					</div>
 				</div>
 			</div>
-			<div class="container">
-				<footer class="py-3 my-4">
-					<ul class="nav justify-content-center border-bottom pb-3 mb-3">
-						<li class="nav-item"><a href="#"
-							class="nav-link px-2 text-body-secondary">Home</a></li>
-						<li class="nav-item"><a href="#"
-							class="nav-link px-2 text-body-secondary">Features</a></li>
-						<li class="nav-item"><a href="#"
-							class="nav-link px-2 text-body-secondary">Pricing</a></li>
-						<li class="nav-item"><a href="#"
-							class="nav-link px-2 text-body-secondary">FAQs</a></li>
-						<li class="nav-item"><a href="#"
-							class="nav-link px-2 text-body-secondary">About</a></li>
-					</ul>
-					<p class="text-center text-body-secondary">© 2023 Company, Inc</p>
-				</footer>
-			</div>
+
 			<!-- 마우스 오버 스크립트 -->
 			<script>
 				function w1_mouseover() {

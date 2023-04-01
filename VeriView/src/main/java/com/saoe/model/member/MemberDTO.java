@@ -1,11 +1,5 @@
 package com.saoe.model.member;
 
-import java.util.List;
-
-import com.saoe.model.category.CategoryDTO;
-import com.saoe.model.restaurant.RestMemberDTO;
-import com.saoe.model.review.ReviewMemberDTO;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,17 +28,7 @@ public class MemberDTO {
 	private String join_date;
 	private int member_score;
 	private String grade;
-	
-	// 사용자의 관심사를 가져옴
-	private List<CategoryDTO> categoryList;
-	
-	// 사용자의 활동 내역을 담음
-	private List<MemberMemberDTO> memberMemberList;
-	private List<ReviewMemberDTO> reviewMemberList;
-	private List<RestMemberDTO> restMemberList;
-	
-	private int followerCnt;
-	private int followingCnt;
+
 }
 
 

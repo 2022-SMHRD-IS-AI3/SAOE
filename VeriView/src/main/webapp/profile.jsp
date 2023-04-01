@@ -1,3 +1,5 @@
+<%@page import="com.saoe.model.member.MemberMemberDTO"%>
+<%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.profile.ProfileFollowDTO"%>
 <%@page import="com.saoe.model.profile.ProfileFeedDTO"%>
 <%@page import="com.saoe.model.profile.ProfileDTO"%>
@@ -138,13 +140,20 @@
 		pageContext.setAttribute("profileFollowerList", profileFollowerList);
 		pageContext.setAttribute("profileFollowingList", profileFollowingList);
 		
+		if(session.getAttribute("member") != null){
+			SessionUserDTO member = (SessionUserDTO)session.getAttribute("member");
+			List<MemberMemberDTO> memberMemberList = new MemberDAO().selectMemberMemberList(member.getId());
+			
+			pageContext.setAttribute("memberMemberList", memberMemberList);
+		}
+		
 	%>
 
  <!-- 프로필 시작 -->
     <div class="container-fluid gedf-wrapper">
         <div class="row">
             <div class="col-md-3">
-                <div class="card">
+                <div class="card" style="position: fixed; width:25%;">
                     <div class="card-body">
                         <div class="media" style="text-align: center;">
                             <a class="thumbnail pull-left" href="./profile.jsp?id=${pageScope.profile.id}">
@@ -236,8 +245,8 @@
                     </div>
                 </div>
             </div>
-            <!-- 광고 배너 -->
-            <div class="col-md-3">
+            <!-- 팔로우 팔로워 -->
+            <div class="col-md-3" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
                 <div class="card gedf-card">
                     <div class="card-body">
                         <div>
@@ -253,7 +262,19 @@
                                             src="https://picsum.photos/50/50"></a></td>
                                     <td id="modal_userID"><a href="./profile.jsp?id=${follower.id}">${follower.nick}</a></td>
                                     <td id="modal_userFollow">
-                                        <buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                    	<c:set var="state" value="0" />
+										<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+											<c:if test="${memberMember.id eq follower.id && memberMember.member_follow_yn eq 1 }">
+												<c:set var="state" value="1"/>
+											</c:if>
+										</c:forEach>
+										
+										<c:if test="${state eq 1}">
+											<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+										</c:if>
+										<c:if test="${state eq 0}">	
+                                        	<buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -276,7 +297,19 @@
                                             src="https://picsum.photos/50/50"></a></td>
                                     <td id="modal_userID"><a href="./profile.jsp?id=${following.id}">${following.nick}</a></td>
                                     <td id="modal_userFollow">
-                                        <buttton class="btn btn-danger" style="margin-left: 20px;">언팔로우</button>
+                                        <c:set var="state" value="0" />
+										<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+											<c:if test="${memberMember.id eq following.id && memberMember.member_follow_yn eq 1 }">
+												<c:set var="state" value="1"/>
+											</c:if>
+										</c:forEach>
+										
+										<c:if test="${state eq 1}">
+											<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+										</c:if>
+										<c:if test="${state eq 0}">	
+                                        	<buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                        </c:if>
                                     </td>
                                 </tr>
 							</c:forEach>
