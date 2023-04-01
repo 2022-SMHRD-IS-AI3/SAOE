@@ -8,6 +8,34 @@ and r.rest_no = rest.rest_no
 and rest.code_no = c.code_no
 and r.id = '1';
 
+select distinct(r.review_no) review_no, 
+		r.review_content review_content,
+		r.review_post_date review_post_date,
+		rp.review_pic_src review_pic_src, 
+		rest.rest_no rest_no, 
+		rest.rest_name rest_name
+		from (select * from review where rest_no in (select rest_no from restaurant where code_no in
+((select code_no from category where sub_cate like '%한식%')
+union (select code_no from category where main_cate like '%한식%')))) r, review_pic rp,
+		restaurant rest
+		where r.review_no = rp.review_no
+		and r.rest_no = rest.rest_no
+		
+		
+select * from category where sub_cate like '%피자%';
+
+
+
+or main_cate like '%한식%';
+
+
+select rest.rest_no rest_no, rest.rest_name rest_name, rest.rest_profile
+		rest_profile from restaurant rest  where
+		rest.rest_name like '%피자%';
+		
+select id, nick, profile from member where nick like '%1%';
+
+
 select * from member_member;
 
 select * from member;

@@ -33,6 +33,10 @@
 		<typeAlias type="com.saoe.model.member.MemberMemberDTO" alias="MemberMemberDTO"/>
 		<typeAlias type="com.saoe.model.member.InterestDTO" alias="InterestDTO"/>
 		
+		<typeAlias type="com.saoe.model.search.SearchReviewDTO" alias="SearchReviewDTO"/>
+		<typeAlias type="com.saoe.model.search.SearchRestDTO" alias="SearchRestDTO"/>
+		<typeAlias type="com.saoe.model.search.SearchMemberDTO" alias="SearchMemberDTO"/>
+		
 		
 		<typeAlias type="com.saoe.model.profile.ProfileDTO" alias="ProfileDTO"/>
 		<typeAlias type="com.saoe.model.profile.ProfileFeedDTO" alias="ProfileFeedDTO"/>

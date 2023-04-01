@@ -11,15 +11,37 @@ public class SearchDAO {
 	
 	SqlSessionFactory sqlSessionFactory = SqlSessionManager.getSqlSession();
 	
-	public List<SearchDTO> search(String searchWord) {
+	public List<SearchReviewDTO> searchReview(String keyword) {
 		
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
 		
-		List<SearchDTO> searchList = sqlSession.selectList("search", searchWord);
+		List<SearchReviewDTO> searchReviewList = sqlSession.selectList("searchReview", keyword);
 		
 		sqlSession.close();
 		
-		return searchList;
+		return searchReviewList;
+	}
+	
+	public List<SearchMemberDTO> searchMember(String keyword) {
+		
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		List<SearchMemberDTO> searchMemberList = sqlSession.selectList("searchMember", keyword);
+		
+		sqlSession.close();
+		
+		return searchMemberList;
+	}
+	
+	public List<SearchRestDTO> searchRest(String keyword) {
+		
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+		
+		List<SearchRestDTO> searchRestList = sqlSession.selectList("searchRest", keyword);
+		
+		sqlSession.close();
+		
+		return searchRestList;
 	}
 
 }
