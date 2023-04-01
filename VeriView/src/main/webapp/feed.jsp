@@ -127,7 +127,10 @@
 
 	} 
 	%>
-
+	<%
+	List<CategoryDTO> cateList = new FeedDAO().selectCate();
+	pageContext.setAttribute("cateList", cateList);
+	%>
 	<div class="container-fluid gedf-wrapper">
 		<div class="row">
 			<div class="col-md-3 member-info">
@@ -199,17 +202,35 @@
 				</c:if>
 			</div>
 
-			<div class="col-md-6 gedf-main" style="min-width: 600px;">
+			<div class="col-md-6 gedf-main" style="min-width: 600px; margin-top: 10px">
+				
+				<div class="row my-3 mx-auto" style=" position: fixed;top:70px;z-index: 2; background-color: white;">
+					<a href="feed.jsp">
+						<button type="button" class="btn btn-outline-light mx-1"
+								style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
+								data-bs-toggle="tooltip" data-bs-placement="top"
+								data-bs-title="Tooltip on top">전체</button>
+					</a>
+					<c:forEach var="cate" items="${pageScope.cateList}">
+					<a href="feed.jsp?code_no=${cate.code_no}">
+						<button type="button" class="btn btn-outline-light mx-1"
+							style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
+							data-bs-toggle="tooltip" data-bs-placement="top"
+							data-bs-title="Tooltip on top">${cate.main_cate}</button>
+							</a>
+					</c:forEach>
+				</div>
+				
 				<c:if test="${not empty sessionScope.member}">
 				<div class="row"
-					style="height: 60px; display: flex; justify-content: center; align-items: center;">
+					style="height: 60px; display: flex; justify-content: center; align-items: center; margin-top:70px;">
 					<a href="#"
 						style="margin-right: 30px; color: rgb(218, 0, 0); font-size: 20px;">새글</a>
 					<a href="./userFeed.jsp" style="color: rgb(218, 0, 0); font-size: 20px;">추천</a>
 				</div>
 
 
-				<div class="row-fluid">
+				<div class="row-fluid" style="top:70px;">
 					<form action="WriteReviewCon" method="post"
 						enctype="multipart/form-data">
 						<!--- \\\\\\\Post-->
@@ -257,27 +278,7 @@
 					</form>
 				</div>
 				</c:if>
-				<%
-				List<CategoryDTO> cateList = new FeedDAO().selectCate();
-				pageContext.setAttribute("cateList", cateList);
-				%>
-
-				<div class="row my-3 mx-auto">
-					<a href="feed.jsp">
-						<button type="button" class="btn btn-outline-light mx-1"
-								style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
-								data-bs-toggle="tooltip" data-bs-placement="top"
-								data-bs-title="Tooltip on top">전체</button>
-					</a>
-					<c:forEach var="cate" items="${pageScope.cateList}">
-					<a href="feed.jsp?code_no=${cate.code_no}">
-						<button type="button" class="btn btn-outline-light mx-1"
-							style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
-							data-bs-toggle="tooltip" data-bs-placement="top"
-							data-bs-title="Tooltip on top">${cate.main_cate}</button>
-							</a>
-					</c:forEach>
-				</div>
+				
 
 				<div class="row-fluid">
 					<c:forEach var="feed" items="${pageScope.feedList}">
