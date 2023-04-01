@@ -31,6 +31,7 @@
 		<typeAlias type="com.saoe.model.member.LoginDTO" alias="LoginDTO"/>
 		<typeAlias type="com.saoe.model.member.SessionUserDTO" alias="SessionUserDTO"/>
 		<typeAlias type="com.saoe.model.member.MemberMemberDTO" alias="MemberMemberDTO"/>
+		<typeAlias type="com.saoe.model.member.InterestDTO" alias="InterestDTO"/>
 		
 		
 		<typeAlias type="com.saoe.model.profile.ProfileDTO" alias="ProfileDTO"/>

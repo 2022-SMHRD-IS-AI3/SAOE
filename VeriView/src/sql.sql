@@ -10,11 +10,16 @@ and r.id = '1';
 
 select * from member_member;
 
+select * from member;
+
 select * from review order by review_post_date desc;
 
 select * from message;
 
 select * from user_sequences;
+
+select * from interests;
+
 
 select * from 
 		select m.id id, m.nick nick, m.profile profile,

@@ -94,6 +94,12 @@
 		<description></description>
 		<servlet-class>com.saoe.controllers.reviewController.CateFeedCon</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>InsertInter</servlet-name>
+		<display-name>InsertInter</display-name>
+		<description></description>
+		<servlet-class>com.saoe.controllers.memberController.InsertInter</servlet-class>
+	</servlet>
 
 
 	<servlet-mapping>
@@ -155,6 +161,10 @@
 	<servlet-mapping>
 		<servlet-name>CateFeedCon</servlet-name>
 		<url-pattern>/CateFeedCon</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>InsertInter</servlet-name>
+		<url-pattern>/InsertInter</url-pattern>
 	</servlet-mapping>
 
 </web-app>

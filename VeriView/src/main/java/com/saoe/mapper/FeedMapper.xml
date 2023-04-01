@@ -65,7 +65,7 @@
 		where review_no in (select * from (select review_no from review
 		where review_no in (select review_no from review where rest_no in (select
 		rest_no from restaurant where code_no in (select code_no from category
-		where main_cate = (select main_cate from category where code_no in
+		where main_cate in (select main_cate from category where code_no in
 		(select code_no from interests where id = #{id})))))
 		order by DBMS_RANDOM.RANDOM) <![CDATA[where rownum <= 8]]>)) r, member m, restaurant
 		rest, category c
