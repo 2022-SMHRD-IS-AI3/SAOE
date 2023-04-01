@@ -41,11 +41,12 @@ public class FeedDAO {
 	}
 	
 	public List<FeedDTO> selectCateFeed(int code_no) {
-
+		
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
-
+		
 		System.out.println("불러오는중");
-		List<FeedDTO> feedList = sqlSession.selectList("selectCateFeed");
+		System.out.println(code_no);
+		List<FeedDTO> feedList = sqlSession.selectList("selectCateFeed", code_no);
 		System.out.println("불러왔음");
 		
 		for(FeedDTO feed : feedList) {
@@ -57,7 +58,7 @@ public class FeedDAO {
 		}
 		
 		sqlSession.close();
-
+		
 		return feedList;
 	}
 	

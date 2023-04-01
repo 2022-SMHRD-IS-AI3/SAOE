@@ -93,6 +93,18 @@
 	<%
 	MemberMemberDAO memberMemberDAO = new MemberMemberDAO();
 	FeedDAO feedDAO = new FeedDAO();
+	
+	if(request.getParameter("code_no") != null){
+		int code_no = Integer.parseInt(request.getParameter("code_no"));
+		List<FeedDTO> feedList = feedDAO.selectCateFeed(code_no);
+		
+		pageContext.setAttribute("feedList", feedList);
+		
+	}else{
+		List<FeedDTO> feedList = feedDAO.selectFeed();
+		pageContext.setAttribute("feedList", feedList);
+	}
+	
 
 	if (session.getAttribute("member") != null) {
 		SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
@@ -102,12 +114,7 @@
 		pageContext.setAttribute("followerCnt", followerCnt);
 		pageContext.setAttribute("followingCnt", followingCnt);
 
-		List<FeedDTO> feedList = feedDAO.selectUserFeed(member.getId());
-		pageContext.setAttribute("feedList", feedList);
-	} else {
-		List<FeedDTO> feedList = feedDAO.selectFeed();
-		pageContext.setAttribute("feedList", feedList);
-	}
+	} 
 	%>
 
 	<div class="container-fluid gedf-wrapper">
@@ -244,15 +251,19 @@
 				%>
 
 				<div class="row my-3 mx-auto">
-					<button type="button" onclick="cateFeed(0);" class="btn btn-outline-light mx-1"
+					<a href="feed.jsp">
+						<button type="button" class="btn btn-outline-light mx-1"
 								style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
 								data-bs-toggle="tooltip" data-bs-placement="top"
 								data-bs-title="Tooltip on top">전체</button>
+					</a>
 					<c:forEach var="cate" items="${pageScope.cateList}">
-						<button type="button" onclick="cateFeed(${cate.code_no});" class="btn btn-outline-light mx-1"
+					<a href="feed.jsp?code_no=${cate.code_no}">
+						<button type="button" class="btn btn-outline-light mx-1"
 							style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
 							data-bs-toggle="tooltip" data-bs-placement="top"
 							data-bs-title="Tooltip on top">${cate.main_cate}</button>
+							</a>
 					</c:forEach>
 				</div>
 
@@ -561,23 +572,6 @@
 		</div>
 	</div>	
 
-<script>
-		function cateFeed(code_no){
-			$.ajax({
-		        url: 'CateFeedCon',
-		        type: 'post',
-		        data: {
-		            code_no: code_no
-		        },
-		        success: function () {
-		        	alert("활동 성공");
-		        },
-		        error: function () {
-					alert("활동 실패");
-		        }
-		    });
-		}
-</script>
 <script>
 function like(review_no, elem) {
 

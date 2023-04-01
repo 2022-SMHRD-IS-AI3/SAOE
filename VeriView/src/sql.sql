@@ -47,7 +47,29 @@ and rest.code_no in (select code_no from category where main_cate = (select main
  
 select * from category where sub_cate is null
 
-;
+(select code_no from category where main_cate = (select main_cate from category where code_no = 1));
+
+(select * from review where rest_no in (select rest_no from restaurant where code_no in (select code_no from category where main_cate = (select main_cate from category where code_no = 1))));
+
+
+select m.id id, m.nick nick, m.profile profile,
+		r.review_no review_no,
+		r.review_content review_content, r.review_post_date review_post_date,
+		r.review_update_date review_update_date,
+		rest.rest_no rest_no,
+		rest.rest_name rest_name, rest.rest_addr rest_addr,
+		c.code_no code_no,
+		c.main_cate main_cate, c.sub_cate sub_cate
+		from (select * from(
+		select *
+		from (select * from review where rest_no in (select rest_no from restaurant where code_no in (select code_no from category where main_cate = (select main_cate from category where code_no = 1))))
+		order by DBMS_RANDOM.RANDOM) 
+    		where rownum <= 10
+		) r, member m, restaurant rest, category c
+		where r.id = m.id
+		and
+		r.rest_no = rest.rest_no
+		and rest.code_no = c.code_no
 
 insert into interests values ('1', 1);
 		
