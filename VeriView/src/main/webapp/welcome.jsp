@@ -374,7 +374,7 @@ input[type="checkbox"]:checked::before {
 			</h1>
 			<div class="col-md-12 container-fluid">
 				<div class="container">
-					<form action="#" style="width: 100%;">
+					<form action="./feed.jsp" style="width: 100%;">
 						<div class="form-group row" style="text-align: center;">
 							<div class="col-sm-10">
 								<div>

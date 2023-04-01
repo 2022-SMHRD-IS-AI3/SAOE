@@ -41,7 +41,7 @@ public class JoinCon extends HttpServlet {
 			System.out.println("가입실패");
 		}
 		
-		response.sendRedirect("start.jsp");
+		response.sendRedirect("welcome.jsp?id="+id);
 		
 		
 	

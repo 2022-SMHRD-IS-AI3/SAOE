@@ -328,11 +328,11 @@ font-family: 'Open Sans', sans-serif; */
 
 <body>
 <%
-	MemberDTO member = (MemberDTO)session.getAttribute("member");
-	
-	if(member != null){
-		response.sendRedirect("main.jsp");
-	}
+   MemberDTO member = (MemberDTO)session.getAttribute("member");
+   
+   if(member != null){
+      response.sendRedirect("main.jsp");
+   }
 
 %>
     <main class="main">
