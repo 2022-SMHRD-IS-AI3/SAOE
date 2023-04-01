@@ -252,23 +252,6 @@
 					</c:forEach>
 				</div>
 
-				<c:forEach var="cate" items="${pageScope.cateList}">
-					<div class="row my-3">
-						<button type="button" class="btn btn-outline-light mx-1"
-							style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
-							data-bs-toggle="tooltip" data-bs-placement="top"
-							data-bs-title="Tooltip on top">${cate.main_cate}</button>
-						<c:forEach var="sub" items="${cate.sub_cateList}">
-							<button type="button" class="btn btn-outline-light mx-1"
-								style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
-								data-bs-toggle="tooltip" data-bs-placement="top"
-								data-bs-title="Tooltip on top">${sub.sub_cate}</button>
-						</c:forEach>
-					</div>
-				</c:forEach>
-
-
-
 				<div class="row-fluid">
 					<c:forEach var="feed" items="${pageScope.feedList}">
 						<!--- \\\\\\\Post1111111111111-->
