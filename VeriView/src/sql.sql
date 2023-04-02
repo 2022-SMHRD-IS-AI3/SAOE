@@ -8,9 +8,39 @@ and r.rest_no = rest.rest_no
 and rest.code_no = c.code_no
 and r.id = '1';
 
+select * from restaurant;
+
+select distinct(r.review_no)
+		review_no, r.review_content
+		review_content,
+		r.review_post_date
+		review_post_date,
+		rp.review_pic_src
+		review_pic_src, rest.rest_no
+		rest_no, rest.rest_name rest_name,
+		rm.review_rep_content member_rep_content
+		from
+		review r, review_pic rp,
+		restaurant rest, review_member rm
+		where
+		r.review_no = rp.review_no
+		and r.rest_no = rest.rest_no
+		and rm.actor_id
+		= '1'
+		and r.review_no = rm.review_no
+		and rm.review_rep_yn = 1
+
+
 select rest_no, rest_name from restaurant where rest_name like '%피자%';
 
 select * from member_member;
+select * from rest_member;
+select * from review_member;
+
+select * from member;
+
+select id, nick, profile, member_score, grade from member order by member_score desc;
+
 
 		select id, nick,
 		profile from member where id in (select actor_id from member_member where

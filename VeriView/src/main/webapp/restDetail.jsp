@@ -1,3 +1,5 @@
+<%@page import="com.saoe.model.member.RestMemberDTO"%>
+<%@page import="com.saoe.model.member.MemberDAO"%>
 <%@page import="com.saoe.model.restaurant.RestaurantDAO"%>
 <%@page import="com.saoe.model.restaurant.RestaurantDTO"%>
 <%@page import="com.saoe.model.restaurant.RestPicDTO"%>
@@ -103,8 +105,13 @@
 
 	MemberMemberDAO memberMemberDAO = new MemberMemberDAO();
 
+	MemberDAO memberDAO = new MemberDAO();
+
 	if (session.getAttribute("member") != null) {
 		SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
+
+		List<RestMemberDTO> restMemberList = memberDAO.selectRestMemberList(member.getId());
+		pageContext.setAttribute("restMemberList", restMemberList);
 
 		int followerCnt = memberMemberDAO.selectFollowerCnt(member.getId());
 		int followingCnt = memberMemberDAO.selectFollowingCnt(member.getId());
@@ -114,12 +121,30 @@
 	}
 	pageContext.setAttribute("rest", rest);
 	%>
+	<c:set var="followstate" value="0" />
+	<c:set var="gbwstate" value="0" />
+	<c:set var="blockstate" value="0" />
+	
+	<c:forEach var="restMember" items="${pageScope.restMemberList}">
+		<c:if test="${restMember.rest_no eq pageScope.rest.rest_no && restMember.rest_follow_yn eq 1 }">
+			<c:set var="followstate" value="1" />
+		</c:if>
+		<c:if test="${restMember.rest_no eq pageScope.rest.rest_no && restMember.rest_gb eq 1 }">
+			<c:set var="gbstate" value="1" />
+		</c:if>
+		<c:if test="${restMember.rest_no eq pageScope.rest.rest_no && restMember.rest_gb eq -1 }">
+			<c:set var="gbstate" value="-1" />
+		</c:if>
+		<c:if test="${restMember.rest_no eq pageScope.rest.rest_no && restMember.rest_block_yn eq 1 }">
+			<c:set var="blockstate" value="1" />
+		</c:if>
+	</c:forEach>
 
 	<div class="container-fluid gedf-wrapper">
 		<div class="row">
 			<div class="col-md-3">
 				<c:if test="${not empty sessionScope.member}">
-					<div class="card" style="position: fixed; width:25%;">
+					<div class="card" style="position: fixed; width: 25%;">
 						<div class="card-body">
 							<div class="row" height="80px">
 								<div class="media" style="text-align: center;">
@@ -264,16 +289,32 @@
 								<div class="rest_act_btn">
 									<button type="button"
 										onclick="followRest(${pageScope.rest.rest_no}, this);"
-										class="btn btn-outline-danger">팔로우</button>
+										class="btn btn-outline-danger">
+										<c:if test="${followstate eq 1}">팔로잉</c:if>
+										<c:if test="${followstate eq 0}">팔로우</c:if>
+									</button>
 									<button type="button"
 										onclick="likeRest(${pageScope.rest.rest_no}, this);"
-										class="btn btn-outline-danger">좋아요</button>
+										class="btn btn-outline-danger">
+										<c:choose>
+										<c:when test="${gbstate eq 1}">좋아요 취소</c:when>
+										<c:otherwise>좋아요</c:otherwise>
+										</c:choose>
+										</button>
 									<button type="button"
 										onclick="dislikeRest(${pageScope.rest.rest_no}, this);"
-										class="btn btn-outline-danger">싫어요</button>
+										class="btn btn-outline-danger">
+										<c:choose>
+										<c:when test="${gbstate eq -1}">싫어요 취소</c:when>
+										<c:otherwise>싫어요</c:otherwise>
+										</c:choose>
+										</button>
 									<button type="button"
 										onclick="blockRest(${pageScope.rest.rest_no}, this)"
-										class="btn btn-outline-danger">차단</button>
+										class="btn btn-outline-danger">
+										<c:if test="${blockstate eq 1}">차단 취소</c:if>
+										<c:if test="${blockstate eq 0}">차단</c:if>
+										</button>
 								</div>
 								<hr width="100%">
 								<br>
@@ -385,7 +426,8 @@
 			</div>
 
 			<!-- 광고 배너 -->
-			<div class="col-md-3" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
+			<div class="col-md-3"
+				style="position: fixed; width: 25%; left: 100%; transform: translateX(-100%);">
 				<div class="card gedf-card">
 					<div class="card-body">
 						<h5 class="card-title">
@@ -423,12 +465,12 @@
 	function followRest(rest_no, elem){
 		
 		
-		if($(elem).text() == '팔로우'){
-			$(elem).text('팔로우 취소');
+		if($(elem).text().trim() == '팔로우'){
+			$(elem).text('팔로잉');
 			updateFollowRest(rest_no, 1);
-		}else if($(elem).text() == '팔로우 취소'){
+		}else if($(elem).text().trim() == '팔로잉'){
 			$(elem).text('팔로우');
-			updateFollowRest(rest_no, 1);
+			updateFollowRest(rest_no, 0);
 		}
 
 	}
@@ -452,11 +494,11 @@
 	}
 	function likeRest(rest_no, elem){
 		
-		if($(elem).text() == '좋아요'){
+		if($(elem).text().trim() == '좋아요'){
 			$(elem).text('좋아요 취소');
 			$(elem).next().text('싫어요');
 			updateGBRest(rest_no, 1);
-		}else if($(elem).text() == '좋아요 취소'){
+		}else if($(elem).text().trim() == '좋아요 취소'){
 			$(elem).text('좋아요');
 			updateGBRest(rest_no, 0);
 		}
@@ -464,11 +506,11 @@
 	
 	function dislikeRest(rest_no, elem){
 		
-		if($(elem).text() == '싫어요'){
+		if($(elem).text().trim() == '싫어요'){
 			$(elem).text('싫어요 취소');
 			$(elem).prev().text('좋아요');
 			updateGBRest(rest_no, -1);
-		}else if($(elem).text() == '싫어요 취소'){
+		}else if($(elem).text().trim() == '싫어요 취소'){
 			$(elem).text('싫어요');
 			updateGBRest(rest_no, 0);
 		}
@@ -476,10 +518,10 @@
 	
 	function blockRest(rest_no, elem){
 		
-		if($(elem).text() == '차단'){
+		if($(elem).text().trim() == '차단'){
 			$(elem).text('차단 취소');
 			updateBlockRest(rest_no, 1);
-		}else if($(elem).text() == '차단 취소'){
+		}else if($(elem).text().trim() == '차단 취소'){
 			$(elem).text('차단');
 			updateBlockRest(rest_no, 0);
 		}

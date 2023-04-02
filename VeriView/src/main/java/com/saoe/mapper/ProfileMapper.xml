@@ -139,7 +139,8 @@
 		review_post_date,
 		rp.review_pic_src
 		review_pic_src, rest.rest_no
-		rest_no, rest.rest_name rest_name
+		rest_no, rest.rest_name rest_name,
+		rm.review_rep_content member_rep_content
 		from
 		review r, review_pic rp,
 		restaurant rest, review_member rm

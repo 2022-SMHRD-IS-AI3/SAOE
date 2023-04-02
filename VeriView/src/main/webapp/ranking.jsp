@@ -1,3 +1,5 @@
+<%@page import="com.saoe.model.rank.RankingDTO"%>
+<%@page import="com.saoe.model.rank.RankingDAO"%>
 <%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.member.MemberMemberDAO"%>
 <%@page import="com.saoe.model.category.CategoryDTO"%>
@@ -55,16 +57,16 @@
 }
 
 @media screen and (max-width: 900px) {
-  .col-md-3.member-info {
-    display: none;
-  }
-} 
+	.col-md-3.member-info {
+		display: none;
+	}
+}
 
 @media screen and (max-width: 1200px) {
-  .col-md-3.ad-info {
-    display: none;
-  }
-} 
+	.col-md-3.ad-info {
+		display: none;
+	}
+}
 
 .fix-nav {
 	position: sticky;
@@ -108,13 +110,17 @@
 		List<FeedDTO> feedList = feedDAO.selectFeed();
 		pageContext.setAttribute("feedList", feedList);
 	}
+
+	RankingDAO rankingDAO = new RankingDAO();
+	List<RankingDTO> rankList = rankingDAO.selectRanking();
+	pageContext.setAttribute("rankList", rankList);
 	%>
 
 	<div class="container-fluid gedf-wrapper">
 		<div class="row">
 			<div class="col-md-3 member-info">
 				<c:if test="${not empty sessionScope.member}">
-					<div class="card" style="position: fixed; width:25%;">
+					<div class="card" style="position: fixed; width: 25%;">
 						<div class="card-body">
 							<div class="row" height="80px">
 								<div class="media" style="text-align: center;">
@@ -127,17 +133,19 @@
 							</div>
 							<div class="row-fluid">
 								<div class="h4" style="height: 40px;">
-									<a href="profile.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">
-										@${sessionScope.member.getNick()}
-									</a>
+									<a href="profile.jsp?id=${sessionScope.member.id}"
+										style="color: rgb(218, 0, 0); height: 50px; position: absolute; top: 120px;">
+										@${sessionScope.member.getNick()} </a>
 								</div>
 								<div class="h7 text-muted" style="height: 40px;">
 									<c:if test="${empty sessionScope.member.profile_message}">@회원 코멘트가 없습니다.</c:if>
 									<c:if test="${not empty sessionScope.member.profile_message}">@${sessionScope.member.profile_message}</c:if>
 								</div>
 								<div class="h7">
-									<a href="updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br> 
-									<a href="profile.jsp?id=${sessionScope.member.id}" style="color: rgb(218, 0, 0);">My 목록</a> <br>
+									<a href="updateMember.jsp" style="color: rgb(218, 0, 0);">프로필
+										수정</a> <br> <a
+										href="profile.jsp?id=${sessionScope.member.id}"
+										style="color: rgb(218, 0, 0);">My 목록</a> <br>
 								</div>
 							</div>
 						</div>
@@ -160,10 +168,11 @@
 					</div>
 				</c:if>
 				<c:if test="${empty sessionScope.member}">
-					<div class="card" style="position: fixed; width:25%;">
+					<div class="card" style="position: fixed; width: 25%;">
 						<div class="card-body">
 							<div class="h5" style="height: 30px; color: rgb(218, 0, 0);">게스트</div>
-							<div class="h7 text-muted" style="height: 40px;">로그인 후 이용해 주세요!</div>
+							<div class="h7 text-muted" style="height: 40px;">로그인 후 이용해
+								주세요!</div>
 						</div>
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item">
@@ -181,214 +190,134 @@
 				</c:if>
 			</div>
 
-	            <!-- 랭킹 탭 -->
-            <div class="col-md-6 gedf-main">
-
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#a">급상승</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#b">주간</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#c">월간</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#d">전체</a>
-                    </li>
-                </ul>
-
-                <div class="tab-content">
-
-                    <!-- 급상승랭킹 1~10위 -->
-                    <div class="tab-pane fade show active" id="a">
-
-                        <div class="container" style="margin-top: 20px;">
-                            <div class="row">
-                                <div class="col-12">
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                                            <td style="width:70px;">
-                                                <img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50">
-                                            </td>
-
-                                            <a href="#" style="color: rgb(218, 0, 0); text-align:center;">닉네임</a>
-
-
-                                            <strong style="font-size: large; color: rgb(218, 0, 0);">1위</strong>
-
-
-                                        </li>
-                                    </ul>
-
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                                            <td style="width:70px;">
-                                                <img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50">
-                                            </td>
-
-                                            <a href="#" style="color: rgb(218, 0, 0); text-align:center;">닉네임</a>
-
-
-                                            <strong style="font-size: large; color: rgb(218, 0, 0);">2위</strong>
-
-
-                                        </li>
-                                    </ul>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- 주간랭킹 1~30위 -->
-                    <div class="tab-pane fade" id="b">
-
-                        <div class="container" style="margin-top: 20px;">
-                            <div class="row">
-                                <div class="col-12">
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                                            <td style="width:70px;">
-                                                <img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50">
-                                            </td>
-
-                                            <a href="#" style="color: rgb(218, 0, 0); text-align:center;">닉네임</a>
-
-
-                                            <strong style="font-size: large; color: rgb(218, 0, 0);">1위</strong>
-
-
-                                        </li>
-                                    </ul>
-
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                                            <td style="width:70px;">
-                                                <img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50">
-                                            </td>
-
-                                            <a href="#" style="color: rgb(218, 0, 0); text-align:center;">닉네임</a>
-
-
-                                            <strong style="font-size: large; color: rgb(218, 0, 0);">2위</strong>
-
-
-                                        </li>
-                                    </ul>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- 월간랭킹 1~50위 -->
-                    <div class="tab-pane fade" id="c">
-
-                        <div class="container" style="margin-top: 20px;">
-                            <div class="row">
-                                <div class="col-12">
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                                            <td style="width:70px;">
-                                                <img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50">
-                                            </td>
-
-                                            <a href="#" style="color: rgb(218, 0, 0); text-align:center;">닉네임</a>
-
-
-                                            <strong style="font-size: large; color: rgb(218, 0, 0);">1위</strong>
-
-
-                                        </li>
-                                    </ul>
-
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                                            <td style="width:70px;">
-                                                <img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50">
-                                            </td>
-
-                                            <a href="#" style="color: rgb(218, 0, 0); text-align:center;">닉네임</a>
-
-
-                                            <strong style="font-size: large; color: rgb(218, 0, 0);">2위</strong>
-
-
-                                        </li>
-                                    </ul>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- 전체랭킹 1~100위 -->
-                    <div class="tab-pane fade" id="d">
-
-                        <div class="container" style="margin-top: 20px;">
-                            <div class="row">
-                                <div class="col-12">
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                                            <td style="width:70px;">
-                                                <img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50">
-                                            </td>
-
-                                            <a href="#" style="color: rgb(218, 0, 0); text-align:center;">닉네임</a>
-
-
-                                            <strong style="font-size: large; color: rgb(218, 0, 0);">1위</strong>
-
-
-                                        </li>
-                                    </ul>
-
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-
-                                            <td style="width:70px;">
-                                                <img class="rounded-circle" id="modal_userImg"
-                                                    src="https://picsum.photos/50/50">
-                                            </td>
-
-                                            <a href="#" style="color: rgb(218, 0, 0); text-align:center;">닉네임</a>
-
-
-                                            <strong style="font-size: large; color: rgb(218, 0, 0);">2위</strong>
-
-
-                                        </li>
-                                    </ul>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
+			<!-- 랭킹 탭 -->
+			<div class="col-md-6 gedf-main">
+
+				<ul class="nav nav-tabs">
+					<li class="nav-item"><a class="nav-link active"
+						data-toggle="tab" href="#a">급상승</a></li>
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#b">주간</a></li>
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#c">월간</a></li>
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#d">전체</a></li>
+				</ul>
+
+				<div class="tab-content">
+
+					<!-- 급상승랭킹 1~10위 -->
+					<div class="tab-pane fade show active" id="a">
+
+						<div class="container" style="margin-top: 20px;">
+							<div class="row">
+								<div class="col-12">
+									<c:forEach var="rank" items="${pageScope.rankList}"
+										varStatus="ranking">
+										<ul class="list-group">
+											<li
+												class="list-group-item d-flex justify-content-between align-items-center">
+
+												<td style="width: 70px;"><img class="rounded-circle"
+													id="modal_userImg" src="https://picsum.photos/50/50">
+											</td> <a href="profile.jsp?id=${rank.id}"
+												style="color: rgb(218, 0, 0); text-align: center;">${rank.nick}</a>
+												<strong style="font-size: large; color: rgb(218, 0, 0);">${ranking.index+1}위</strong>
+											</li>
+										</ul>
+									</c:forEach>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<!-- 주간랭킹 1~30위 -->
+					<div class="tab-pane fade" id="b">
+
+						<div class="container" style="margin-top: 20px;">
+							<div class="row">
+								<div class="col-12">
+									<c:forEach var="rank" items="${pageScope.rankList}"
+										varStatus="ranking">
+										<ul class="list-group">
+											<li
+												class="list-group-item d-flex justify-content-between align-items-center">
+
+												<td style="width: 70px;"><img class="rounded-circle"
+													id="modal_userImg" src="https://picsum.photos/50/50">
+											</td> <a href="profile.jsp?id=${rank.id}"
+												style="color: rgb(218, 0, 0); text-align: center;">${rank.nick}</a>
+												<strong style="font-size: large; color: rgb(218, 0, 0);">${ranking.index+1}위</strong>
+											</li>
+										</ul>
+									</c:forEach>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<!-- 월간랭킹 1~50위 -->
+					<div class="tab-pane fade" id="c">
+
+						<div class="container" style="margin-top: 20px;">
+							<div class="row">
+								<div class="col-12">
+									<c:forEach var="rank" items="${pageScope.rankList}"
+										varStatus="ranking">
+										<ul class="list-group">
+											<li
+												class="list-group-item d-flex justify-content-between align-items-center">
+
+												<td style="width: 70px;"><img class="rounded-circle"
+													id="modal_userImg" src="https://picsum.photos/50/50">
+											</td> <a href="profile.jsp?id=${rank.id}"
+												style="color: rgb(218, 0, 0); text-align: center;">${rank.nick}</a>
+												<strong style="font-size: large; color: rgb(218, 0, 0);">${ranking.index+1}위</strong>
+											</li>
+										</ul>
+									</c:forEach>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<!-- 전체랭킹 1~100위 -->
+					<div class="tab-pane fade" id="d">
+
+						<div class="container" style="margin-top: 20px;">
+							<div class="row">
+								<div class="col-12">
+									<c:forEach var="rank" items="${pageScope.rankList}"
+										varStatus="ranking">
+										<ul class="list-group">
+											<li
+												class="list-group-item d-flex justify-content-between align-items-center">
+
+												<td style="width: 70px;"><img class="rounded-circle"
+													id="modal_userImg" src="https://picsum.photos/50/50">
+											</td> <a href="profile.jsp?id=${rank.id}"
+												style="color: rgb(218, 0, 0); text-align: center;">${rank.nick}</a>
+												<strong style="font-size: large; color: rgb(218, 0, 0);">${ranking.index+1}위</strong>
+											</li>
+										</ul>
+									</c:forEach>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
 			<!-- 광고 배너 -->
-			<div class="col-md-3 ad-info" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
+			<div class="col-md-3 ad-info"
+				style="position: fixed; width: 25%; left: 100%; transform: translateX(-100%);">
 				<div class="card gedf-card">
 					<div class="card-body">
 						<h5 class="card-title">

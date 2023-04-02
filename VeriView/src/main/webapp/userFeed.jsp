@@ -1,3 +1,7 @@
+<%@page import="com.saoe.model.member.MemberDAO"%>
+<%@page import="com.saoe.model.member.ReviewMemberDTO"%>
+<%@page import="com.saoe.model.member.RestMemberDTO"%>
+<%@page import="com.saoe.model.member.MemberMemberDTO"%>
 <%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.member.MemberMemberDAO"%>
 <%@page import="com.saoe.model.category.CategoryDTO"%>
@@ -26,7 +30,7 @@
 	rel="stylesheet" id="bootstrap-css">
 <link
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-	rel="stylesheet"">
+	rel="stylesheet">
 	<script src="https://kit.fontawesome.com/6dc009df2e.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
 <style>
@@ -104,12 +108,22 @@
 	<%
 	MemberMemberDAO memberMemberDAO = new MemberMemberDAO();
 	FeedDAO feedDAO = new FeedDAO();
-	
-
+	MemberDAO memberDAO = new MemberDAO();
 	
 
 		SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
 
+		List<MemberMemberDTO> memberMemberList = memberDAO.selectMemberMemberList(member.getId());
+		List<RestMemberDTO> restMemberList = memberDAO.selectRestMemberList(member.getId());
+		List<ReviewMemberDTO> reviewMemberList = memberDAO.selectReviewMemberList(member.getId());
+		
+		pageContext.setAttribute("memberMemberList", memberMemberList);
+		pageContext.setAttribute("restMemberList", restMemberList);
+		pageContext.setAttribute("reviewMemberList", reviewMemberList);
+		
+		pageContext.setAttribute("code_no", 6);
+		
+		
 		int followerCnt = memberMemberDAO.selectFollowerCnt(member.getId());
 		int followingCnt = memberMemberDAO.selectFollowingCnt(member.getId());
 		pageContext.setAttribute("followerCnt", followerCnt);
@@ -272,10 +286,22 @@
 					</c:forEach>
 				</div>
 
-				<div class="row-fluid">
+				<div class="row-fluid feed-container">
 					<c:forEach var="feed" items="${pageScope.feedList}">
+					<c:set var="followstate" value="0"/>
+						<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
+							<c:if test="${memberMember.id eq feed.id}">
+								<c:set var="followstate" value="${memberMember.member_follow_yn}"/>
+							</c:if>
+						</c:forEach>
+						<c:set var="gbstate" value="0"/>
+						<c:forEach var="reviewMember" items="${pageScope.reviewMemberList}">
+							<c:if test="${reviewMember.review_no eq feed.review_no}">
+								<c:set var="gbstate" value="${reviewMember.review_gb }"/>
+							</c:if>
+						</c:forEach>
 						<!--- \\\\\\\Post1111111111111-->
-						<div class="card gedf-card">
+						<div class="card gedf-card feed-content">
 							<div class="card-header">
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="d-flex justify-content-between align-items-center">
@@ -290,7 +316,14 @@
 											</c:if>
 												${feed.nick}</a> 
 												<a href="javascript:void(0);" onclick="followMember('${feed.id}', this)" style="color: rgb(218, 0, 0);">
-												<i class="fa fa-regular fa-heart card-link actionBtn"></i></a>
+												<c:choose>
+												<c:when test="${followstate eq 1}">
+												<i class="fa fa-heart card-link actionBtn"></i>
+												</c:when>
+												<c:otherwise>
+												<i class="fa fa-regular fa-heart card-link actionBtn"></i>
+												</c:otherwise>
+												</c:choose>
 											</div>
 										</div>
 									</div>
@@ -377,10 +410,24 @@
 							</div>
 							<div class="card-footer">
 								<a href="javascript:void(0);" onclick="like(${feed.review_no}, this)" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-									<i class="fa fa-regular fa-thumbs-up" style="color: rgb(218, 0, 0);">좋아요</i> 
+									<c:choose>
+										<c:when test="${gbstate eq 1}">
+											<i class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);">취소</i> 
+										</c:when>
+										<c:otherwise>
+											<i class="fa fa-regular fa-thumbs-up" style="color: rgb(218, 0, 0);">좋아요</i> 
+										</c:otherwise>
+									</c:choose> 
 								</a>
 								<a href="javascript:void(0);" onclick="hate(${feed.review_no}, this)" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+									<c:choose>
+									<c:when test="${gbstate eq -1}">
+									<i class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);">취소</i>
+									</c:when>
+									<c:otherwise>
 									<i class="fa fa-regular fa-thumbs-down" style="color: rgb(218, 0, 0);">싫어요</i>
+									</c:otherwise>
+									</c:choose>
 								</a>
 								<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
 									<i class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유
@@ -450,55 +497,6 @@
 						</div>
 						<!-- Post /////-->
 					</c:forEach>
-
-					<!--- \\\\\\\Post2222222222222222222222-->
-					<div class="card gedf-card">
-						<div class="card-header">
-							<div class="d-flex justify-content-between align-items-center">
-								<div class="d-flex justify-content-between align-items-center">
-									<div class="mr-2">
-										<img class="rounded-circle" width="45"
-											src="https://picsum.photos/50/50" alt="">
-									</div>
-									<div class="ml-2">
-										<div class="h5 m-0">
-											<a href="" style="color: rgb(0, 0, 0);">식당</a> 
-											<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-												<i class="fa fa-regular fa-heart"></i>
-											</a>
-										</div>
-										<!-- <div class="h7 text-muted">Miracles Lee Cross</div> -->
-									</div>
-								</div>
-								<div>
-									<div class="dropdown">
-										<button class="btn btn-link dropdown-toggle" type="button"
-											id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
-											aria-expanded="false" style="color: rgb(218, 0, 0);">
-											<i class="fa fa-ellipsis-h" style="color: rgb(218, 0, 0);"></i>
-										</button>
-										<div class="dropdown-menu dropdown-menu-right"
-											aria-labelledby="gedf-drop1">
-											<a class="dropdown-item actionBtn" href="#" style="color: rgb(218, 0, 0);">스크랩</a> 
-											<a class="dropdown-item actionBtn" href="#" style="color: rgb(218, 0, 0);">식당 차단</a>
-										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-						<div class="card-footer">
-							<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-								<i class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);"></i> 좋아요
-							</a>
-							<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-								<i class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);"></i> 싫어요
-							</a>
-							<a href="#" class="card-link actionBtn" style="color: rgb(218, 0, 0);">
-								<i class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i> 공유
-							</a>
-						</div>
-					</div>
 				</div>
 			</div>
 			<!-- 광고 배너 -->
@@ -692,7 +690,7 @@ function updateLikeReview(review_no, state) {
 		$(function() {
 			$("#input1").keyup(function() {
 				$.ajax({
-					url : "AjaxTestCon",
+					url : "SearchCon",
 					type : 'post',
 					data : {
 						searchWord : $('#input1').val()
@@ -715,6 +713,343 @@ function updateLikeReview(review_no, state) {
 		})
 		
 		
+	</script>
+	<script>
+	
+	(() => {
+		  const ul = document.querySelector('.feed-container');
+		  let li = document.querySelector('.feed-content:last-child');
+		  
+		  const io = new IntersectionObserver((entry, observer) => {
+			  const ioTarget = entry[0].target;
+			  
+			  if (entry[0].isIntersecting) {
+				  console.log('현재 보이는 타켓', ioTarget)
+				  
+				  io.unobserve(li);
+				
+				  $.ajax({
+						url : "FeedCon",
+						type : 'post',
+						data : {
+							code_no : ${pageScope.code_no}
+						},
+						timeout : 3000,
+						success : function(data) {
+							let feed = JSON.parse(data);
+							for(var i = 0; i < 10; i++){
+								
+							      var temp = document.createElement("div");
+								  temp.className = 'card gedf-card feed-content';
+							      
+							      let tempHTML = `
+										<div class="card-header">
+											<div class="d-flex justify-content-between align-items-center">
+												<div class="d-flex justify-content-between align-items-center">
+													<div class="mr-2">
+														<img class="rounded-circle" width="45"
+															src="https://picsum.photos/50/50" alt="">
+													</div>
+													<div class="ml-2">
+														<div class="h5 m-0">
+															<c:if test="\${feed[i].id ne 'admin' }">
+																<a href="./profile.jsp?id=\${feed[i].id}"
+																	style="color: rgb(0, 0, 0);">
+															</c:if>
+															\${feed[i].nick}</a> <a href="javascript:void(0);"
+																onclick="followMember('\${feed[i].id}', this)"
+																style="color: rgb(218, 0, 0);"> <c:choose>
+																	<c:when test="${followstate eq 1}">
+																		<i class="fa fa-heart card-link actionBtn"></i>
+																	</c:when>
+																	<c:otherwise>
+																		<i class="fa fa-regular fa-heart card-link actionBtn"></i>
+																	</c:otherwise>
+																</c:choose>
+															</a>
+														</div>
+													</div>
+												</div>
+												<div>
+													<div class="dropdown">
+														<button class="btn btn-link dropdown-toggle" type="button"
+															id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
+															aria-expanded="false" style="color: rgb(218, 0, 0);">
+															<i class="fa fa-ellipsis-h" style="color: rgb(218, 0, 0);"></i>
+														</button>
+														<div class="dropdown-menu dropdown-menu-right"
+															aria-labelledby="gedf-drop1">
+															<!-- <div class="h6 dropdown-header">Configuration</div> -->
+															<a class="dropdown-item actionBtn"
+																href="javascript:void(0);"
+																onclick="scrapReview('\${feed[i].review_no}', this)"
+																style="color: rgb(218, 0, 0);">스크랩</a> <a
+																class="dropdown-item actionBtn" href="javascript:void(0);"
+																onclick="reportReview('\${feed[i].review_no}', this)"
+																style="color: rgb(218, 0, 0);">신고</a> <a
+																class="dropdown-item actionBtn" href="javascript:void(0);"
+																onclick="blockReview('\${feed[i].review_no}', this)"
+																style="color: rgb(218, 0, 0);">게시물 차단</a>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+										<div class="card-body">
+											<div class="text-muted h7 mb-2">
+												<i class="fa fa-clock-o"></i> \${feed[i].review_post_date} |
+											</div>
+											<a class="card-link"
+												href="./restDetail.jsp?rest_no=\${feed[i].rest_no}"
+												style="color: rgb(218, 0, 0);">
+												<h5 class="card-title">\${feed[i].rest_name}</h5>
+											</a>`;
+
+											
+											
+											if(typeof feed[i].reviewPicList == "undefined"){
+												let setHTML = "";
+												setHTML += `<p class="card-text">
+												\${feed[i].review_content}
+											</p>
+											<div>
+												<span class="badge badge-danger">\${feed[i].main_cate}</span> <span
+													class="badge badge-danger">\${feed[i].sub_cate}</span>
+											</div>
+										</div>
+										<div class="card-footer">
+											<a href="javascript:void(0);"
+												onclick="like(\${feed[i].review_no}, this)"
+												class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+												<c:choose>
+													<c:when test="${gbstate eq 1}">
+														<i class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);">취소</i>
+													</c:when>
+													<c:otherwise>
+														<i class="fa fa-regular fa-thumbs-up"
+															style="color: rgb(218, 0, 0);">좋아요</i>
+													</c:otherwise>
+												</c:choose>
+											</a> <a href="javascript:void(0);"
+												onclick="hate(\${feed[i].review_no}, this)"
+												class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+												<c:choose>
+													<c:when test="${gbstate eq -1}">
+														<i class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);">취소</i>
+													</c:when>
+													<c:otherwise>
+														<i class="fa fa-regular fa-thumbs-down"
+															style="color: rgb(218, 0, 0);">싫어요</i>
+													</c:otherwise>
+												</c:choose>
+											</a> <a href="#" class="card-link actionBtn"
+												style="color: rgb(218, 0, 0);"> <i
+												class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유
+											</a>
+										</div>
+										`;
+												tempHTML += setHTML;
+											}else{
+												let setHTML = "";
+												let picList = feed[i].reviewPicList;
+												console.log(picList);
+												
+												setHTML += `<p class="card-text">
+														<div id="carouselExampleIndicators\${feed[i].review_no}"
+															class="carousel slide" data-ride="carousel">
+
+															<ol class="carousel-indicators">
+																<li
+																	data-target="#carouselExampleIndicators\${feed[i].review_no}"
+																	data-slide-to="0" class="active"></li>
+																<li
+																	data-target="#carouselExampleIndicators\${feed[i].review_no}"
+																	data-slide-to="1"></li>
+																<li
+																	data-target="#carouselExampleIndicators\${feed[i].review_no}"
+																	data-slide-to="2"></li>
+															</ol>
+
+															<div class="carousel-inner" style="height: 600px">
+															
+															`;
+															
+													for(var j = 0; j < picList.length; j++){
+														if(j == 0){
+														setHTML += `
+															<div class="carousel-item active"
+															style="background-color: black; height: 100%; width: 100%;">
+															<img id="img1" class="d-block w-100"
+																src="\${picList[j].review_pic_src}" alt="First slide"
+																style="max-height: 100%; max-width: 80%; transform: translate(-50%, -50%); position: absolute; top: 50%; left: 50%;">
+														</div>
+														`;
+														}else{
+															setHTML += `
+																<div class="carousel-item"
+																style="background-color: black; height: 100%; width: 100%;">
+																	<img id="img1" class="d-block w-100"
+																		src="\${picList[j].review_pic_src}" alt="First slide"
+																		style="max-height: 100%; max-width: 80%; transform: translate(-50%, -50%); position: absolute; top: 50%; left: 50%;">
+																`;
+														}
+														
+													}
+													setHTML += `
+														
+															</div>
+															<a class="carousel-control-prev"
+																href="#carouselExampleIndicators\${feed[i].review_no}"
+																role="button" data-slide="prev"> <span
+																class="carousel-control-prev-icon" aria-hidden="true"></span>
+																<span class="sr-only">Previous</span>
+															</a> <a class="carousel-control-next"
+																href="#carouselExampleIndicators\${feed[i].review_no}"
+																role="button" data-slide="next"> <span
+																class="carousel-control-next-icon" aria-hidden="true"></span>
+																<span class="sr-only">Next</span>
+															</a>
+														</div>
+													\${feed[i].review_content}
+												</p>
+												<div>
+													<span class="badge badge-danger">\${feed[i].main_cate}</span> <span
+														class="badge badge-danger">\${feed[i].sub_cate}</span>
+												</div>
+											</div>
+											<div class="card-footer">
+												<a href="javascript:void(0);"
+													onclick="like(\${feed[i].review_no}, this)"
+													class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+													<c:choose>
+														<c:when test="${gbstate eq 1}">
+															<i class="fa fa-thumbs-up" style="color: rgb(218, 0, 0);">취소</i>
+														</c:when>
+														<c:otherwise>
+															<i class="fa fa-regular fa-thumbs-up"
+																style="color: rgb(218, 0, 0);">좋아요</i>
+														</c:otherwise>
+													</c:choose>
+												</a> <a href="javascript:void(0);"
+													onclick="hate(\${feed[i].review_no}, this)"
+													class="card-link actionBtn" style="color: rgb(218, 0, 0);">
+													<c:choose>
+														<c:when test="${gbstate eq -1}">
+															<i class="fa fa-thumbs-down" style="color: rgb(218, 0, 0);">취소</i>
+														</c:when>
+														<c:otherwise>
+															<i class="fa fa-regular fa-thumbs-down"
+																style="color: rgb(218, 0, 0);">싫어요</i>
+														</c:otherwise>
+													</c:choose>
+												</a> <a href="#" class="card-link actionBtn"
+													style="color: rgb(218, 0, 0);"> <i
+													class="fa fa-mail-forward" style="color: rgb(218, 0, 0);"></i>공유
+												</a>
+											</div>
+
+											
+											`;		
+											
+											tempHTML += setHTML;
+											}
+											
+											tempHTML += `											
+												<div class="card mb-2">
+												<div class="card-header bg-light" style="color: rgb(218, 0, 0);">
+													<i class="fa fa-comment fa" style="color: rgb(218, 0, 0);"></i>
+													댓글
+												</div>
+												<c:if test="${not empty sessionScope.member}">
+													<div class="card-body">
+														<form action="WriteReplyCon" method="post">
+															<div class="form-group">
+																<input type="hidden" name="review_no"
+																	value="\${feed[i].review_no}"> <input type="hidden"
+																	name="parent_no" value="0">
+																<textarea name="reply_content" class="form-control" rows="3"></textarea>
+															</div>
+															<div class="container">
+																<div class="row">
+																	<div class="col text-center">
+																		<button class="btn btn-outline-danger" type="submit">작성</button>
+																	</div>
+																</div>
+															</div>
+														</form>
+													</div>
+												</c:if>
+											</div>
+											`;
+											
+											
+											if(typeof feed[i].replyList != "undefined"){
+												var reply = feed[i].replyList;
+												
+														
+										
+												for(var m = 0; m < reply.length; m++) {
+												tempHTML += `
+																<div class="card-body">
+																	<div class="media mb-4">
+																		<div class="mr-2">
+																			<img class="rounded-circle" width="45"
+																				src="https://picsum.photos/50/50" alt="">
+																		</div>
+																		<div class="media-body">
+																			<h5 class="mt-0">
+																				<a href="" style="color: rgb(0, 0, 0);"> ${reply[m].id} </a>
+																			</h5>
+																			\${reply[m].reply_content}
+																			for(var n = 0; n < reply.length; n++){
+																				if(reply[n].parent_no == reply[m].reply_no){
+																					<div class="media mt-4">
+																						<div class="mr-2">
+																							<img class="rounded-circle" width="45"
+																								src="https://picsum.photos/50/50" alt="">
+																						</div>
+																						<div class="media-body">
+																							<h5 class="mt-0">
+																								<a href="" style="color: rgb(0, 0, 0);">
+																									${reply[n].id} </a>
+																							</h5>
+																							${reply[n].reply_content}
+																						</div>
+																					</div>
+																				}
+																			}
+																			
+																		</div>
+																	</div>
+																</div>
+																
+														`;
+													}
+											}
+										
+										temp.innerHTML = tempHTML;
+								
+							      ul.append(temp);
+							      }
+									
+							      li = document.querySelector('.feed-content:last-child');
+									
+							      io.observe(li);
+							
+						},
+						error : function() {
+							console.log("error");
+						}
+					})
+		    }
+		  }, {
+		    threshold: 0.5
+		  });
+
+		  io.observe(li);
+
+		})();
 	</script>
 
 

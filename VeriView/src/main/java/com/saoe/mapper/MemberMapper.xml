@@ -51,7 +51,9 @@
 		select * from rest_member where actor_id = #{id}
 	</select>
 	
-	
+	<update id="updateMember" parameterType="MemberDTO">
+		update member set pw=#{pw}, tel=#{tel}, addr=#{addr}, profile_message=#{profile_message} where id = #{id}
+	</update>
 
 	<update id="followMember" parameterType="MemberMemberDTO">
 		MERGE INTO member_member
@@ -120,6 +122,16 @@
 
 		</foreach>
 	</insert>
+	
+	<select id="selectInter" resultType="InterestDTO">
+		select * from interests where id = #{id}
+	</select>
+	
+	<delete id="deleteInter">
+		delete from interests where id = #{id}
+	</delete>
+	
+	
 
 
 

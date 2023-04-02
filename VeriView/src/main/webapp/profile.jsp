@@ -270,10 +270,10 @@
 										</c:forEach>
 										
 										<c:if test="${state eq 1}">
-											<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+											<button class="btn btn-danger" onclick="followMember('${follower.id}', this)" style="margin-left: 20px;">팔로잉</button>
 										</c:if>
 										<c:if test="${state eq 0}">	
-                                        	<buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                        	<button class="btn btn-outline-danger" onclick="followMember('${follower.id}', this)" style="margin-left: 20px;">팔로우</button>
                                         </c:if>
                                     </td>
                                 </tr>
@@ -305,10 +305,10 @@
 										</c:forEach>
 										
 										<c:if test="${state eq 1}">
-											<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+											<button class="btn btn-danger" onclick="followMember('${following.id}', this)" style="margin-left: 20px;">팔로잉</button>
 										</c:if>
 										<c:if test="${state eq 0}">	
-                                        	<buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
+                                        	<button class="btn btn-outline-danger" onclick="followMember('${following.id}', this)" style="margin-left: 20px;">팔로우</button>
                                         </c:if>
                                     </td>
                                 </tr>
@@ -341,6 +341,38 @@
     		    });
     	}
     </script>
+    
+    	<script>
+	function followMember(id, elem){
+		
+		if($(elem).text()=='팔로잉'){
+			$(elem).text('팔로우');
+			updateFollowMember(id, 0);
+		}else if($(elem).text()=='팔로우'){
+			$(elem).text('팔로잉');
+			updateFollowMember(id, 1);
+		}
+	}
+	
+	function updateFollowMember(id, state) {
+	    $.ajax({
+	        url: 'FollowMemberCon',
+	        type: 'post',
+	        data: {
+	            id: id,
+	            state: state,
+	        },
+	        success: function () {
+	        	alert("활동 성공");
+	        },
+	        error: function () {
+				alert("활동 실패");
+	        }
+	    });
+
+	}
+	
+</script>
 	<script
 		src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script

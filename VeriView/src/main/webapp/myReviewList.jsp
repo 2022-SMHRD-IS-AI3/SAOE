@@ -1,3 +1,5 @@
+<%@page import="com.saoe.model.member.ReviewMemberDTO"%>
+<%@page import="com.saoe.model.member.RestMemberDTO"%>
 <%@page import="com.saoe.model.member.MemberMemberDTO"%>
 <%@page import="com.saoe.model.member.SessionUserDTO"%>
 <%@page import="com.saoe.model.profile.ProfileReportDTO"%>
@@ -132,13 +134,15 @@ a {
 	<c:import url="./layout/header.jsp"></c:import>
 
 	<%
-	SessionUserDTO member = (SessionUserDTO)session.getAttribute("member");
+	SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
 	String id = member.getId();
 	pageContext.setAttribute("id", id);
-	
+
 	MemberDAO memberDAO = new MemberDAO();
 	List<MemberMemberDTO> memberMemberList = new MemberDAO().selectMemberMemberList(member.getId());
 	pageContext.setAttribute("memberMemberList", memberMemberList);
+	List<ReviewMemberDTO> reviewMemberList = memberDAO.selectReviewMemberList(member.getId());
+	pageContext.setAttribute("reviewMemberList", reviewMemberList);
 
 	ProfileDAO profileDAO = new ProfileDAO();
 	ProfileDTO profile = profileDAO.selectProfile(id);
@@ -168,10 +172,11 @@ a {
 	<div class="container-fluid gedf-wrapper">
 		<div class="row">
 			<div class="col-md-3">
-				<div class="card" style="position: fixed; width:25%;">
+				<div class="card" style="position: fixed; width: 25%;">
 					<div class="card-body">
 						<div class="media" style="text-align: center;">
-							<a class="thumbnail pull-left" href="./profile.jsp?id=${pageScope.profile.id}"> <img
+							<a class="thumbnail pull-left"
+								href="./profile.jsp?id=${pageScope.profile.id}"> <img
 								class="rounded-circle" width="80px"
 								src="https://picsum.photos/50/50" alt="">
 							</a>
@@ -184,12 +189,14 @@ a {
 							<c:if test="${empty pageScope.profile.profile_message}">@회원 코멘트가 없습니다.</c:if>
 							<c:if test="${not empty pageScope.profile.profile_message}">@${pageScope.profile.profile_message}</c:if>
 						</div>
-                        <div class="h7" style="height: 80px;">
-                            <a href="./updateMember.jsp" style="color: rgb(218, 0, 0);">프로필 수정</a> <br>
-                            <a href="./myUserList.jsp" style="color: rgb(218, 0, 0);">회원 목록</a> <br>
-                            <a href="./myReviewList.jsp" style="color: rgb(218, 0, 0);">리뷰 목록</a> <br>
-                            <a href="./myRestList.jsp" style="color: rgb(218, 0, 0);">음식점 목록</a>
-                        </div>
+						<div class="h7" style="height: 80px;">
+							<a href="./updateMember.jsp" style="color: rgb(218, 0, 0);">프로필
+								수정</a> <br> <a href="./myUserList.jsp"
+								style="color: rgb(218, 0, 0);">회원 목록</a> <br> <a
+								href="./myReviewList.jsp" style="color: rgb(218, 0, 0);">리뷰
+								목록</a> <br> <a href="./myRestList.jsp"
+								style="color: rgb(218, 0, 0);">음식점 목록</a>
+						</div>
 
 
 					</div>
@@ -232,30 +239,66 @@ a {
 					<div class="tab-pane fade show active" id="a">
 
 						<div class="row">
-							<c:forEach var="scrapReview" items="${pageScope.profileScrapReviewList}">
+							<c:forEach var="scrapReview"
+								items="${pageScope.profileScrapReviewList}">
 								<div class="card gedf-card" style="margin-right: 30px;">
 									<div class="box">
 										<div>
-											<img
-												src=${scrapReview.review_pic_src }
-												class="aaa">
+											<img src=${scrapReview.review_pic_src } class="aaa">
 										</div>
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="./restDetail.jsp?rest_no=${scrapReview.rest_no}" style="color: rgb(218, 0, 0);">${fn:substring(scrapReview.rest_name,0,5) }...</a>
+													<a href="./restDetail.jsp?rest_no=${scrapReview.rest_no}"
+														style="color: rgb(218, 0, 0);">
+														<c:choose>
+													<c:when test="${fn:length(scrapReview.rest_name) gt 6}">
+														${fn:substring(scrapReview.rest_name,0,6) }...
+													</c:when>
+													<c:otherwise>
+														${scrapReview.rest_name }
+													</c:otherwise>
+													</c:choose>
+														
+														</a>
 												</h4>
 											</div>
 											<div class="box-text">
-												<span>${fn:substring(scrapReview.review_content,0,8)}...</span>
+												<span>
+													<c:choose>
+													<c:when test="${fn:length(scrapReview.review_content) gt 11}">
+														${fn:substring(scrapReview.review_content,0,10) }...</span>
+													</c:when>
+													<c:otherwise>
+														${scrapReview.review_content }
+													</c:otherwise>
+													</c:choose>
+												</span>
 											</div>
 											<div>
 												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
 											</div>
 											<div class="box-btn"
 												style="text-align: center; margin-top: 10px;">
+												<c:set var="scrapstate" value="0" />
+												<c:forEach var="reviewMember"
+													items="${pageScope.reviewMemberList}">
+													<c:if
+														test="${reviewMember.review_no eq scrapReview.review_no && reviewMember.review_scrap_yn eq 1 }">
+														<c:set var="scrapstate" value="1" />
+													</c:if>
+												</c:forEach>
+
 												<button class="btn btn-danger" id="w1"
-													onmouseover="w1_mouseover()" onmouseout="w1_mouseout()">스크랩</button>
+													onclick="scrapReview('${scrapReview.review_no}', this)"
+													onmouseover="w1_mouseover()" onmouseout="w1_mouseout()">
+													<c:if test="${scrapstate eq 1}">
+													스크랩 취소
+													</c:if>
+													<c:if test="${scrapstate eq 0}">
+													스크랩
+													</c:if>
+												</button>
 											</div>
 										</div>
 									</div>
@@ -273,27 +316,62 @@ a {
 								<div class="card gedf-card" style="margin-right: 30px;">
 									<div class="box">
 										<div>
-											<img
-												src="${goodReview.review_pic_src }"
-												class="aaa">
+											<img src="${goodReview.review_pic_src }" class="aaa">
 										</div>
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="./restDetail.jsp?rest_no=${goodReview.rest_no}" style="color: rgb(218, 0, 0);">${fn:substring(goodReview.rest_name,0,5) }...</a>
+													<a href="./restDetail.jsp?rest_no=${goodReview.rest_no}"
+														style="color: rgb(218, 0, 0);">
+													<c:choose>
+													<c:when test="${fn:length(goodReview.rest_name) gt 6}">
+														${fn:substring(goodReview.rest_name,0,6) }...
+													</c:when>
+													<c:otherwise>
+														${goodReview.rest_name }
+													</c:otherwise>
+													</c:choose>
+													</a>
 												</h4>
 											</div>
 											<div class="box-text">
-												<span>${fn:substring(goodReview.review_content,0,8)}...</span>
+												<span>
+												<c:choose>
+													<c:when test="${fn:length(goodReview.review_content) gt 11}">
+														${fn:substring(goodReview.review_content,0,10) }...
+													</c:when>
+													<c:otherwise>
+														${goodReview.review_content }
+													</c:otherwise>
+													</c:choose>
+													</span>
 											</div>
 											<div>
 												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
 											</div>
-										<div class="box-btn"
-											style="text-align: center; margin-top: 10px;">
-											<button class="btn btn-danger" id="w2"
-												onmouseover="w2_mouseover()" onmouseout="w2_mouseout()">좋아요</button>
-										</div>
+											<div class="box-btn"
+												style="text-align: center; margin-top: 10px;">
+												<c:set var="gbstate" value="0" />
+												<c:forEach var="reviewMember"
+													items="${pageScope.reviewMemberList}">
+													<c:if
+														test="${reviewMember.review_no eq goodReview.review_no && reviewMember.review_gb eq 1 }">
+														<c:set var="gbstate" value="1" />
+													</c:if>
+												</c:forEach>
+												<button class="btn btn-danger" id="w2"
+													onclick="like('${goodReview.review_no}', this)"
+													onmouseover="w2_mouseover()" onmouseout="w2_mouseout()">
+													<c:choose>
+														<c:when test="${gbstate eq 1}">
+													좋아요 취소
+													</c:when>
+														<c:otherwise>
+													좋아요
+													</c:otherwise>
+													</c:choose>
+												</button>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -309,27 +387,59 @@ a {
 								<div class="card gedf-card" style="margin-right: 30px;">
 									<div class="box">
 										<div>
-											<img
-												src=${badReview.review_pic_src }
-												class="aaa">
+											<img src=${badReview.review_pic_src } class="aaa">
 										</div>
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="./restDetail.jsp?rest_no=${badReview.rest_no}" style="color: rgb(218, 0, 0);">${fn:substring(badReview.rest_name,0,5) }...</a>
+													<a href="./restDetail.jsp?rest_no=${badReview.rest_no}"
+														style="color: rgb(218, 0, 0);">
+														<c:choose>
+													<c:when test="${fn:length(badReview.rest_name) gt 6}">
+														${fn:substring(badReview.rest_name,0,6) }...</span>
+													</c:when>
+													<c:otherwise>
+														${badReview.rest_name }
+													</c:otherwise>
+													</c:choose>
+														</a>
 												</h4>
 											</div>
 											<div class="box-text">
-												<span>${fn:substring(badReview.review_content,0,8)}...</span>
+												<c:choose>
+													<c:when test="${fn:length(badReview.review_content) gt 11}">
+														${fn:substring(badReview.review_content,0,10) }...</span>
+													</c:when>
+													<c:otherwise>
+														${badReview.review_content }
+													</c:otherwise>
+													</c:choose>
 											</div>
 											<div>
 												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
 											</div>
-										<div class="box-btn"
-											style="text-align: center; margin-top: 10px;">
-											<button class="btn btn-danger" id="w3"
-												onmouseover="w3_mouseover()" onmouseout="w3_mouseout()">싫어요</button>
-										</div>
+											<div class="box-btn"
+												style="text-align: center; margin-top: 10px;">
+												<c:set var="gbstate" value="0" />
+												<c:forEach var="reviewMember"
+													items="${pageScope.reviewMemberList}">
+													<c:if
+														test="${reviewMember.review_no eq badReview.review_no && reviewMember.review_gb eq -1 }">
+														<c:set var="gbstate" value="-1" />
+													</c:if>
+												</c:forEach>
+												<button class="btn btn-danger" id="w3"
+													onclick="hate('${badReview.review_no}', this)">
+													<c:choose>
+														<c:when test="${gbstate eq -1}">
+													싫어요 취소
+													</c:when>
+														<c:otherwise>
+													싫어요
+													</c:otherwise>
+													</c:choose>
+												</button>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -341,31 +451,62 @@ a {
 					<div class="tab-pane fade" id="d">
 
 						<div class="row">
-						<c:forEach var="blockReview" items="${pageScope.profileBlockReviewList}">
+							<c:forEach var="blockReview"
+								items="${pageScope.profileBlockReviewList}">
 								<div class="card gedf-card" style="margin-right: 30px;">
 									<div class="box">
 										<div>
-											<img
-												src=${blockReview.review_pic_src }
-												class="aaa">
+											<img src=${blockReview.review_pic_src } class="aaa">
 										</div>
 										<div class="card-body">
 											<div class="box-title">
 												<h4>
-													<a href="./restDetail.jsp?rest_no=${blockReview.rest_no}" style="color: rgb(218, 0, 0);">${fn:substring(blockReview.rest_name,0,5) }...</a>
+													<a href="./restDetail.jsp?rest_no=${blockReview.rest_no}"
+														style="color: rgb(218, 0, 0);">
+														<c:choose>
+													<c:when test="${fn:length(blockReview.rest_name) gt 6}">
+														${fn:substring(blockReview.rest_name,0,6) }...</span>
+													</c:when>
+													<c:otherwise>
+														${blockReview.rest_name }
+													</c:otherwise>
+													</c:choose></a>
 												</h4>
 											</div>
 											<div class="box-text">
-												<span>${fn:substring(blockReview.rest_name,0,7) }...</span>
+												<c:choose>
+													<c:when test="${fn:length(blockReview.review_content) gt 11}">
+														${fn:substring(blockReview.review_content,0,10) }...</span>
+													</c:when>
+													<c:otherwise>
+														${blockReview.review_content }
+													</c:otherwise>
+													</c:choose>
 											</div>
 											<div>
 												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
 											</div>
-										<div class="box-btn"
-											style="text-align: center; margin-top: 10px;">
-											<button class="btn btn-danger" id="w4"
-												onmouseover="w4_mouseover()" onmouseout="w4_mouseout()">차단</button>
-										</div>
+											<div class="box-btn"
+												style="text-align: center; margin-top: 10px;">
+												<c:set var="blockstate" value="0" />
+												<c:forEach var="reviewMember"
+													items="${pageScope.reviewMemberList}">
+													<c:if
+														test="${reviewMember.review_no eq blockReview.review_no && reviewMember.review_block_yn eq 1 }">
+														<c:set var="blockstate" value="1" />
+													</c:if>
+												</c:forEach>
+												<button class="btn btn-danger" id="w4"
+													onclick="blockReview('${blockReview.review_no}', this)"
+													onmouseover="w4_mouseover()" onmouseout="w4_mouseout()">
+													<c:if test="${blockstate eq 1}">
+													차단 취소
+													</c:if>
+													<c:if test="${blockstate eq 0}">
+													차단
+													</c:if>
+												</button>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -378,33 +519,50 @@ a {
 
 						<div class="container" style="margin-top: 20px;">
 							<div class="row">
-							<c:forEach var="reportReview" items="${pageScope.profileReportReviewList}">
-								<div class="card gedf-card" style="margin-right: 30px;">
-									<div class="box">
-										<div>
-											<img
-												src=${reportReview.review_pic_src }
-												class="aaa">
-										</div>
-										<div class="card-body">
-											<div class="box-title">
-												<h4>
-													<a href="./restDetail.jsp?rest_no=${reportReview.rest_no}" style="color: rgb(218, 0, 0);">${fn:substring(reportReview.rest_name,0,7) }...</a>
-												</h4>
-											</div>
-											<div class="box-text">
-												<span>${fn:substring(reportReview.rest_name,0,7) }...</span>
-											</div>
+								<c:forEach var="reportReview"
+									items="${pageScope.profileReportReviewList}">
+									<div class="card gedf-card" style="margin-right: 30px;">
+										<div class="box">
 											<div>
-												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
+												<img src=${reportReview.review_pic_src } class="aaa">
 											</div>
-											<div class="box-text" style="margin-top: 5px;">
-												<p>${reportReview.member_rep_content}</p>
+											<div class="card-body">
+												<div class="box-title">
+													<h4>
+														<a href="./restDetail.jsp?rest_no=${reportReview.rest_no}"
+															style="color: rgb(218, 0, 0);">
+													<c:choose>
+													<c:when test="${fn:length(reportReview.rest_name) gt 6}">
+														${fn:substring(reportReview.rest_name,0,6) }...</span>
+													</c:when>
+													<c:otherwise>
+														${reportReview.rest_name }
+													</c:otherwise>
+													</c:choose>
+															</a>
+													</h4>
+												</div>
+												<div class="box-text">
+													<span>
+													<c:choose>
+													<c:when test="${fn:length(reportReview.review_content) gt 11}">
+														${fn:substring(reportReview.review_content,0,10) }...</span>
+													</c:when>
+													<c:otherwise>
+														${reportReview.review_content }
+													</c:otherwise>
+													</c:choose>
+												</div>
+												<div>
+													<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
+												</div>
+												<div class="box-text" style="margin-top: 5px;">
+													<p>${reportReview.member_rep_content}</p>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</c:forEach>
+								</c:forEach>
 							</div>
 						</div>
 
@@ -413,80 +571,90 @@ a {
 			</div>
 
 
-
-			            <!-- 팔로우 팔로워 -->
-            <div class="col-md-3" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
-                <div class="card gedf-card">
-                    <div class="card-body">
-                        <div>
-                            <h4 class="card-title"><span
-                                    style="color: rgb(218, 0, 0); margin-right: 15px;">Followers</span>${fn:length(pageScope.profileFollowerList)}</h4>
-                        </div>
-                        <div>
-                            <table class="modal_table" style="top: 80px;">
-                            <c:if test="${empty pageScope.profileFollowerList}">팔로우한 회원이 없습니다.</c:if>
-                            <c:forEach var="follower" items="${pageScope.profileFollowerList}">
-                                <tr>
-                                    <td style="width:70px;"><a href="./profile.jsp?id=${follower.id}"><img class="rounded-circle" id="modal_userImg"
-                                            src="https://picsum.photos/50/50"></a></td>
-                                    <td id="modal_userID"><a href="./profile.jsp?id=${follower.id}">${follower.nick}</a></td>
-                                    <td id="modal_userFollow">
-                                    	<c:set var="state" value="0" />
-										<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
-											<c:if test="${memberMember.id eq follower.id && memberMember.member_follow_yn eq 1 }">
-												<c:set var="state" value="1"/>
-											</c:if>
-										</c:forEach>
-										
-										<c:if test="${state eq 1}">
-											<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
-										</c:if>
-										<c:if test="${state eq 0}">	
-                                        	<buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
-                                        </c:if>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="card gedf-card">
-                    <div class="card-body">
-                        <div>
-                            <h4 class="card-title"><span
-                                    style="color: rgb(218, 0, 0); margin-right: 15px;">Following</span>${fn:length(pageScope.profileFollowingList)}</h4>
-                        </div>
-                        <div>
-                            <table class="modal_table" style="top: 80px;">
-                            <c:if test="${empty pageScope.profileFollowingList}">팔로잉한 회원이 없습니다.</c:if>
-                            <c:forEach var="following" items="${pageScope.profileFollowingList}">
-                                <tr>
-                                    <td style="width:70px;"><a href="./profile.jsp?id=${following.id}"><img class="rounded-circle" id="modal_userImg"
-                                            src="https://picsum.photos/50/50"></a></td>
-                                    <td id="modal_userID"><a href="./profile.jsp?id=${following.id}">${following.nick}</a></td>
-                                    <td id="modal_userFollow">
-                                        <c:set var="state" value="0" />
-										<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
-											<c:if test="${memberMember.id eq following.id && memberMember.member_follow_yn eq 1 }">
-												<c:set var="state" value="1"/>
-											</c:if>
-										</c:forEach>
-										
-										<c:if test="${state eq 1}">
-											<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
-										</c:if>
-										<c:if test="${state eq 0}">	
-                                        	<buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
-                                        </c:if>
-                                    </td>
-                                </tr>
-							</c:forEach>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- 팔로우 팔로워 -->
+			<div class="col-md-3"
+				style="position: fixed; width: 25%; left: 100%; transform: translateX(-100%);">
+				<div class="card gedf-card">
+					<div class="card-body">
+						<div>
+							<h4 class="card-title">
+								<span style="color: rgb(218, 0, 0); margin-right: 15px;">Followers</span>${fn:length(pageScope.profileFollowerList)}</h4>
+						</div>
+						<div>
+							<table class="modal_table" style="top: 80px;">
+								<c:if test="${empty pageScope.profileFollowerList}">팔로우한 회원이 없습니다.</c:if>
+								<c:forEach var="follower"
+									items="${pageScope.profileFollowerList}">
+									<tr>
+										<td style="width: 70px;"><a
+											href="./profile.jsp?id=${follower.id}"><img
+												class="rounded-circle" id="modal_userImg"
+												src="https://picsum.photos/50/50"></a></td>
+										<td id="modal_userID"><a
+											href="./profile.jsp?id=${follower.id}">${follower.nick}</a></td>
+										<td id="modal_userFollow"><c:set var="state" value="0" />
+											<c:forEach var="memberMember"
+												items="${pageScope.memberMemberList}">
+												<c:if
+													test="${memberMember.id eq follower.id && memberMember.member_follow_yn eq 1 }">
+													<c:set var="state" value="1" />
+												</c:if>
+											</c:forEach> <c:if test="${state eq 1}">
+												<button class="btn btn-danger"
+													onclick="followMember('${follower.id}', this)"
+													style="margin-left: 20px;">팔로잉</button>
+											</c:if> <c:if test="${state eq 0}">
+												<button class="btn btn-outline-danger"
+													onclick="followMember('${follower.id}', this)"
+													style="margin-left: 20px;">팔로우</button>
+											</c:if></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="card gedf-card">
+					<div class="card-body">
+						<div>
+							<h4 class="card-title">
+								<span style="color: rgb(218, 0, 0); margin-right: 15px;">Following</span>${fn:length(pageScope.profileFollowingList)}</h4>
+						</div>
+						<div>
+							<table class="modal_table" style="top: 80px;">
+								<c:if test="${empty pageScope.profileFollowingList}">팔로잉한 회원이 없습니다.</c:if>
+								<c:forEach var="following"
+									items="${pageScope.profileFollowingList}">
+									<tr>
+										<td style="width: 70px;"><a
+											href="./profile.jsp?id=${following.id}"><img
+												class="rounded-circle" id="modal_userImg"
+												src="https://picsum.photos/50/50"></a></td>
+										<td id="modal_userID"><a
+											href="./profile.jsp?id=${following.id}">${following.nick}</a></td>
+										<td id="modal_userFollow"><c:set var="state" value="0" />
+											<c:forEach var="memberMember"
+												items="${pageScope.memberMemberList}">
+												<c:if
+													test="${memberMember.id eq following.id && memberMember.member_follow_yn eq 1 }">
+													<c:set var="state" value="1" />
+												</c:if>
+											</c:forEach> <c:if test="${state eq 1}">
+												<button class="btn btn-danger"
+													onclick="followMember('${following.id}', this)"
+													style="margin-left: 20px;">팔로잉</button>
+											</c:if> <c:if test="${state eq 0}">
+												<button class="btn btn-outline-danger"
+													onclick="followMember('${following.id}', this)"
+													style="margin-left: 20px;">팔로우</button>
+											</c:if></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 			<!-- 마우스 오버 스크립트 -->
 			<script>
 				function w1_mouseover() {
@@ -543,12 +711,134 @@ a {
 					w4.style.background = "rgb(218, 0, 0)";
 				}
 			</script>
+			<script>
+			function followMember(id, elem) {
+
+				if ($(elem).text() == '팔로잉') {
+					$(elem).text('팔로우');
+					updateFollowMember(id, 0);
+				} else if ($(elem).text() == '팔로우') {
+					$(elem).text('팔로잉');
+					updateFollowMember(id, 1);
+				}
+			}
+
+			function updateFollowMember(id, state) {
+				$.ajax({
+					url : 'FollowMemberCon',
+					type : 'post',
+					data : {
+						id : id,
+						state : state,
+					},
+					success : function() {
+						alert("활동 성공");
+					},
+					error : function() {
+						alert("활동 실패");
+					}
+				});
+
+			}
+				function like(review_no, elem) {
+
+					if (($(elem).text().trim() == '취소')) {
+						$(elem).text('좋아요');
+						updateLikeReview(review_no, 0);
+
+					} else if (($(elem).text().trim() == '좋아요')) {
+						$(elem).text('취소');
+						updateLikeReview(review_no, 1);
+					}
+				}
+				function hate(review_no, elem) {
+
+					if (($(elem).text().trim() == '취소')) {
+						$(elem).text('싫어요');
+						updateLikeReview(review_no, 0);
+					} else if (($(elem).text().trim() == '싫어요')) {
+						$(elem).text('취소');
+						updateLikeReview(review_no, -1);
+					}
+				}
+
+				function updateLikeReview(review_no, state) {
+					$.ajax({
+						url : 'GBReviewCon',
+						type : 'post',
+						data : {
+							review_no : review_no,
+							state : state,
+						},
+						success : function() {
+							alert("리뷰 평가 성공");
+						},
+						error : function() {
+							alert("리뷰 평가 실패");
+						}
+					});
+
+				}
+				function scrapReview(review_no, elem) {
+					if ($(elem).text().trim() == '스크랩') {
+						$(elem).text('스크랩 취소');
+						updateScrapReview(review_no, 1);
+					} else if ($(elem).text().trim() == '스크랩 취소') {
+						$(elem).text('스크랩');
+						updateScrapReview(review_no, 0);
+					}
+				}
+				function updateScrapReview(review_no, state) {
+					$.ajax({
+						url : 'ScrapReviewCon',
+						type : 'post',
+						data : {
+							review_no : review_no,
+							state : state,
+						},
+						success : function() {
+							alert("리뷰 스크랩 성공");
+						},
+						error : function() {
+							alert("리뷰 스크랩 실패");
+						}
+					});
+				}
+
+				function blockReview(review_no, elem) {
+					if ($(elem).text().trim() == '차단') {
+						$(elem).text('차단 취소');
+						updateBlockReview(review_no, 1);
+					} else if ($(elem).text().trim() == '차단 취소') {
+						$(elem).text('차단');
+						updateBlockReview(review_no, 0);
+					}
+				}
+				function updateBlockReview(review_no, state) {
+					$.ajax({
+						url : 'BlockReviewCon',
+						type : 'post',
+						data : {
+							review_no : review_no,
+							state : state,
+						},
+						success : function() {
+							alert("리뷰 차단 성공");
+						},
+						error : function() {
+							alert("리뷰 차단 실패");
+						}
+					});
+
+				}
+			</script>
+
+
 
 			<script
 				src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 			<script
 				src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 			<script
 				src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 			<script

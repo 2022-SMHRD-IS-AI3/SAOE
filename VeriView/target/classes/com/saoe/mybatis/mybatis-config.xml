@@ -8,9 +8,6 @@
 	<properties resource="com/saoe/mybatis/db.properties"></properties>
 	
 	<typeAliases>
-	
-	
-		
 		<typeAlias type="com.saoe.model.category.CategoryDTO" alias="CategoryDTO"/>
 		<typeAlias type="com.saoe.model.feed.FeedDTO" alias="FeedDTO"/>
 		<typeAlias type="com.saoe.model.reply.ReplyDTO" alias="ReplyDTO"/>
@@ -33,12 +30,12 @@
 		<typeAlias type="com.saoe.model.member.RestMemberDTO" alias="RestMemberDTO"/>
 		<typeAlias type="com.saoe.model.member.InterestDTO" alias="InterestDTO"/>
 		
-		
 		<typeAlias type="com.saoe.model.search.SearchDTO" alias="SearchDTO"/>
 		<typeAlias type="com.saoe.model.search.SearchReviewDTO" alias="SearchReviewDTO"/>
 		<typeAlias type="com.saoe.model.search.SearchRestDTO" alias="SearchRestDTO"/>
 		<typeAlias type="com.saoe.model.search.SearchMemberDTO" alias="SearchMemberDTO"/>
 		
+		<typeAlias type="com.saoe.model.rank.RankingDTO" alias="RankingDTO"/>
 		
 		<typeAlias type="com.saoe.model.profile.ProfileDTO" alias="ProfileDTO"/>
 		<typeAlias type="com.saoe.model.profile.ProfileFeedDTO" alias="ProfileFeedDTO"/>
@@ -70,7 +67,7 @@
 		<mapper resource="com/saoe/mapper/CateMapper.xml" />
 		<mapper resource="com/saoe/mapper/ProfileMapper.xml" />
 		<mapper resource="com/saoe/mapper/SearchMapper.xml" />
-		
+		<mapper resource="com/saoe/mapper/RankMapper.xml" />
 	</mappers>
 	
 </configuration>

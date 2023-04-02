@@ -1,4 +1,4 @@
-package com.saoe.controllers.testCont;
+package com.saoe.controllers.ajaxCont;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

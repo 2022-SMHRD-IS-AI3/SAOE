@@ -4,6 +4,12 @@
 
 <web-app>
 	<display-name>Archetype Created Web Application</display-name>
+
+	<welcome-file-list>
+		<welcome-file>/start.jsp</welcome-file>
+	</welcome-file-list>
+
+
 	<servlet>
 		<servlet-name>DeleteReviewCon</servlet-name>
 		<display-name>DeleteReviewCon</display-name>
@@ -100,6 +106,18 @@
 		<description></description>
 		<servlet-class>com.saoe.controllers.memberController.InsertInter</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>SearchCon</servlet-name>
+		<display-name>SearchCon</display-name>
+		<description></description>
+		<servlet-class>com.saoe.controllers.ajaxCont.SearchCon</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>FeedCon</servlet-name>
+		<display-name>FeedCon</display-name>
+		<description></description>
+		<servlet-class>com.saoe.controllers.ajaxCont.FeedCon</servlet-class>
+	</servlet>
 
 
 	<servlet-mapping>
@@ -165,6 +183,14 @@
 	<servlet-mapping>
 		<servlet-name>InsertInter</servlet-name>
 		<url-pattern>/InsertInter</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SearchCon</servlet-name>
+		<url-pattern>/SearchCon</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>FeedCon</servlet-name>
+		<url-pattern>/FeedCon</url-pattern>
 	</servlet-mapping>
 
 </web-app>

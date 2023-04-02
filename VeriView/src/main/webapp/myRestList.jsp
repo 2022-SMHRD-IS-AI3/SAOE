@@ -239,19 +239,17 @@
 	                                            <td style="width:70px;"><img class="rounded-circle" width="45" id="modal_userImg"
 	                                                    src="${followingRest.rest_profile}"></td>
 	                                            <a href="./restDetail.jsp?rest_no=${followingRest.rest_no}" style="color: rgb(218, 0, 0);">${followingRest.rest_name }</a>
+	                                            <c:set var="followstate" value="0"/>
 	                                            <c:forEach var="restMember" items="${pageScope.restMemberList}">
 													<c:if test="${restMember.rest_no eq followingRest.rest_no && restMember.rest_follow_yn eq 1 }">
-														<c:set var="state" value="1"/>
+														<c:set var="followstate" value="1"/>
 													</c:if>
 												</c:forEach>
-										
-												<c:if test="${state eq 1}">
-													<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
-												</c:if>
-												<c:if test="${state eq 0}">	
-		                                        	<button class="btn btn-outline-danger" id="w1"
-														onmouseover="w1_mouseover()" onmouseout="w1_mouseout()">팔로우</button>
-		                                        </c:if>
+												<button class="btn btn-danger" id="w1" onclick="followRest('${followingRest.rest_no}', this)" 
+												onmouseover="w1_mouseover()" onmouseout="w1_mouseout()"  style="margin-left: 20px;">
+												<c:if test="${followstate eq 1}">팔로잉</c:if>
+												<c:if test="${followstate eq 0}">팔로우 </c:if>
+		                                        </button>
 	                                        </li>
                                         </c:forEach>
                                     </ul>
@@ -272,8 +270,18 @@
                                             <td style="width:70px;"><img class="rounded-circle" width="45" id="modal_userImg"
                                                     src="${goodRest.rest_profile}"></td>
                                                     <a href="./restDetail.jsp?rest_no=${goodRest.rest_no}" style="color: rgb(218, 0, 0);">${goodRest.rest_name }</a>
-                                            <button class="btn btn-danger" id="w2" onmouseover="w2_mouseover()"
-                                                onmouseout="w2_mouseout()">좋아요</button>
+                                                 <c:set var="gbstate" value="0"/>
+                                                 <c:forEach var="restMember" items="${pageScope.restMemberList}">
+													<c:if test="${restMember.rest_no eq goodRest.rest_no && restMember.rest_gb eq 1 }">
+														<c:set var="gbstate" value="1"/>
+													</c:if>
+												</c:forEach>
+                                            <button class="btn btn-danger" onclick="likeRest('${goodRest.rest_no}', this)">
+                                                 <c:choose>
+                                                <c:when test="${gbstate eq 1}">좋아요 취소</c:when>
+												<c:otherwise>좋아요</c:otherwise>
+                                                </c:choose>
+												</button>
                                         </li>
                                         </c:forEach>
                                     </ul>
@@ -293,8 +301,18 @@
                                             <td style="width:70px;"><img class="rounded-circle" width="45" id="modal_userImg"
                                                     src="${badRest.rest_profile}"></td>
                                                     <a href="./restDetail.jsp?rest_no=${badRest.rest_no}" style="color: rgb(218, 0, 0);">${badRest.rest_name }</a>
-                                            <button class="btn btn-danger" id="w3" onmouseover="w3_mouseover()"
-                                                onmouseout="w3_mouseout()">싫어요</button>
+                                            <c:set var="gbstate" value="0"/>
+                                                 <c:forEach var="restMember" items="${pageScope.restMemberList}">
+													<c:if test="${restMember.rest_no eq badRest.rest_no && restMember.rest_gb eq -1 }">
+														<c:set var="gbstate" value="-1"/>
+													</c:if>
+												</c:forEach>
+                                            <button class="btn btn-danger" onclick="dislikeRest('${badRest.rest_no}', this)">
+                                                <c:choose>
+                                                <c:when test="${gbstate eq -1}">싫어요 취소</c:when>
+												<c:otherwise>싫어요</c:otherwise>
+                                                </c:choose>
+												</button>
                                         </li>
                                     </c:forEach>
                                     </ul>
@@ -314,8 +332,16 @@
                                             	<img class="rounded-circle" width="45" id="modal_userImg" src="${blockRest.rest_profile}">
                                                     </td>
                                                     <a href="./restDetail.jsp?rest_no=${blockRest.rest_no}" style="color: rgb(218, 0, 0);">${blockRest.rest_name }</a>
-                                            <button class="btn btn-danger" id="w4" onmouseover="w4_mouseover()"
-                                                onmouseout="w4_mouseout()">차단</button>
+                                            <c:set var="blockstate" value="0"/>
+                                                 <c:forEach var="restMember" items="${pageScope.restMemberList}">
+													<c:if test="${restMember.rest_no eq blockRest.rest_no && restMember.rest_block_yn eq 1 }">
+														<c:set var="blockstate" value="1"/>
+													</c:if>
+												</c:forEach>
+                                            <button class="btn btn-danger" onclick="blockRest('${blockRest.rest_no}', this)">
+                                                <c:if test="${blockstate eq 1}">차단 취소</c:if>
+												<c:if test="${blockstate eq 0}">차단</c:if>
+												</button>
                                         </li>
                                         </c:forEach>
                                     </ul>
@@ -327,80 +353,90 @@
                 </div>
             </div>
             
-                        <!-- 광고 배너 -->
-                       <!-- 팔로우 팔로워 -->
-            <div class="col-md-3" style="position: fixed; width:25%; left: 100%; transform: translateX( -100% );">
-                <div class="card gedf-card">
-                    <div class="card-body">
-                        <div>
-                            <h4 class="card-title"><span
-                                    style="color: rgb(218, 0, 0); margin-right: 15px;">Followers</span>${fn:length(pageScope.profileFollowerList)}</h4>
-                        </div>
-                        <div>
-                            <table class="modal_table" style="top: 80px;">
-                            <c:if test="${empty pageScope.profileFollowerList}">팔로우한 회원이 없습니다.</c:if>
-                            <c:forEach var="follower" items="${pageScope.profileFollowerList}">
-                                <tr>
-                                    <td style="width:70px;"><a href="./profile.jsp?id=${follower.id}"><img class="rounded-circle" id="modal_userImg"
-                                            src="https://picsum.photos/50/50"></a></td>
-                                    <td id="modal_userID"><a href="./profile.jsp?id=${follower.id}">${follower.nick}</a></td>
-                                    <td id="modal_userFollow">
-                                    	<c:set var="state" value="0" />
-										<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
-											<c:if test="${memberMember.id eq follower.id && memberMember.member_follow_yn eq 1 }">
-												<c:set var="state" value="1"/>
-											</c:if>
-										</c:forEach>
-										
-										<c:if test="${state eq 1}">
-											<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
-										</c:if>
-										<c:if test="${state eq 0}">	
-                                        	<buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
-                                        </c:if>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="card gedf-card">
-                    <div class="card-body">
-                        <div>
-                            <h4 class="card-title"><span
-                                    style="color: rgb(218, 0, 0); margin-right: 15px;">Following</span>${fn:length(pageScope.profileFollowingList)}</h4>
-                        </div>
-                        <div>
-                            <table class="modal_table" style="top: 80px;">
-                            <c:if test="${empty pageScope.profileFollowingList}">팔로잉한 회원이 없습니다.</c:if>
-                            <c:forEach var="following" items="${pageScope.profileFollowingList}">
-                                <tr>
-                                    <td style="width:70px;"><a href="./profile.jsp?id=${following.id}"><img class="rounded-circle" id="modal_userImg"
-                                            src="https://picsum.photos/50/50"></a></td>
-                                    <td id="modal_userID"><a href="./profile.jsp?id=${following.id}">${following.nick}</a></td>
-                                    <td id="modal_userFollow">
-                                        <c:set var="state" value="0" />
-										<c:forEach var="memberMember" items="${pageScope.memberMemberList}">
-											<c:if test="${memberMember.id eq following.id && memberMember.member_follow_yn eq 1 }">
-												<c:set var="state" value="1"/>
-											</c:if>
-										</c:forEach>
-										
-										<c:if test="${state eq 1}">
-											<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
-										</c:if>
-										<c:if test="${state eq 0}">	
-                                        	<buttton class="btn btn-outline-danger" style="margin-left: 20px;">팔로우</button>
-                                        </c:if>
-                                    </td>
-                                </tr>
-							</c:forEach>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- 팔로우 팔로워 -->
+			<div class="col-md-3"
+				style="position: fixed; width: 25%; left: 100%; transform: translateX(-100%);">
+				<div class="card gedf-card">
+					<div class="card-body">
+						<div>
+							<h4 class="card-title">
+								<span style="color: rgb(218, 0, 0); margin-right: 15px;">Followers</span>${fn:length(pageScope.profileFollowerList)}</h4>
+						</div>
+						<div>
+							<table class="modal_table" style="top: 80px;">
+								<c:if test="${empty pageScope.profileFollowerList}">팔로우한 회원이 없습니다.</c:if>
+								<c:forEach var="follower"
+									items="${pageScope.profileFollowerList}">
+									<tr>
+										<td style="width: 70px;"><a
+											href="./profile.jsp?id=${follower.id}"><img
+												class="rounded-circle" id="modal_userImg"
+												src="https://picsum.photos/50/50"></a></td>
+										<td id="modal_userID"><a
+											href="./profile.jsp?id=${follower.id}">${follower.nick}</a></td>
+										<td id="modal_userFollow"><c:set var="state" value="0" />
+											<c:forEach var="memberMember"
+												items="${pageScope.memberMemberList}">
+												<c:if
+													test="${memberMember.id eq follower.id && memberMember.member_follow_yn eq 1 }">
+													<c:set var="state" value="1" />
+												</c:if>
+											</c:forEach> <c:if test="${state eq 1}">
+												<button class="btn btn-danger"
+													onclick="followMember('${follower.id}', this)"
+													style="margin-left: 20px;">팔로잉</button>
+											</c:if> <c:if test="${state eq 0}">
+												<button class="btn btn-outline-danger"
+													onclick="followMember('${follower.id}', this)"
+													style="margin-left: 20px;">팔로우</button>
+											</c:if></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="card gedf-card">
+					<div class="card-body">
+						<div>
+							<h4 class="card-title">
+								<span style="color: rgb(218, 0, 0); margin-right: 15px;">Following</span>${fn:length(pageScope.profileFollowingList)}</h4>
+						</div>
+						<div>
+							<table class="modal_table" style="top: 80px;">
+								<c:if test="${empty pageScope.profileFollowingList}">팔로잉한 회원이 없습니다.</c:if>
+								<c:forEach var="following"
+									items="${pageScope.profileFollowingList}">
+									<tr>
+										<td style="width: 70px;"><a
+											href="./profile.jsp?id=${following.id}"><img
+												class="rounded-circle" id="modal_userImg"
+												src="https://picsum.photos/50/50"></a></td>
+										<td id="modal_userID"><a
+											href="./profile.jsp?id=${following.id}">${following.nick}</a></td>
+										<td id="modal_userFollow"><c:set var="state" value="0" />
+											<c:forEach var="memberMember"
+												items="${pageScope.memberMemberList}">
+												<c:if
+													test="${memberMember.id eq following.id && memberMember.member_follow_yn eq 1 }">
+													<c:set var="state" value="1" />
+												</c:if>
+											</c:forEach> <c:if test="${state eq 1}">
+												<button class="btn btn-danger"
+													onclick="followMember('${following.id}', this)"
+													style="margin-left: 20px;">팔로잉</button>
+											</c:if> <c:if test="${state eq 0}">
+												<button class="btn btn-outline-danger"
+													onclick="followMember('${following.id}', this)"
+													style="margin-left: 20px;">팔로우</button>
+											</c:if></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
  <!-- 마우스 오버 스크립트 -->
     <script>
         function w1_mouseover() {
@@ -413,20 +449,6 @@
             w1.innerText = '팔로우';
             w1.style.color = "white";
             w1.style.background = "rgb(218, 0, 0)";
-        }
-    </script>
-
-    <script>
-        function w2_mouseover() {
-            w2.innerText = '좋아요 취소';
-            w2.style.color = "rgb(218, 0, 0)";
-            w2.style.background = "white";
-        }
-
-        function w2_mouseout() {
-            w2.innerText = '좋아요';
-            w2.style.color = "white";
-            w2.style.background = "rgb(218, 0, 0)";
         }
     </script>
 
@@ -457,11 +479,142 @@
             w4.style.background = "rgb(218, 0, 0)";
         }
     </script>
-	<script	src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-	<script	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-	<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script>
+    function followMember(id, elem) {
+
+		if ($(elem).text() == '팔로잉') {
+			$(elem).text('팔로우');
+			updateFollowMember(id, 0);
+		} else if ($(elem).text() == '팔로우') {
+			$(elem).text('팔로잉');
+			updateFollowMember(id, 1);
+		}
+	}
+
+	function updateFollowMember(id, state) {
+		$.ajax({
+			url : 'FollowMemberCon',
+			type : 'post',
+			data : {
+				id : id,
+				state : state,
+			},
+			success : function() {
+				alert("활동 성공");
+			},
+			error : function() {
+				alert("활동 실패");
+			}
+		});
+
+	}
+    function followRest(rest_no, elem){
+		if($(elem).text().trim() == '팔로우'){
+			$(elem).text('팔로잉');
+			updateFollowRest(rest_no, 1);
+		}else if($(elem).text().trim() == '팔로잉'){
+			$(elem).text('팔로우');
+			updateFollowRest(rest_no, 0);
+		}
+
+	}
+    
+    function updateFollowRest(rest_no, state) {
+	    $.ajax({
+	        url: 'FollowRestCon',
+	        type: 'post',
+	        data: {
+	            rest_no: rest_no,
+	            state: state
+	        },
+	        success: function () {
+	        	alert("활동 성공");
+	        },
+	        error: function () {
+				alert("활동 실패");
+	        }
+	    });
+
+	}
+function likeRest(rest_no, elem){
+		
+		if($(elem).text().trim() == '좋아요'){
+			$(elem).text('좋아요 취소');
+			updateGBRest(rest_no, 1);
+		}else if($(elem).text().trim() == '좋아요 취소'){
+			$(elem).text('좋아요');
+			updateGBRest(rest_no, 0);
+		}
+	}
+	
+	function dislikeRest(rest_no, elem){
+		
+		if($(elem).text().trim() == '싫어요'){
+			$(elem).text('싫어요 취소');
+			updateGBRest(rest_no, -1);
+		}else if($(elem).text().trim() == '싫어요 취소'){
+			$(elem).text('싫어요');
+			updateGBRest(rest_no, 0);
+		}
+	}
+	
+	function blockRest(rest_no, elem){
+		
+		if($(elem).text().trim() == '차단'){
+			$(elem).text('차단 취소');
+			updateBlockRest(rest_no, 1);
+		}else if($(elem).text().trim() == '차단 취소'){
+			$(elem).text('차단');
+			updateBlockRest(rest_no, 0);
+		}
+	}
+	function updateBlockRest(rest_no, state) {
+	    $.ajax({
+	        url: 'BlockRestCon',
+	        type: 'post',
+	        data: {
+	            rest_no: rest_no,
+	            state: state
+	        },
+	        success: function () {
+	        	alert("활동 성공");
+	        },
+	        error: function () {
+				alert("활동 실패");
+	        }
+	    });
+
+	}
+
+	function updateGBRest(rest_no, state) {
+	    $.ajax({
+	        url: 'GBRestCon',
+	        type: 'post',
+	        data: {
+	            rest_no: rest_no,
+	            state: state
+	        },
+	        success: function () {
+	        	alert("활동 성공");
+	        },
+	        error: function () {
+				alert("활동 실패");
+	        }
+	    });
+
+	}
+    </script>
+    
+    
+    
+	<script
+		src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script
+		src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </body>
 
 </html>
