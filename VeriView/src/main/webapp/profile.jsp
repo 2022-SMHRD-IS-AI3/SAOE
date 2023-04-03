@@ -236,7 +236,7 @@
 	                                        <span>${fn:substring(review.review_content,0,8)}..</span>
 	                                    </div>
 	                                    <div class="box-btn">
-	                                        <a href="#">더보기</a>
+	                                        <a href="./reviewDetail.jsp?review_no=${review.review_no}">더보기</a>
 	                                    </div>
 	                                </div>
 	                            </div>

@@ -109,19 +109,10 @@
 	MemberMemberDAO memberMemberDAO = new MemberMemberDAO();
 	MemberDAO memberDAO = new MemberDAO();
 	FeedDAO feedDAO = new FeedDAO();
-	int code_no = 0;
+	int review_no = Integer.parseInt(request.getParameter("review_no"));
+	FeedDTO feed = feedDAO.selectOneFeed(review_no);
 
-	if (request.getParameter("code_no") != null) {
-		code_no = Integer.parseInt(request.getParameter("code_no"));
-		List<FeedDTO> feedList = feedDAO.selectCateFeed(code_no);
-
-		pageContext.setAttribute("feedList", feedList);
-
-	} else {
-		List<FeedDTO> feedList = feedDAO.selectFeed();
-		pageContext.setAttribute("feedList", feedList);
-	}
-	pageContext.setAttribute("code_no", code_no);
+	pageContext.setAttribute("feed", feed);
 
 	if (session.getAttribute("member") != null) {
 		SessionUserDTO member = (SessionUserDTO) session.getAttribute("member");
@@ -222,89 +213,7 @@
 			<div class="col-md-6 gedf-main"
 				style="min-width: 600px; margin-top: 10px">
 
-				<div class="row my-3 mx-auto"
-					style="position: fixed; top: 70px; z-index: 2; background-color: white;">
-					<a href="feed.jsp">
-						<button type="button" class="btn btn-outline-light mx-1"
-							style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
-							data-bs-toggle="tooltip" data-bs-placement="top"
-							data-bs-title="Tooltip on top">전체</button>
-					</a>
-					<c:forEach var="cate" items="${pageScope.cateList}">
-						<a href="feed.jsp?code_no=${cate.code_no}">
-							<button type="button" class="btn btn-outline-light mx-1"
-								style="background-color: #da0000 !important; - -bs-btn-padding-y: .25rem; - -bs-btn-padding-x: .5rem; - -bs-btn-font-size: .75rem;"
-								data-bs-toggle="tooltip" data-bs-placement="top"
-								data-bs-title="Tooltip on top">${cate.main_cate}</button>
-						</a>
-					</c:forEach>
-				</div>
-
-				<c:if test="${not empty sessionScope.member}">
-					<div class="row"
-						style="height: 60px; display: flex; justify-content: center; align-items: center; margin-top: 70px;">
-						<a href="./feed.jsp"
-							style="margin-right: 30px; color: rgb(218, 0, 0); font-size: 20px;">새글</a>
-						<a href="./userFeed.jsp"
-							style="color: rgb(218, 0, 0); font-size: 20px;">추천</a>
-					</div>
-
-
-					<div class="row-fluid" style="top: 70px;">
-						<form action="WriteReviewCon" method="post"
-							enctype="multipart/form-data">
-							<!--- \\\\\\\Post-->
-							<div class="card gedf-card fee-content">
-								<div class="card-header">
-									<ul class="nav nav-tabs card-header-tabs" id="myTab"
-										role="tablist">
-										<li class="nav-item"><a class="nav-link active"
-											id="posts-tab" data-toggle="tab" href="#posts" role="tab"
-											aria-controls="posts" aria-selected="true">리뷰</a></li>
-
-									</ul>
-								</div>
-								<div class="card-body">
-									<div class="tab-content" id="myTabContent">
-										<div class="tab-pane fade show active" id="posts"
-											role="tabpanel" aria-labelledby="posts-tab">
-
-											<input class="form-control" list="datalistOptions"
-												id="input1" name="rest_no" placeholder="Type to search...">
-											<datalist id="datalistOptions">
-											</datalist>
-
-											<div class="form-group my-3">
-												<label class="sr-only" for="message">post</label>
-												<textarea name="review_content" class="form-control"
-													id="message" rows="3" placeholder="리뷰를 작성해주세요!"></textarea>
-											</div>
-
-											<div class="form-group">
-												<div class="custom-file">
-													<input type="file" multiple class="custom-file-input"
-														id="customFile" name="img"> <label
-														class="custom-file-label" for="customFile">Upload
-														image</label>
-												</div>
-											</div>
-											<div class="btn-toolbar justify-content-between">
-												<div class="btn-group">
-													<button type="submit" class="btn btn-outline-danger">업로드</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Post /////-->
-						</form>
-					</div>
-				</c:if>
-
-
 				<div class="row-fluid feed-container">
-					<c:forEach var="feed" items="${pageScope.feedList}">
 						<c:set var="followstate" value="0" />
 						<c:forEach var="memberMember"
 							items="${pageScope.memberMemberList}">
@@ -541,7 +450,6 @@
 							</c:forEach>
 						</div>
 						<!-- Post /////-->
-					</c:forEach>
 				</div>
 			</div>
 			<!-- 광고 배너 -->

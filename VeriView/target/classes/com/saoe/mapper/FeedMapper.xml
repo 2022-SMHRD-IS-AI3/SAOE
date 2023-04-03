@@ -199,7 +199,7 @@
 		rest.rest_name rest_name, rest.rest_addr rest_addr,
 		c.code_no code_no,
 		c.main_cate main_cate, c.sub_cate sub_cate
-		from (select * from review where review_no = #{review_no) 
+		from (select * from review where review_no = #{review_no}
 		) r, member m, restaurant rest, category c
 		where r.id = m.id
 		and

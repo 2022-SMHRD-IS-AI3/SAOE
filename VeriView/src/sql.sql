@@ -14,6 +14,21 @@
 		and rest.code_no = c.code_no
 		
 		select * from review;
+		
+				select m.id id, m.nick nick, m.profile profile,
+		r.review_no review_no,
+		r.review_content review_content, r.review_post_date review_post_date,
+		r.review_update_date review_update_date,
+		rest.rest_no rest_no,
+		rest.rest_name rest_name, rest.rest_addr rest_addr,
+		c.code_no code_no,
+		c.main_cate main_cate, c.sub_cate sub_cate
+		from (select * from review where review_no = 162) 
+		) r, member m, restaurant rest, category c
+		where r.id = m.id
+		and
+		r.rest_no = rest.rest_no
+		and rest.code_no = c.code_no
 
 
 

@@ -276,7 +276,7 @@ a {
 												</span>
 											</div>
 											<div>
-												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
+												<a href="./reviewDetail.jsp?review_no=${scrapReview.review_no}" style="color: rgb(218, 0, 0);">더보기</a>
 											</div>
 											<div class="box-btn"
 												style="text-align: center; margin-top: 10px;">
@@ -347,7 +347,7 @@ a {
 													</span>
 											</div>
 											<div>
-												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
+												<a href="./reviewDetail.jsp?review_no=${goodReview.review_no}" style="color: rgb(218, 0, 0);">더보기</a>
 											</div>
 											<div class="box-btn"
 												style="text-align: center; margin-top: 10px;">
@@ -416,7 +416,7 @@ a {
 													</c:choose>
 											</div>
 											<div>
-												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
+												<a href="./reviewDetail.jsp?review_no=${badReview.review_no}" style="color: rgb(218, 0, 0);">더보기</a>
 											</div>
 											<div class="box-btn"
 												style="text-align: center; margin-top: 10px;">
@@ -484,7 +484,7 @@ a {
 													</c:choose>
 											</div>
 											<div>
-												<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
+												<a href="./reviewDetail.jsp?review_no=${blockReview.review_no}" style="color: rgb(218, 0, 0);">더보기</a>
 											</div>
 											<div class="box-btn"
 												style="text-align: center; margin-top: 10px;">
@@ -554,7 +554,7 @@ a {
 													</c:choose>
 												</div>
 												<div>
-													<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
+													<a href="./reviewDetail.jsp?review_no=${reportReview.review_no}" style="color: rgb(218, 0, 0);">더보기</a>
 												</div>
 												<div class="box-text" style="margin-top: 5px;">
 													<p>${reportReview.member_rep_content}</p>

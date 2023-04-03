@@ -328,7 +328,7 @@ a {
 																<span>${fn:substring(searchReview.review_content,0,8)}...</span>
 															</div>
 															<div>
-																<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
+																<a href="./reviewDetail.jsp?review_no=${searchReview.review_no}" style="color: rgb(218, 0, 0);">더보기</a>
 															</div>
 														</div>
 													</div>
@@ -443,7 +443,7 @@ a {
 													<span>${fn:substring(searchReview.review_content,0,8)}...</span>
 												</div>
 												<div>
-													<a href="#" style="color: rgb(218, 0, 0);">더보기</a>
+													<a href="./reviewDetail.jsp?review_no=${searchReview.review_no}" style="color: rgb(218, 0, 0);">더보기</a>
 												</div>
 											</div>
 										</div>
