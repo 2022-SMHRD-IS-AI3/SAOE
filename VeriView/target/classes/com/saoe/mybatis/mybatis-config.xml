@@ -36,6 +36,7 @@
 		<typeAlias type="com.saoe.model.search.SearchMemberDTO" alias="SearchMemberDTO"/>
 		
 		<typeAlias type="com.saoe.model.rank.RankingDTO" alias="RankingDTO"/>
+		<typeAlias type="com.saoe.model.rank.ScoreDTO" alias="ScoreDTO"/>
 		
 		<typeAlias type="com.saoe.model.profile.ProfileDTO" alias="ProfileDTO"/>
 		<typeAlias type="com.saoe.model.profile.ProfileFeedDTO" alias="ProfileFeedDTO"/>

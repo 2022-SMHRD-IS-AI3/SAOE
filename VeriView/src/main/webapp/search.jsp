@@ -286,10 +286,10 @@ a {
 												</c:forEach>
 										
 												<c:if test="${state eq 1}">
-													<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+													<buttton class="btn btn-danger" onclick="followMember('${searchMember.id}', this)" style="margin-left: 20px;">팔로잉</button>
 												</c:if>
 												<c:if test="${state eq 0}">	
-		                                        	<button class="btn btn-outline-danger" id="w1"
+		                                        	<button class="btn btn-outline-danger" id="w1" onclick="followMember('${searchMember.id}', this)"
 															onmouseover="w1_mouseover()" onmouseout="w1_mouseout()">팔로우</button>
 		                                        </c:if>
 												
@@ -407,10 +407,10 @@ a {
 												</c:forEach>
 										
 												<c:if test="${state eq 1}">
-													<buttton class="btn btn-danger" style="margin-left: 20px;">팔로잉</button>
+													<buttton class="btn btn-danger" onclick="followMember('${searchMember.id}', this)" style="margin-left: 20px;">팔로잉</button>
 												</c:if>
 												<c:if test="${state eq 0}">	
-		                                        	<button class="btn btn-outline-danger" id="w1"
+		                                        	<button class="btn btn-outline-danger" id="w1" onclick="followMember('${searchMember.id}', this)"
 															onmouseover="w1_mouseover()" onmouseout="w1_mouseout()">팔로우</button>
 		                                        </c:if>
 											</li>
@@ -516,6 +516,33 @@ a {
 
 			<!-- 마우스 오버 스크립트 -->
 			<script>
+			function followMember(id, elem) {
+				if ($(elem).text() == '팔로잉') {
+					$(elem).text('팔로우');
+					updateFollowMember(id, 0);
+				} else if ($(elem).text() == '팔로우') {
+					$(elem).text('팔로잉');
+					updateFollowMember(id, 1);
+				}
+			}
+
+			function updateFollowMember(id, state) {
+				$.ajax({
+					url : 'FollowMemberCon',
+					type : 'post',
+					data : {
+						id : id,
+						state : state,
+					},
+					success : function() {
+						alert("활동 성공");
+					},
+					error : function() {
+						alert("활동 실패");
+					}
+				});
+
+			}
 				function w1_mouseover() {
 					w1.innerText = '스크랩 취소';
 					w1.style.color = "rgb(218, 0, 0)";
@@ -575,7 +602,6 @@ a {
 				src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 			<script
 				src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 			<script
 				src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 			<script

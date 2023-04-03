@@ -153,6 +153,7 @@
     <div class="container-fluid gedf-wrapper">
         <div class="row">
             <div class="col-md-3">
+            <div class="row">
                 <div class="card" style="position: fixed; width:25%;">
                     <div class="card-body">
                         <div class="media" style="text-align: center;">
@@ -202,6 +203,12 @@
 	                        <c:otherwise>
 	                        <li class="list-group-item">
 	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
+	                                style="color: rgb(218, 0, 0);" onclick="location.href='FollowMemberCon?id=${pageScope.profile.id}&state=1'">
+	                                팔로우 하기
+	                            </button>
+	                        </li>
+	                        <li class="list-group-item">
+	                            <button class="btn btn-outline-danger" type="button" id="button-addon2"
 	                                style="color: rgb(218, 0, 0);" onclick="location.href='BlockMemberCon?id=${pageScope.profile.id}&state=1'">
 	                                차단하기
 	                            </button>
@@ -216,6 +223,7 @@
                         </c:choose>
                     </ul>
                 </div>
+            </div>
             </div>
 
             <div class="col-md-6 gedf-main">

@@ -1,15 +1,12 @@
 package com.saoe.model.rank;
 
+import lombok.Getter;
+
+@Getter
+
 public class ScoreDTO {
 	
 	private String id;
-	private String member_score;
+	private String count;
 	
-	private int review_no;
-	private int review_score;
-	
-	private int rest_no;
-	private int rest_score;
-	
-
 }

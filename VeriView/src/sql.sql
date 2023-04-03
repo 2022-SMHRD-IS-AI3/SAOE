@@ -13,6 +13,53 @@
 		r.rest_no = rest.rest_no
 		and rest.code_no = c.code_no
 		
+		select id, count(id) from review where review_no in (SELECT review_no FROM review_member where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(review_gb_date, 'YYYY-MM-DD')) and review_gb = 1) group by id
+		
+		select * from member
+		
+				select id, count(id) count from review where 365 >
+		(TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(review_post_date,
+		'YYYY-MM-DD')) group by id
+		
+		select id, nick, profile, member_score, grade from member order by member_score desc
+		
+		리뷰에 좋아요 된 개수
+		select id, count(id) from review where review_no in (SELECT review_no FROM review_member where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(review_gb_date, 'YYYY-MM-DD')) and review_gb = 1) group by id;
+		select id, count(id) from review where review_no in (SELECT review_no FROM review_member where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(review_gb_date, 'YYYY-MM-DD')) and review_gb = -1) group by id;
+		
+		리뷰 올린 점수
+		select id, count(id) from review where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(review_post_date, 'YYYY-MM-DD')) group by id
+		
+		리뷰 신고
+		select id, count(id) from review where review_no in (select review_no from review_member where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(review_rep_date, 'YYYY-MM-DD')) and review_rep_yn = 1) group by id;
+		
+		리뷰 스크랩
+		select id, count(id) from review where review_no in (select review_no from review_member where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(review_scrap_date, 'YYYY-MM-DD')) and review_scrap_yn = 1) group by id;
+		
+		리뷰 차단
+		select id, count(id) count from review where review_no in (select review_no from review_member where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(review_block_date, 'YYYY-MM-DD')) and review_block_yn = 1) group by id;
+		
+		select id, count(id) count from review where review_no in (select review_no from review_member where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(review_block_date, 'YYYY-MM-DD')) and review_block_yn = 1) group by id;
+		
+		select id, count(id) count from review where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(review_post_date, 'YYYY-MM-DD')) group by id;
+		
+		멤버 팔로우
+		select m.id id, count(mm.id) count from member m, member_member mm where m.id = mm.id and m.id in (select id from member_member where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(member_follow_date, 'YYYY-MM-DD')) and member_follow_yn = 1) group by mm.id;
+		
+		멤버 신고
+		select id, count(id) count from member where id in (select id from member_member where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(member_report_date, 'YYYY-MM-DD')) and member_rep_yn = 1) group by id;
+		
+		멤버 차단
+		select id, count(id) count from member where id in (select id from member_member where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(member_block_date, 'YYYY-MM-DD')) and member_block_yn = 1) group by id;
+		
+		select * from member_member;
+		
+		update member set member_score = 0 where id = '1';
+		select
+		
+		
+		
+		
 		select * from review;
 		
 				select m.id id, m.nick nick, m.profile profile,

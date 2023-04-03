@@ -104,16 +104,15 @@
 		pageContext.setAttribute("followerCnt", followerCnt);
 		pageContext.setAttribute("followingCnt", followingCnt);
 
-		List<FeedDTO> feedList = feedDAO.selectUserFeed(member.getId());
-		pageContext.setAttribute("feedList", feedList);
-	} else {
-		List<FeedDTO> feedList = feedDAO.selectFeed();
-		pageContext.setAttribute("feedList", feedList);
 	}
 
 	RankingDAO rankingDAO = new RankingDAO();
-	List<RankingDTO> rankList = rankingDAO.selectRanking();
-	pageContext.setAttribute("rankList", rankList);
+	List<RankingDTO> rankWeekList = rankingDAO.selectRanking(7);
+	List<RankingDTO> rankMonthList = rankingDAO.selectRanking(30);
+	List<RankingDTO> rankTotalList = rankingDAO.selectRanking(365);
+	pageContext.setAttribute("rankWeekList", rankWeekList);
+	pageContext.setAttribute("rankMonthList", rankMonthList);
+	pageContext.setAttribute("rankTotalList", rankTotalList);
 	%>
 
 	<div class="container-fluid gedf-wrapper">
@@ -212,8 +211,9 @@
 						<div class="container" style="margin-top: 20px;">
 							<div class="row">
 								<div class="col-12">
-									<c:forEach var="rank" items="${pageScope.rankList}"
+									<c:forEach var="rank" items="${pageScope.rankTotalList}"
 										varStatus="ranking">
+										<c:if test="${rank.member_score > 0}">
 										<ul class="list-group">
 											<li
 												class="list-group-item d-flex justify-content-between align-items-center">
@@ -225,6 +225,7 @@
 												<strong style="font-size: large; color: rgb(218, 0, 0);">${ranking.index+1}위</strong>
 											</li>
 										</ul>
+										</c:if>
 									</c:forEach>
 								</div>
 							</div>
@@ -238,8 +239,9 @@
 						<div class="container" style="margin-top: 20px;">
 							<div class="row">
 								<div class="col-12">
-									<c:forEach var="rank" items="${pageScope.rankList}"
+									<c:forEach var="rank" items="${pageScope.rankWeekList}"
 										varStatus="ranking">
+										<c:if test="${rank.member_score > 0}">
 										<ul class="list-group">
 											<li
 												class="list-group-item d-flex justify-content-between align-items-center">
@@ -251,8 +253,8 @@
 												<strong style="font-size: large; color: rgb(218, 0, 0);">${ranking.index+1}위</strong>
 											</li>
 										</ul>
+										</c:if>
 									</c:forEach>
-
 								</div>
 							</div>
 						</div>
@@ -265,8 +267,9 @@
 						<div class="container" style="margin-top: 20px;">
 							<div class="row">
 								<div class="col-12">
-									<c:forEach var="rank" items="${pageScope.rankList}"
+									<c:forEach var="rank" items="${pageScope.rankMonthList}"
 										varStatus="ranking">
+										<c:if test="${rank.member_score > 0}">
 										<ul class="list-group">
 											<li
 												class="list-group-item d-flex justify-content-between align-items-center">
@@ -278,6 +281,7 @@
 												<strong style="font-size: large; color: rgb(218, 0, 0);">${ranking.index+1}위</strong>
 											</li>
 										</ul>
+										</c:if>
 									</c:forEach>
 
 								</div>
@@ -292,8 +296,9 @@
 						<div class="container" style="margin-top: 20px;">
 							<div class="row">
 								<div class="col-12">
-									<c:forEach var="rank" items="${pageScope.rankList}"
+									<c:forEach var="rank" items="${pageScope.rankTotalList}"
 										varStatus="ranking">
+										<c:if test="${rank.member_score > 0}">
 										<ul class="list-group">
 											<li
 												class="list-group-item d-flex justify-content-between align-items-center">
@@ -305,8 +310,8 @@
 												<strong style="font-size: large; color: rgb(218, 0, 0);">${ranking.index+1}위</strong>
 											</li>
 										</ul>
+										</c:if>
 									</c:forEach>
-
 								</div>
 							</div>
 						</div>
