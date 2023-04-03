@@ -26,74 +26,74 @@ public class FeedDAO {
 		System.out.println("불러오는중");
 		List<FeedDTO> feedList = sqlSession.selectList("selectFeed");
 		System.out.println("불러왔음");
-		
-		for(FeedDTO feed : feedList) {
+
+		for (FeedDTO feed : feedList) {
 			int review_no = feed.getReview_no();
 			List<ReplyDTO> replyList = sqlSession.selectList("selectReplyList", review_no);
-			feed.setReplyList(replyList); 
+			feed.setReplyList(replyList);
 			List<ReviewPicDTO> reviewPicList = sqlSession.selectList("selectReviewPicList", review_no);
-			feed.setReviewPicList(reviewPicList); 
+			feed.setReviewPicList(reviewPicList);
 		}
-		
+
 		sqlSession.close();
 
 		return feedList;
 	}
-	
+
 	public List<FeedDTO> selectCateFeed(int code_no) {
-		
+
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
-		
+
 		System.out.println("불러오는중");
 		System.out.println(code_no);
 		List<FeedDTO> feedList = sqlSession.selectList("selectCateFeed", code_no);
 		System.out.println("불러왔음");
-		
-		for(FeedDTO feed : feedList) {
+
+		for (FeedDTO feed : feedList) {
 			int review_no = feed.getReview_no();
 			List<ReplyDTO> replyList = sqlSession.selectList("selectReplyList", review_no);
-			feed.setReplyList(replyList); 
+			feed.setReplyList(replyList);
 			List<ReviewPicDTO> reviewPicList = sqlSession.selectList("selectReviewPicList", review_no);
-			feed.setReviewPicList(reviewPicList); 
+			feed.setReviewPicList(reviewPicList);
 		}
-		
+
 		sqlSession.close();
-		
+
 		return feedList;
 	}
-	
+
 	// 유저 추천 피드
 	public List<FeedDTO> selectUserFeed(String id) {
-		
+
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
-		
+
 		List<FeedDTO> feedList = sqlSession.selectList("selectUserFeed", id);
-		
-		for(FeedDTO feed : feedList) {
+
+		for (FeedDTO feed : feedList) {
 			int review_no = feed.getReview_no();
 			List<ReplyDTO> replyList = sqlSession.selectList("selectReplyList", review_no);
-			feed.setReplyList(replyList); 
+			feed.setReplyList(replyList);
 			List<ReviewPicDTO> reviewPicList = sqlSession.selectList("selectReviewPicList", review_no);
-			feed.setReviewPicList(reviewPicList); 
+			feed.setReviewPicList(reviewPicList);
 		}
-		
+
 		sqlSession.close();
-		
+
 		return feedList;
 	}
-	
+
 	// 카테고리 불러옴
-	public List<CategoryDTO> selectCate(){
-		
+	public List<CategoryDTO> selectCate() {
+
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
-		
+
 		List<CategoryDTO> cateList = sqlSession.selectList("selectCate");
-		
+
 		sqlSession.close();
-		
+
 		return cateList;
 	}
-	
+
 	// 식당 피드
 	public List<FeedDTO> selectRestFeed(int rest_no) {
 
@@ -102,39 +102,56 @@ public class FeedDAO {
 		System.out.println("불러오는중");
 		List<FeedDTO> feedList = sqlSession.selectList("selectRestFeed", rest_no);
 		System.out.println("불러왔음");
-		
-		for(FeedDTO feed : feedList) {
+
+		for (FeedDTO feed : feedList) {
 			int review_no = feed.getReview_no();
 			List<ReplyDTO> replyList = sqlSession.selectList("selectReplyList", review_no);
-			feed.setReplyList(replyList); 
+			feed.setReplyList(replyList);
 			List<ReviewPicDTO> reviewPicList = sqlSession.selectList("selectReviewPicList", review_no);
-			feed.setReviewPicList(reviewPicList); 
+			feed.setReviewPicList(reviewPicList);
 		}
-		
+
 		sqlSession.close();
 
 		return feedList;
 	}
-	
+
 	// 유저 추천 식당 피드
 	public List<FeedDTO> selectUserRestFeed(String id, int rest_no) {
-		
+
 		SqlSession sqlSession = sqlSessionFactory.openSession(true);
-		
+
 		List<FeedDTO> feedList = sqlSession.selectList("selectRestFeed", rest_no);
-		
-		for(FeedDTO feed : feedList) {
+
+		for (FeedDTO feed : feedList) {
 			int review_no = feed.getReview_no();
 			List<ReplyDTO> replyList = sqlSession.selectList("selectReplyList", review_no);
-			feed.setReplyList(replyList); 
+			feed.setReplyList(replyList);
 			List<ReviewPicDTO> reviewPicList = sqlSession.selectList("selectReviewPicList", review_no);
-			feed.setReviewPicList(reviewPicList); 
+			feed.setReviewPicList(reviewPicList);
 		}
-		
+
 		sqlSession.close();
-		
+
 		return feedList;
 	}
-	
+
+	public FeedDTO selectOneFeed(int review_no) {
+
+		SqlSession sqlSession = sqlSessionFactory.openSession(true);
+
+		System.out.println("불러오는중");
+		FeedDTO feed = sqlSession.selectOne("selectOneFeed", review_no);
+		System.out.println("불러왔음");
+
+		List<ReplyDTO> replyList = sqlSession.selectList("selectReplyList", review_no);
+		feed.setReplyList(replyList);
+		List<ReviewPicDTO> reviewPicList = sqlSession.selectList("selectReviewPicList", review_no);
+		feed.setReviewPicList(reviewPicList);
+
+		sqlSession.close();
+
+		return feed;
+	}
 
 }
