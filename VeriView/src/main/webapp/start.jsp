@@ -33,7 +33,7 @@ font-family: 'Open Sans', sans-serif; */
         .main {
             width: 70%;
             height: 75%;
-            margin: auto;
+            margin: auto;\
             border-radius: 10px;
             /* display: flex; */
             
