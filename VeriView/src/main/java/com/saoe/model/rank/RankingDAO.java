@@ -31,50 +31,50 @@ public class RankingDAO {
 		List<ScoreDTO> blockUserScoreList = sqlSession.selectList("selectBlockUserScore", day);
 		
 		for(RankingDTO rank : rankingList) {
-			double total_score = 0;
+			int total_score = 0;
 			for(ScoreDTO score : goodReviewScoreList) {
 				if(rank.getId().equals(score.getId())){
-					total_score += Integer.parseInt(score.getCount());
+					total_score += Integer.parseInt(score.getCount()) * 10;
 				}
 			}
 			for(ScoreDTO score : badReviewScoreList) {
 				if(rank.getId().equals(score.getId())){
-					total_score -= Integer.parseInt(score.getCount());
+					total_score -= Integer.parseInt(score.getCount()) * 10;
 				}
 			}
 			for(ScoreDTO score : blockReviewScoreList) {
 				if(rank.getId().equals(score.getId())){
-					total_score -= Integer.parseInt(score.getCount()) * 2;
+					total_score -= Integer.parseInt(score.getCount()) * 20;
 				}
 			}
 			for(ScoreDTO score : reportReviewScoreList) {
 				if(rank.getId().equals(score.getId())){
-					total_score -= Integer.parseInt(score.getCount()) * 3;
+					total_score -= Integer.parseInt(score.getCount()) * 30;
 				}
 			}
 			for(ScoreDTO score : scrapReviewScoreList) {
 				if(rank.getId().equals(score.getId())){
-					total_score += Integer.parseInt(score.getCount()) * 3;
+					total_score += Integer.parseInt(score.getCount()) * 30;
 				}
 			}
 			for(ScoreDTO score : reviewScoreList) {
 				if(rank.getId().equals(score.getId())){
-					total_score += Integer.parseInt(score.getCount()) * 0.5;
+					total_score += Integer.parseInt(score.getCount()) * 5;
 				}
 			}
 			for(ScoreDTO score : followUserScoreList) {
 				if(rank.getId().equals(score.getId())){
-					total_score += Integer.parseInt(score.getCount()) * 0.1;
+					total_score += Integer.parseInt(score.getCount()) * 1;
 				}
 			}
 			for(ScoreDTO score : reportUserScoreList) {
 				if(rank.getId().equals(score.getId())){
-					total_score += Integer.parseInt(score.getCount()) * 0.2;
+					total_score += Integer.parseInt(score.getCount()) * 2;
 				}
 			}
 			for(ScoreDTO score : blockUserScoreList) {
 				if(rank.getId().equals(score.getId())){
-					total_score += Integer.parseInt(score.getCount()) * 0.3;
+					total_score += Integer.parseInt(score.getCount()) * 3;
 				}
 			}
 			rank.setMember_score(total_score);
@@ -96,7 +96,7 @@ public class RankingDAO {
 			@Override
 			public int compare(RankingDTO o1, RankingDTO o2) {
 				// TODO Auto-generated method stub
-				return (int) (o2.getMember_score() - o1.getMember_score());
+				return (int)(o2.getMember_score() - o1.getMember_score());
 			}
 		});
 		

@@ -15,7 +15,7 @@ public class RankingDTO {
 	private String id;
 	private String nick;
 	private String profile;
-	private double member_score;
+	private int member_score;
 	private int grade;
 
 }
