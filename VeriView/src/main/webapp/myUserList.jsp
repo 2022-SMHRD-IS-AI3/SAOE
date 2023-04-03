@@ -230,7 +230,7 @@ a {
 											<li
 												class="list-group-item d-flex justify-content-between align-items-center">
 												<td style="width: 70px;"><img class="rounded-circle"
-													id="modal_userImg" src="https://picsum.photos/50/50"></td>
+													id="modal_userImg" src="${followings.profile }" width="45" height="45"></td>
 												<a href="./profile.jsp?id=${followings.id}">${followings.nick}</a>
 												<c:set var="state" value="0" /> <c:forEach
 													var="memberMember" items="${pageScope.memberMemberList}">
@@ -267,7 +267,7 @@ a {
 											<li
 												class="list-group-item d-flex justify-content-between align-items-center">
 												<td style="width: 70px;"><img class="rounded-circle"
-													id="modal_userImg" src="https://picsum.photos/50/50"></td>
+													id="modal_userImg" src="${followers.profile }" width="45" height="45"></td>
 												<a href="./profile.jsp?id=${followers.id}">${followers.nick }</a>
 												<c:set var="state" value="0" /> <c:forEach
 													var="memberMember" items="${pageScope.memberMemberList}">
@@ -300,7 +300,7 @@ a {
 											<li
 												class="list-group-item d-flex justify-content-between align-items-center">
 												<td style="width: 70px;"><img class="rounded-circle"
-													id="modal_userImg" src="https://picsum.photos/50/50"></td>
+													id="modal_userImg" src="${blocks.profile }" width="45" height="45"></td>
 												<a href="./profile.jsp?id=${blocks.id}">${blocks.nick}</a>
 												<button class="btn btn-danger" id="w3"
 													onclick="blockMember('${blocks.id}', this)"
@@ -322,7 +322,7 @@ a {
 											<li
 												class="list-group-item d-flex justify-content-between align-items-center">
 												<td style="width: 70px;"><img class="rounded-circle"
-													id="modal_userImg" src="https://picsum.photos/50/50"></td>
+													id="modal_userImg" src="${report.profile }" width="45" height="45"></td>
 												<a href="./profile.jsp?id=${report.id}">${report.nick}</a>
 												<div>
 													<span>${report.member_rep_content}</span>
@@ -358,7 +358,7 @@ a {
 										<td style="width: 70px;"><a
 											href="./profile.jsp?id=${follower.id}"><img
 												class="rounded-circle" id="modal_userImg"
-												src="https://picsum.photos/50/50"></a></td>
+												src="${follower.profile }" width="45" height="45"></a></td>
 										<td id="modal_userID"><a
 											href="./profile.jsp?id=${follower.id}">${follower.nick}</a></td>
 										<td id="modal_userFollow"><c:set var="state" value="0" />
@@ -398,7 +398,7 @@ a {
 										<td style="width: 70px;"><a
 											href="./profile.jsp?id=${following.id}"><img
 												class="rounded-circle" id="modal_userImg"
-												src="https://picsum.photos/50/50"></a></td>
+												src="${following.profile }" width="45" height="45"></a></td>
 										<td id="modal_userID"><a
 											href="./profile.jsp?id=${following.id}">${following.nick}</a></td>
 										<td id="modal_userFollow"><c:set var="state" value="0" />

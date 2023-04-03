@@ -306,8 +306,8 @@
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="d-flex justify-content-between align-items-center">
 										<div class="mr-2">
-											<img class="rounded-circle" width="45"
-												src="https://picsum.photos/50/50" alt="">
+											<img class="rounded-circle"
+												src="${feed.profile }" width="45" height="45" alt="">
 										</div>
 										<div class="ml-2">
 											<div class="h5 m-0">
@@ -747,8 +747,8 @@ function updateLikeReview(review_no, state) {
 											<div class="d-flex justify-content-between align-items-center">
 												<div class="d-flex justify-content-between align-items-center">
 													<div class="mr-2">
-														<img class="rounded-circle" width="45"
-															src="https://picsum.photos/50/50" alt="">
+														<img class="rounded-circle" width="45" height="45"
+															src="\${feed[i].profile}" alt="">
 													</div>
 													<div class="ml-2">
 														<div class="h5 m-0">

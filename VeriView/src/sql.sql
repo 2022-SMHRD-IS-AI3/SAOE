@@ -13,6 +13,8 @@
 		r.rest_no = rest.rest_no
 		and rest.code_no = c.code_no
 		
+		select * from member;
+		
 		select id, count(id) from review where review_no in (SELECT review_no FROM review_member where 7 > (TO_DATE(sysdate, 'YYYY-MM-DD') - TO_DATE(review_gb_date, 'YYYY-MM-DD')) and review_gb = 1) group by id
 		
 		select * from member

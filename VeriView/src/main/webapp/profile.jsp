@@ -158,7 +158,7 @@
                     <div class="card-body">
                         <div class="media" style="text-align: center;">
                             <a class="thumbnail pull-left" href="./profile.jsp?id=${pageScope.profile.id}">
-                                <img class="rounded-circle" width="80px" src="https://picsum.photos/50/50" alt="">
+                                <img class="rounded-circle" width="80px" src="${pageScope.profile.profile}" alt="">
                             </a>
                         </div>
                         <div class="h4" style="height: 40px;">
@@ -267,7 +267,7 @@
                             <c:forEach var="follower" items="${pageScope.profileFollowerList}">
                                 <tr>
                                     <td style="width:70px;"><a href="./profile.jsp?id=${follower.id}"><img class="rounded-circle" id="modal_userImg"
-                                            src="https://picsum.photos/50/50"></a></td>
+                                            src="${follower.profile }"  width="45" height="45"></a></td>
                                     <td id="modal_userID"><a href="./profile.jsp?id=${follower.id}">${follower.nick}</a></td>
                                     <td id="modal_userFollow">
                                     	<c:set var="state" value="0" />
@@ -302,7 +302,7 @@
                             <c:forEach var="following" items="${pageScope.profileFollowingList}">
                                 <tr>
                                     <td style="width:70px;"><a href="./profile.jsp?id=${following.id}"><img class="rounded-circle" id="modal_userImg"
-                                            src="https://picsum.photos/50/50"></a></td>
+                                            src="${following.profile }" width="45" height="45"></a></td>
                                     <td id="modal_userID"><a href="./profile.jsp?id=${following.id}">${following.nick}</a></td>
                                     <td id="modal_userFollow">
                                         <c:set var="state" value="0" />

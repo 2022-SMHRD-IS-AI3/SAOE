@@ -371,7 +371,7 @@
 										<td style="width: 70px;"><a
 											href="./profile.jsp?id=${follower.id}"><img
 												class="rounded-circle" id="modal_userImg"
-												src="https://picsum.photos/50/50"></a></td>
+												src="${follower.profile }" width="45" height="45"></a></td>
 										<td id="modal_userID"><a
 											href="./profile.jsp?id=${follower.id}">${follower.nick}</a></td>
 										<td id="modal_userFollow"><c:set var="state" value="0" />
@@ -411,7 +411,7 @@
 										<td style="width: 70px;"><a
 											href="./profile.jsp?id=${following.id}"><img
 												class="rounded-circle" id="modal_userImg"
-												src="https://picsum.photos/50/50"></a></td>
+												src="${following.profile }" width="45" height="45"></a></td>
 										<td id="modal_userID"><a
 											href="./profile.jsp?id=${following.id}">${following.nick}</a></td>
 										<td id="modal_userFollow"><c:set var="state" value="0" />
