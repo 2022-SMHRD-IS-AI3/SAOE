@@ -136,7 +136,7 @@
 									<a class="thumbnail pull-left"
 										href="profile.jsp?id=${sessionScope.member.id}"> <img
 										class="rounded-circle" width="80px"
-										src="https://picsum.photos/50/50" alt="">
+										src="${sessionScope.member.profile }" alt="">
 									</a>
 								</div>
 							</div>

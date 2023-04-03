@@ -171,7 +171,7 @@
                     <div class="card-body">
                         <div class="media" style="text-align: center;">
                             <a class="thumbnail pull-left" href="./profile.jsp?id=${pageScope.profile.id}">
-                                <img class="rounded-circle" width="80px" src="https://picsum.photos/50/50" alt="">
+                                <img class="rounded-circle" width="80px" src="${pageScope.profile.profile }" alt="">
                             </a>
                         </div>
                         <div class="h4" style="height: 40px;">

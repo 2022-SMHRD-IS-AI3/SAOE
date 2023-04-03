@@ -126,7 +126,7 @@
 									<a class="thumbnail pull-left"
 										href="profile.jsp?id=${sessionScope.member.id}"> <img
 										class="rounded-circle" width="80px"
-										src="https://picsum.photos/50/50" alt="">
+										src="${sessionScope.member.profile}" alt="">
 									</a>
 								</div>
 							</div>
@@ -219,7 +219,7 @@
 												class="list-group-item d-flex justify-content-between align-items-center">
 
 												<td style="width: 70px;"><img class="rounded-circle"
-													id="modal_userImg" src="https://picsum.photos/50/50">
+													id="modal_userImg" src="${rank.profile }" width="45" height="45">
 											</td> <a href="profile.jsp?id=${rank.id}"
 												style="color: rgb(218, 0, 0); text-align: center;">${rank.nick}</a>
 												<strong style="font-size: large; color: rgb(218, 0, 0);">${ranking.index+1}위</strong>
@@ -247,7 +247,7 @@
 												class="list-group-item d-flex justify-content-between align-items-center">
 
 												<td style="width: 70px;"><img class="rounded-circle"
-													id="modal_userImg" src="https://picsum.photos/50/50">
+													id="modal_userImg" src="${rank.profile }" width="45" height="45">
 											</td> <a href="profile.jsp?id=${rank.id}"
 												style="color: rgb(218, 0, 0); text-align: center;">${rank.nick}</a>
 												<strong style="font-size: large; color: rgb(218, 0, 0);">${ranking.index+1}위</strong>
@@ -275,7 +275,7 @@
 												class="list-group-item d-flex justify-content-between align-items-center">
 
 												<td style="width: 70px;"><img class="rounded-circle"
-													id="modal_userImg" src="https://picsum.photos/50/50">
+													id="modal_userImg" src="${rank.profile }" width="45" height="45">
 											</td> <a href="profile.jsp?id=${rank.id}"
 												style="color: rgb(218, 0, 0); text-align: center;">${rank.nick}</a>
 												<strong style="font-size: large; color: rgb(218, 0, 0);">${ranking.index+1}위</strong>
@@ -304,7 +304,7 @@
 												class="list-group-item d-flex justify-content-between align-items-center">
 
 												<td style="width: 70px;"><img class="rounded-circle"
-													id="modal_userImg" src="https://picsum.photos/50/50">
+													id="modal_userImg" src="${rank.profile }" width="45" height="45">
 											</td> <a href="profile.jsp?id=${rank.id}"
 												style="color: rgb(218, 0, 0); text-align: center;">${rank.nick}</a>
 												<strong style="font-size: large; color: rgb(218, 0, 0);">${ranking.index+1}위</strong>
