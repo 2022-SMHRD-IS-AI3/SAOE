@@ -18,9 +18,11 @@
 - 제안배경
   ▪ 시장현황 및 필요성
     - 코로나19 시대를 거치며 더욱더 활성화된 SNS를 통해 다양한 상품과 장소에 대한 리뷰 · 광고가 급증
-    ![image](https://user-images.githubusercontent.com/93226595/230024656-8563b55f-f7a1-4c7b-84b9-8767a2d681a5.png)
+    ![image](https://user-images.githubusercontent.com/93226595/230027824-a17109c0-1399-428a-9e87-366e24e62403.png)
     - 이러한 컨텐츠들의 진실성 검증에 대한 니즈 증가
     - 다른 여러 플렛폼에 비해 차별화되고 정제된 리뷰를 제공하여 시장경쟁력 확보	
+    ![image](https://user-images.githubusercontent.com/93226595/230028120-af5b802a-23ab-407e-a470-9585c145df5c.png)
+
   
 - 개발 목표
 	- 기존의 SNS가 지원하는 기능에 더해 리뷰를 한 번 더 검증하거나  애초에 더 까다롭게 검증된 리뷰를 게시하는 SNS 개발
@@ -99,3 +101,4 @@
 
 ![image](https://user-images.githubusercontent.com/93226595/230027408-666dd202-68b2-4c61-a423-bd605ef52d8f.png)
 
+![image](https://user-images.githubusercontent.com/93226595/230028597-c25c1f4a-8223-4a12-9658-79c4fa9fb0ca.png)
