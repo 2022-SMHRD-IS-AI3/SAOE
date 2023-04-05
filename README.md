@@ -19,12 +19,12 @@
   ▪ 시장현황 및 필요성
     - 코로나19 시대를 거치며 더욱더 활성화된 SNS를 통해 다양한 상품과 장소에 대한 리뷰 · 광고가 급증
     <div align="center">
-    	<img src="https://user-images.githubusercontent.com/93226595/230027824-a17109c0-1399-428a-9e87-366e24e62403.png" width="400" height="300">
+    	<img src="https://user-images.githubusercontent.com/93226595/230027824-a17109c0-1399-428a-9e87-366e24e62403.png">
     </div>
     - 이러한 컨텐츠들의 진실성 검증에 대한 니즈 증가
     - 다른 여러 플렛폼에 비해 차별화되고 정제된 리뷰를 제공하여 시장경쟁력 확보	
     <div align="center">
-    	<img  src="https://user-images.githubusercontent.com/93226595/230028120-af5b802a-23ab-407e-a470-9585c145df5c.png" width="400" height="300">
+    	<img  src="https://user-images.githubusercontent.com/93226595/230028120-af5b802a-23ab-407e-a470-9585c145df5c.png" width="600" height="600">
     </div>
   
 - 개발 목표
@@ -100,8 +100,8 @@
   3. 팔로우, 공유, 스크랩 기능 구현
   4. 사용자 활동 추적 관리, 리뷰어 랭킹 시스템 구현
 
-![image](https://user-images.githubusercontent.com/93226595/230027338-63a74cc9-023f-442b-8d61-8a62fa7e0ec4.png)
+<img src="https://user-images.githubusercontent.com/93226595/230027338-63a74cc9-023f-442b-8d61-8a62fa7e0ec4.png" width="800" height="600">
 
-![image](https://user-images.githubusercontent.com/93226595/230027408-666dd202-68b2-4c61-a423-bd605ef52d8f.png)
+<img src="https://user-images.githubusercontent.com/93226595/230027408-666dd202-68b2-4c61-a423-bd605ef52d8f.png" width="800" height="600">
 
-![image](https://user-images.githubusercontent.com/93226595/230028597-c25c1f4a-8223-4a12-9658-79c4fa9fb0ca.png)
+<img src="https://user-images.githubusercontent.com/93226595/230028597-c25c1f4a-8223-4a12-9658-79c4fa9fb0ca.png" width="800" height="600">
