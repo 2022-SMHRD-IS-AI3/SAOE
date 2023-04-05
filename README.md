@@ -92,8 +92,8 @@
   4. 프로젝트 우클릭 - Team - Push Branch Master
 
 ## 3. 기술 스택
-- 개발환경 : 이클립스, VSCode, SQLDeveloper<br/>
-- 개발언어 : Java, HTML, CSS, JavaScript, Oracle DB<br/>
+- 개발환경 : 이클립스, VSCode, SQLDeveloper, Jupyter<br/>
+- 개발언어 : Java, Python, HTML, CSS, JavaScript, Oracle DB<br/>
 - 협업툴 : 카카오톡, 구글 문서, 전자문서<br/>
 
 ## 4. 화면 구성
