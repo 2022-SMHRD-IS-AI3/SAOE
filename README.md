@@ -104,11 +104,11 @@
 
 ## 5. 주요 기능
   1. 글 작성, 사진 업로드, 검색 기능 구현
-  <img src="https://user-images.githubusercontent.com/93226595/230028597-c25c1f4a-8223-4a12-9658-79c4fa9fb0ca.png" width="800" height="600">
+  <img src="https://user-images.githubusercontent.com/93226595/230028597-c25c1f4a-8223-4a12-9658-79c4fa9fb0ca.png" width="600" height="400">
   3. 좋아요, 싫어요, 댓글 기능 구현
-  <img src="https://user-images.githubusercontent.com/93226595/230027338-63a74cc9-023f-442b-8d61-8a62fa7e0ec4.png" width="800" height="600">
+  <img src="https://user-images.githubusercontent.com/93226595/230027338-63a74cc9-023f-442b-8d61-8a62fa7e0ec4.png" width="600" height="400">
   4. 팔로우, 공유, 스크랩 기능 구현
-  <img src="https://user-images.githubusercontent.com/93226595/230030830-24a4ea0d-ecf2-4dc4-bafe-e7689fb807fa.png" width="800" height="600">
+  <img src="https://user-images.githubusercontent.com/93226595/230030830-24a4ea0d-ecf2-4dc4-bafe-e7689fb807fa.png" width="600" height="400">
 
   5. 사용자 활동 추적 관리, 리뷰어 랭킹 시스템 구현
   <img src="https://user-images.githubusercontent.com/93226595/230027408-666dd202-68b2-4c61-a423-bd605ef52d8f.png" width="400" height="300">
