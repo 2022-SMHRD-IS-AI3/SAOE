@@ -24,7 +24,6 @@
 ### 프로젝트 소개
 
 - 제안배경
-  ▪ 시장현황 및 필요성
     - 코로나19 시대를 거치며 더욱더 활성화된 SNS를 통해 다양한 상품과 장소에 대한 리뷰 · 광고가 급증
     <div align="center">
     	<img src="https://user-images.githubusercontent.com/93226595/230027824-a17109c0-1399-428a-9e87-366e24e62403.png">
