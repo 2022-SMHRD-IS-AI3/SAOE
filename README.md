@@ -60,7 +60,7 @@
 ## 4. 화면 구성
 ![image](https://user-images.githubusercontent.com/93226595/230020951-ed1a22fb-df95-429e-ada9-171a4db01bc1.png)
 
-화면 설계서
+화면 설계서<br/>
 https://docs.google.com/presentation/d/1BdNGxdfCfmNC5gawmQX8hEJy8JVKiHA-dg7CVzO0aoY/edit#slide=id.p1
 
 ## 5. 주요 기능
