@@ -1,7 +1,25 @@
-#2 SAOE
-SNS_Reverse Engineering
+# VeriView
+---
 
-이클립스 기준
+## 1. 프로젝트 개요
+프로젝트 제목 : VeriView
+프로젝트 주제 : 리뷰 기반 평가 SNS
+목적 : SNS_Reverse Engineering
+개발 기간 : 23.03.22 - 23.04.03
+#### 팀소개
+팀장
+  안운암 : 
+팀원
+  심우석 : 
+  오소아 : 
+  이동수 : 
+
+
+#### 프로젝트 소개
+
+## 2. 시작 가이드
+
+#### 이클립스 기준
 - 팀장 초기 프로젝트 생성 후 Push 하는법
   1. 프로젝트 생성
   2. 프로젝트 우클릭 - Team메뉴 Share Project
@@ -32,3 +50,12 @@ SNS_Reverse Engineering
   2. 바뀐 파일 올리려면 UnStaged에서 Staged로 옮김 / 모두 옮기려면 +두개있는 아이콘 클릭 후 f5
   3. Commit Message에 안내문구 작성 - 아래의 Commit 클릭 후 f5
   4. 프로젝트 우클릭 - Team - Push Branch Master
+
+## 3. 기술 스택
+개발환경 : 이클립스, VSCode, SQLDeveloper
+개발언어 : Java, HTML, CSS, JavaScript, Oracle DB
+협업툴 : 카카오톡, 구글 문서, 전자문서
+
+## 4. 화면 구성
+
+## 5. 주요 기능
