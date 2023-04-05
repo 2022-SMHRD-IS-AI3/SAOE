@@ -29,6 +29,7 @@
     <div align="center">
     	<img src="https://user-images.githubusercontent.com/93226595/230027824-a17109c0-1399-428a-9e87-366e24e62403.png">
     </div>
+    
     - 이러한 컨텐츠들의 진실성 검증에 대한 니즈 증가
     - 다른 여러 플렛폼에 비해 차별화되고 정제된 리뷰를 제공하여 시장경쟁력 확보	
     <div align="center">
