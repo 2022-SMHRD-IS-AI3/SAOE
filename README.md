@@ -97,20 +97,22 @@
 - 협업툴 : 카카오톡, 구글 문서, 전자문서<br/>
 
 ## 4. 화면 구성
-![image](https://user-images.githubusercontent.com/93226595/230020951-ed1a22fb-df95-429e-ada9-171a4db01bc1.png)
+<img src="https://user-images.githubusercontent.com/93226595/230020951-ed1a22fb-df95-429e-ada9-171a4db01bc1.png">
 
 화면 설계서<br/>
 <https://docs.google.com/presentation/d/1BdNGxdfCfmNC5gawmQX8hEJy8JVKiHA-dg7CVzO0aoY/edit#slide=id.p1>
 
 ## 5. 주요 기능
   1. 글 작성, 사진 업로드, 검색 기능 구현
-  <img src="https://user-images.githubusercontent.com/93226595/230028597-c25c1f4a-8223-4a12-9658-79c4fa9fb0ca.png" width="600" height="400">
-  3. 좋아요, 싫어요, 댓글 기능 구현
   <img src="https://user-images.githubusercontent.com/93226595/230027338-63a74cc9-023f-442b-8d61-8a62fa7e0ec4.png" width="600" height="400">
-  4. 팔로우, 공유, 스크랩 기능 구현
+  
+  2. 좋아요, 싫어요, 댓글 기능 구현
+  <img src="https://user-images.githubusercontent.com/93226595/230028597-c25c1f4a-8223-4a12-9658-79c4fa9fb0ca.png" width="600" height="400">
+  
+  3. 팔로우, 공유, 스크랩 기능 구현
   <img src="https://user-images.githubusercontent.com/93226595/230030830-24a4ea0d-ecf2-4dc4-bafe-e7689fb807fa.png" width="600" height="400">
 
-  5. 사용자 활동 추적 관리, 리뷰어 랭킹 시스템 구현
+  4. 사용자 활동 추적 관리, 리뷰어 랭킹 시스템 구현
   <img src="https://user-images.githubusercontent.com/93226595/230027408-666dd202-68b2-4c61-a423-bd605ef52d8f.png" width="400" height="300">
 
 
