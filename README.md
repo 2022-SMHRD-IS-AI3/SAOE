@@ -1,11 +1,12 @@
 # VeriView
 ---
 
-## 1. 프로젝트 개요
-프로젝트 제목 : VeriView
-프로젝트 주제 : 리뷰 기반 평가 SNS
-목적 : SNS_Reverse Engineering
-개발 기간 : 23.03.22 - 23.04.03
+## 1. 프로젝트 개요 <br/>
+프로젝트 제목 : VeriView <br/>
+프로젝트 주제 : 리뷰 기반 평가 SNS <br/>
+목적 : SNS_Reverse Engineering <br/>
+용도 : <br/>
+개발 기간 : 23.03.22 - 23.04.03 <br/>
 #### 팀소개
 팀장
   안운암 : 
